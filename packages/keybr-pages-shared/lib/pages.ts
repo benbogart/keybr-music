@@ -5,6 +5,7 @@ import {
   mdiHelpCircleOutline,
   mdiKeyboard,
   mdiKeyboardOutline,
+  mdiMusicNote,
   mdiSpeedometer,
   mdiTrophyOutline,
 } from "@mdi/js";
@@ -256,6 +257,26 @@ export namespace Pages {
         }),
       },
     ],
+  } satisfies PageInfo;
+
+  export const pitchTest = {
+    path: "/pitch-test",
+    title: defineMessage({
+      id: "t_Pitch_Test",
+      defaultMessage: "Pitch Test",
+    }),
+    link: {
+      label: defineMessage({
+        id: "t_Pitch_Test",
+        defaultMessage: "Pitch Test",
+      }),
+      title: defineMessage({
+        id: "page.pitchTest.description",
+        defaultMessage: "Test pitch detection with your instrument.",
+      }),
+      icon: mdiMusicNote,
+    },
+    meta: [{ name: "robots", content: "noindex" }],
   } satisfies PageInfo;
 
   export const termsOfService = {
