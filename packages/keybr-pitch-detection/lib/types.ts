@@ -9,6 +9,7 @@ export type PitchDetector = {
   start(): Promise<void>;
   stop(): void;
   onPitch: (event: PitchEvent) => void;
+  onLevel: (rms: number) => void;
 };
 
 export type PitchDetectorOptions = {
@@ -18,4 +19,5 @@ export type PitchDetectorOptions = {
   readonly minConfidence?: number;
   readonly stableFrames?: number;
   readonly yinThreshold?: number;
+  readonly noiseFloor?: number;
 };

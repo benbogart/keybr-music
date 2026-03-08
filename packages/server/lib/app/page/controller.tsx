@@ -157,6 +157,19 @@ export class Controller {
     return this.renderPage(ctx, Pages.multiplayer, intl);
   }
 
+  @http.GET(`${Pages.pitchTest.path}`)
+  async ["pitch-test"](ctx: Context<RouterState & AuthState>) {
+    return this.renderPage(ctx, Pages.pitchTest);
+  }
+
+  @http.GET(`/{locale:${localePattern}}${Pages.pitchTest.path}`)
+  async ["pitch-test-i18n"](
+    ctx: Context<RouterState & AuthState>,
+    @pathParam("locale", pIntl) intl: IntlShape,
+  ) {
+    return this.renderPage(ctx, Pages.pitchTest, intl);
+  }
+
   @http.GET(`${Pages.termsOfService.path}`)
   async ["terms-of-service"](ctx: Context<RouterState & AuthState>) {
     return this.renderPage(ctx, Pages.termsOfService);

@@ -11,6 +11,7 @@ type RequiredPitchDetectorOptions = {
   readonly minConfidence: number;
   readonly stableFrames: number;
   readonly yinThreshold: number;
+  readonly noiseFloor: number;
 };
 
 export function createPitchDetector(
@@ -21,6 +22,7 @@ export function createPitchDetector(
 
 export class WebAudioPitchDetector implements PitchDetector {
   onPitch: PitchDetector["onPitch"] = () => {};
+  onLevel: PitchDetector["onLevel"] = () => {};
 
   readonly #options: RequiredPitchDetectorOptions;
   readonly #processor: StablePitchProcessor;
@@ -42,6 +44,7 @@ export class WebAudioPitchDetector implements PitchDetector {
       minConfidence: options.minConfidence ?? 0.7,
       stableFrames: Math.max(1, options.stableFrames ?? 2),
       yinThreshold: options.yinThreshold ?? 0.12,
+      noiseFloor: options.noiseFloor ?? 0.01,
     };
     this.#processor = new StablePitchProcessor({
       minConfidence: this.#options.minConfidence,
@@ -124,10 +127,12 @@ export class WebAudioPitchDetector implements PitchDetector {
     }
 
     analyserNode.getFloatTimeDomainData(this.#buffer);
-    const detectedPitch = analyzer.detect(
-      this.#buffer,
-      audioContext.sampleRate,
-    );
+    const level = rms(this.#buffer);
+    this.onLevel(level);
+    const detectedPitch =
+      level >= this.#options.noiseFloor
+        ? analyzer.detect(this.#buffer, audioContext.sampleRate)
+        : null;
     const event = this.#processor.next(
       detectedPitch == null
         ? null
@@ -143,6 +148,14 @@ export class WebAudioPitchDetector implements PitchDetector {
 
     this.#frameId = requestAnimationFrame(this.#tick);
   };
+}
+
+export function rms(buffer: Float32Array): number {
+  let sum = 0;
+  for (let i = 0; i < buffer.length; i++) {
+    sum += buffer[i] * buffer[i];
+  }
+  return Math.sqrt(sum / buffer.length);
 }
 
 function normalizeBufferSize(value: number): number {

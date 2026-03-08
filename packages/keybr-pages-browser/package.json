@@ -12,6 +12,7 @@
     "@keybr/page-highscores": "*",
     "@keybr/page-layouts": "*",
     "@keybr/page-multiplayer": "*",
+    "@keybr/page-pitch-test": "*",
     "@keybr/page-practice": "*",
     "@keybr/page-profile": "*",
     "@keybr/page-static": "*",
