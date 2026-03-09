@@ -29,3 +29,17 @@ test("load", async () => {
 function TestChild({ model }: { model: PhoneticModel }) {
   return <span title="letters">{model.letters.map(String).join("")}</span>;
 }
+
+test("load music lesson", async () => {
+  const r = render(
+    <FakeSettingsContext initialSettings={new Settings()}>
+      <LessonLoader mode="music">
+        {(lesson) => <span title="lesson">{lesson.constructor.name}</span>}
+      </LessonLoader>
+    </FakeSettingsContext>,
+  );
+
+  includes((await r.findByTitle("lesson")).textContent!, "MusicLesson");
+
+  r.unmount();
+});

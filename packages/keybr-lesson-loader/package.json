@@ -9,6 +9,7 @@
     "@keybr/content-books": "*",
     "@keybr/content-words": "*",
     "@keybr/debug": "*",
+    "@keybr/instrument": "*",
     "@keybr/keyboard": "*",
     "@keybr/lesson": "*",
     "@keybr/pages-shared": "*",

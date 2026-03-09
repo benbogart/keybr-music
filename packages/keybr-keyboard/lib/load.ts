@@ -164,6 +164,7 @@ const layouts = new Map<Layout, CharacterDict>([
   [Layout.EN_STURDY, LAYOUT_EN_STURDY],
   [Layout.EN_UK, LAYOUT_EN_UK],
   [Layout.EN_US, LAYOUT_EN_US],
+  [Layout.BANDONEON, LAYOUT_EN_US],
   [Layout.EN_WORKMAN, LAYOUT_EN_WORKMAN],
   [Layout.ES_DVORAK, LAYOUT_ES_DVORAK],
   [Layout.ES_ES, LAYOUT_ES_ES],

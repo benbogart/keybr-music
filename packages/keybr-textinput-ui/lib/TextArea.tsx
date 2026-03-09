@@ -26,6 +26,17 @@ import { FormattedMessage } from "react-intl";
 import * as styles from "./TextArea.module.less";
 import { TextLines, type TextLineSize } from "./TextLines.tsx";
 
+export type TextAreaEventsProps = {
+  readonly focusRef?: RefObject<Focusable | null>;
+  readonly onFocus?: () => void;
+  readonly onBlur?: () => void;
+  readonly onKeyDown?: (event: IKeyboardEvent) => void;
+  readonly onKeyUp?: (event: IKeyboardEvent) => void;
+  readonly onInput?: (event: IInputEvent) => void;
+};
+
+export type TextAreaEventsComponent = ComponentType<TextAreaEventsProps>;
+
 export function TextArea({
   settings,
   lines,
@@ -40,6 +51,7 @@ export function TextArea({
   onKeyDown,
   onKeyUp,
   onInput,
+  eventsComponent,
 }: {
   readonly settings: TextDisplaySettings;
   readonly lines: LineList;
@@ -54,6 +66,7 @@ export function TextArea({
   readonly onKeyDown?: (event: IKeyboardEvent) => void;
   readonly onKeyUp?: (event: IKeyboardEvent) => void;
   readonly onInput?: (event: IInputEvent) => void;
+  readonly eventsComponent?: TextAreaEventsComponent;
 } & ZoomableProps): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
   const innerRef = useRef<Focusable>(null);
@@ -95,9 +108,10 @@ export function TextArea({
     innerRef.current?.focus();
     event.preventDefault();
   };
+  const Events = eventsComponent ?? TextEvents;
   return (
     <div ref={ref} className={styles.root} onClick={handleClick}>
-      <TextEvents
+      <Events
         focusRef={innerRef}
         onFocus={handleFocus}
         onBlur={handleBlur}

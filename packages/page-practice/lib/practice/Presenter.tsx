@@ -8,7 +8,7 @@ import {
   type IKeyboardEvent,
   ModifierState,
 } from "@keybr/textinput-events";
-import { TextArea } from "@keybr/textinput-ui";
+import { TextArea, type TextAreaEventsComponent } from "@keybr/textinput-ui";
 import { type Focusable, Zoomer } from "@keybr/widget";
 import { createRef, PureComponent, type ReactNode } from "react";
 import { Controls } from "./Controls.tsx";
@@ -22,6 +22,9 @@ type Props = {
   readonly state: LessonState;
   readonly lines: LineList;
   readonly depressedKeys: readonly KeyId[];
+  readonly musicMode?: boolean;
+  readonly forceBare?: boolean;
+  readonly eventsComponent?: TextAreaEventsComponent;
   readonly onResetLesson: () => void;
   readonly onSkipLesson: () => void;
   readonly onKeyDown: (ev: IKeyboardEvent) => void;
@@ -64,7 +67,7 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   override componentDidMount() {
-    if (this.props.state.settings.isNew) {
+    if (!this.props.forceBare && this.props.state.settings.isNew) {
       this.setState({
         view: View.Normal,
         tour: true,
@@ -74,7 +77,14 @@ export class Presenter extends PureComponent<Props, State> {
 
   override render() {
     const {
-      props: { state, lines, depressedKeys },
+      props: {
+        state,
+        lines,
+        depressedKeys,
+        forceBare = false,
+        eventsComponent,
+        musicMode = false,
+      },
       state: { view, tour, focus },
       handleResetLesson,
       handleSkipLesson,
@@ -87,7 +97,8 @@ export class Presenter extends PureComponent<Props, State> {
       handleHelp,
       handleTourClose,
     } = this;
-    switch (view) {
+    const activeView = forceBare ? View.Bare : view;
+    switch (activeView) {
       case View.Normal:
         return (
           <NormalLayout
@@ -97,6 +108,9 @@ export class Presenter extends PureComponent<Props, State> {
             toggledKeys={ModifierState.modifiers}
             controls={
               <Controls
+                musicMode={musicMode}
+                showHelp={!musicMode}
+                showChangeView={!forceBare}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -116,6 +130,7 @@ export class Presenter extends PureComponent<Props, State> {
                   onKeyDown={handleKeyDown}
                   onKeyUp={handleKeyUp}
                   onInput={handleInput}
+                  eventsComponent={eventsComponent}
                 />
               </Zoomer>
             }
@@ -130,6 +145,9 @@ export class Presenter extends PureComponent<Props, State> {
             depressedKeys={depressedKeys}
             controls={
               <Controls
+                musicMode={musicMode}
+                showHelp={!musicMode}
+                showChangeView={!forceBare}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -149,6 +167,7 @@ export class Presenter extends PureComponent<Props, State> {
                   onKeyDown={handleKeyDown}
                   onKeyUp={handleKeyUp}
                   onInput={handleInput}
+                  eventsComponent={eventsComponent}
                 />
               </Zoomer>
             }
@@ -162,6 +181,9 @@ export class Presenter extends PureComponent<Props, State> {
             depressedKeys={depressedKeys}
             controls={
               <Controls
+                musicMode={musicMode}
+                showHelp={!musicMode}
+                showChangeView={!forceBare}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -181,6 +203,7 @@ export class Presenter extends PureComponent<Props, State> {
                   onKeyDown={handleKeyDown}
                   onKeyUp={handleKeyUp}
                   onInput={handleInput}
+                  eventsComponent={eventsComponent}
                 />
               </Zoomer>
             }
@@ -240,6 +263,9 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   handleChangeView = () => {
+    if (this.props.forceBare) {
+      return;
+    }
     this.setState(
       ({ view }) => {
         const nextView = getNextView(view);
@@ -254,6 +280,9 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   handleHelp = () => {
+    if (this.props.musicMode) {
+      return;
+    }
     this.setState(
       {
         view: View.Normal,

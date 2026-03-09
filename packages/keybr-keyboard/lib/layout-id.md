@@ -237,13 +237,13 @@
 - `0xf8`:
 - `0xf9`:
 - `0xfa`:
-- `0xfb`:
+- `0xfb`: English/Bandoneon
 - `0xfc`:
 - `0xfd`:
 - `0xfe`:
 - `0xff`:
 
-92 allocated identifiers
+93 allocated identifiers
 
-148 free identifiers
+147 free identifiers
 

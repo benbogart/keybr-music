@@ -1,4 +1,4 @@
-import { keyboardProps, type KeyId } from "@keybr/keyboard";
+import { type KeyId } from "@keybr/keyboard";
 import {
   type DailyGoal,
   Lesson,
@@ -55,7 +55,10 @@ export class LessonState {
     this.settings = progress.settings;
     this.lesson = progress.lesson;
     this.textInputSettings = toTextInputSettings(this.settings);
-    this.textDisplaySettings = toTextDisplaySettings(this.settings);
+    this.textDisplaySettings = {
+      ...toTextDisplaySettings(this.settings),
+      codePointLabels: makeCodePointLabelMap(this.lesson.letters),
+    };
     this.keyStatsMap = progress.keyStatsMap.copy();
     this.summaryStats = progress.summaryStats.copy();
     this.streakList = progress.streakList.copy();
@@ -90,10 +93,22 @@ export class LessonState {
 
   #makeResult(timeStamp = Date.now()) {
     return Result.fromStats(
-      this.settings.get(keyboardProps.layout),
+      this.lesson.resultLayout(),
       this.settings.get(lessonProps.type).textType,
       timeStamp,
       makeStats(this.textInput.steps),
     );
   }
+}
+
+function makeCodePointLabelMap(
+  letters: readonly { readonly codePoint: number; readonly label: string }[],
+) {
+  const labels = new Map<number, string>();
+  for (const { codePoint, label } of letters) {
+    if (label.length > 1) {
+      labels.set(codePoint, label);
+    }
+  }
+  return labels.size > 0 ? labels : undefined;
 }
