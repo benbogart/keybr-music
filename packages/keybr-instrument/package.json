@@ -8,6 +8,7 @@
   "dependencies": {
     "@keybr/keyboard": "*",
     "@keybr/phonetic-model": "*",
+    "@keybr/rand": "*",
     "@keybr/unicode": "*"
   },
   "devDependencies": {},
