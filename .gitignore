@@ -17,6 +17,8 @@ tmp/
 sandbox/
 .vscode/
 .idea/
+.cursor/plans/
+.cursor/rules/
 *.tsbuildinfo
 *.log
 *.bak
