@@ -24,12 +24,9 @@ type MusicStaffNote = {
   readonly state: MusicStaffNoteState;
 };
 
-const sizeToHeight: Record<TextLineSize, number> = {
-  X0: 120,
-  X1: 140,
-  X2: 160,
-  X3: 180,
-};
+const STAVE_INTERNAL_WIDTH = 800;
+const STAVE_LINE_HEIGHT = 100;
+const STAVE_Y_OFFSET = 10;
 
 const NOTE_NAMES = [
   "C",
@@ -57,7 +54,8 @@ export const MusicStaff = memo(function MusicStaff({
   readonly size?: TextLineSize;
   readonly focus: boolean;
 }): ReactNode {
-  const ref = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const staffRef = useRef<HTMLDivElement>(null);
   const notes = useMemo(
     () => toMusicStaffNotes(lines, settings.codePointLabels),
     [lines, settings.codePointLabels],
@@ -65,7 +63,23 @@ export const MusicStaff = memo(function MusicStaff({
   const clef = useMemo(() => chooseClef(notes), [notes]);
 
   useEffect(() => {
-    const container = ref.current;
+    const el = rootRef.current;
+    if (el == null) {
+      return;
+    }
+    const handler = (ev: WheelEvent) => {
+      if (el.scrollHeight > el.clientHeight) {
+        ev.stopPropagation();
+      }
+    };
+    el.addEventListener("wheel", handler);
+    return () => {
+      el.removeEventListener("wheel", handler);
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = staffRef.current;
     if (container == null) {
       return;
     }
@@ -75,32 +89,53 @@ export const MusicStaff = memo(function MusicStaff({
       return;
     }
 
-    const width = Math.max(240, notes.length * 42 + 80);
-    const height = sizeToHeight[size];
+    const targetLines = 2;
+    const notesPerLine = Math.max(4, Math.ceil(notes.length / targetLines));
+    const rows = chunkNotes(notes, notesPerLine);
+    const totalHeight = rows.length * STAVE_LINE_HEIGHT + STAVE_Y_OFFSET;
+
     const renderer = new Renderer(container, Renderer.Backends.SVG);
-    renderer.resize(width, height);
+    renderer.resize(STAVE_INTERNAL_WIDTH, totalHeight);
     const context = renderer.getContext();
-    const stave = new Stave(0, 10, width);
-    stave.addClef(clef);
-    stave.setContext(context).draw();
 
-    const staveNotes = notes.map((note) => {
-      const staveNote = new StaveNote({
-        clef,
-        keys: [note.key],
-        duration: "q",
-        autoStem: false,
+    for (let row = 0; row < rows.length; row++) {
+      const rowNotes = rows[row];
+      const y = row * STAVE_LINE_HEIGHT + STAVE_Y_OFFSET;
+      const stave = new Stave(0, y, STAVE_INTERNAL_WIDTH);
+      stave.addClef(clef);
+      stave.setContext(context).draw();
+
+      const staveNotes = rowNotes.map((note) => {
+        const staveNote = new StaveNote({
+          clef,
+          keys: [note.key],
+          duration: "q",
+          autoStem: false,
+        });
+        if (note.accidental != null) {
+          staveNote.addModifier(new Accidental(note.accidental), 0);
+        }
+        staveNote.setStem(new Stem({ hide: true }));
+        const [className, style] = styleForState(note.state);
+        staveNote.addClass(className).setStyle(style);
+        staveNote.setLedgerLineStyle({
+          strokeStyle: "#000",
+          fillStyle: "#000",
+        });
+        return staveNote;
       });
-      if (note.accidental != null) {
-        staveNote.addModifier(new Accidental(note.accidental), 0);
-      }
-      staveNote.setStem(new Stem({ hide: true }));
-      const [className, style] = styleForState(note.state);
-      staveNote.addClass(className).setStyle(style);
-      return staveNote;
-    });
 
-    Formatter.FormatAndDraw(context, stave, staveNotes);
+      Formatter.FormatAndDraw(context, stave, staveNotes);
+    }
+
+    const svg = container.querySelector("svg");
+    if (svg != null) {
+      svg.setAttribute("viewBox", `0 0 ${STAVE_INTERNAL_WIDTH} ${totalHeight}`);
+      svg.removeAttribute("width");
+      svg.removeAttribute("height");
+      svg.style.width = "100%";
+      svg.style.height = "auto";
+    }
 
     const renderedNotes =
       container.querySelectorAll<SVGGElement>("g.vf-stavenote");
@@ -110,15 +145,21 @@ export const MusicStaff = memo(function MusicStaff({
         rendered.classList.add(classNameForState(notes[i].state));
       }
     }
+
+    const activeEl = container.querySelector<SVGGElement>(".music-note-active");
+    if (activeEl != null) {
+      activeEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
   }, [clef, notes, size]);
 
   return (
     <div
+      ref={rootRef}
       className={[styles.root, focus ? styles.focus : styles.blur].join(" ")}
       data-testid="music-staff"
       data-clef={clef}
     >
-      <div ref={ref} className={styles.staff} />
+      <div ref={staffRef} className={styles.staff} />
     </div>
   );
 });
@@ -182,13 +223,24 @@ function toNoteState(attrs: number): MusicStaffNoteState {
   if (attrs & Attr.Cursor) {
     return "active";
   }
-  if (attrs & Attr.Garbage) {
+  if (attrs & (Attr.Garbage | Attr.Miss)) {
     return "error";
   }
-  if (attrs & (Attr.Hit | Attr.Miss)) {
+  if (attrs & Attr.Hit) {
     return "completed";
   }
   return "pending";
+}
+
+function chunkNotes(
+  notes: readonly MusicStaffNote[],
+  perLine: number,
+): MusicStaffNote[][] {
+  const rows: MusicStaffNote[][] = [];
+  for (let i = 0; i < notes.length; i += perLine) {
+    rows.push(notes.slice(i, i + perLine));
+  }
+  return rows.length > 0 ? rows : [[]];
 }
 
 function chooseClef(notes: readonly MusicStaffNote[]): "treble" | "bass" {
