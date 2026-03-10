@@ -109,9 +109,9 @@ export class MusicLesson extends Lesson {
         break;
       }
       words.push(word);
-      length += word.length;
+      length += word.length + 1;
     }
-    return words.join("");
+    return words.join(" ");
   }
 
   #getLetters() {

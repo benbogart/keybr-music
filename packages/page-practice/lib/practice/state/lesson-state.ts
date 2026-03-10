@@ -83,6 +83,7 @@ export class LessonState {
       this.textInput.pos,
     );
     const feedback = this.textInput.onInput(event);
+    this.#skipSpaces(event.timeStamp);
     console.log(
       "[MUSIC] LessonState.onInput: feedback=%s pos=%d completed=%s",
       feedback,
@@ -95,6 +96,21 @@ export class LessonState {
       this.#onResult(this.#makeResult(), this.textInput);
     }
     return feedback;
+  }
+
+  #skipSpaces(timeStamp: number) {
+    while (
+      !this.textInput.completed &&
+      this.textInput.at(this.textInput.pos).codePoint === 0x0020
+    ) {
+      this.textInput.onInput({
+        type: "input",
+        timeStamp,
+        inputType: "appendChar",
+        codePoint: 0x0020,
+        timeToType: 0,
+      });
+    }
   }
 
   #reset(fragment: StyledText) {
