@@ -1,0 +1,314 @@
+{
+  "instrument": "bandoneon",
+  "system": "rheinische-142",
+  "side": "right",
+  "direction": "opening",
+  "source": "https://www.omarcaccia.com/wp-content/uploads/2024/08/142-bisonoric-bandoneon-keyboard-layout.pdf",
+  "missingChromaticNote": "A#6",
+  "keys": [
+    {
+      "id": "key-g-sharp-6",
+      "buttonIndex": 1,
+      "note": "G#6",
+      "midi": 92,
+      "x": 194.22,
+      "y": 24.0
+    },
+    {
+      "id": "key-g6",
+      "buttonIndex": 2,
+      "note": "G6",
+      "midi": 91,
+      "x": 264.2,
+      "y": 25.62
+    },
+    {
+      "id": "key-b6",
+      "buttonIndex": 3,
+      "note": "B6",
+      "midi": 95,
+      "x": 131.17,
+      "y": 28.45
+    },
+    {
+      "id": "key-f6",
+      "buttonIndex": 4,
+      "note": "F6",
+      "midi": 89,
+      "x": 329.99,
+      "y": 30.13
+    },
+    {
+      "id": "key-f-sharp-6",
+      "buttonIndex": 5,
+      "note": "F#6",
+      "midi": 90,
+      "x": 224.17,
+      "y": 55.5
+    },
+    {
+      "id": "key-e6",
+      "buttonIndex": 6,
+      "note": "E6",
+      "midi": 88,
+      "x": 296.0,
+      "y": 55.5
+    },
+    {
+      "id": "key-a6",
+      "buttonIndex": 7,
+      "note": "A6",
+      "midi": 93,
+      "x": 159.0,
+      "y": 55.63
+    },
+    {
+      "id": "key-c-sharp-4",
+      "buttonIndex": 8,
+      "note": "C#4",
+      "midi": 61,
+      "x": 100.24,
+      "y": 63.41
+    },
+    {
+      "id": "key-d-sharp-6",
+      "buttonIndex": 9,
+      "note": "D#6",
+      "midi": 87,
+      "x": 349.71,
+      "y": 66.88
+    },
+    {
+      "id": "key-g4",
+      "buttonIndex": 10,
+      "note": "G4",
+      "midi": 67,
+      "x": 192.56,
+      "y": 84.16
+    },
+    {
+      "id": "key-a-sharp-5",
+      "buttonIndex": 11,
+      "note": "A#5",
+      "midi": 82,
+      "x": 256.99,
+      "y": 84.88
+    },
+    {
+      "id": "key-d4",
+      "buttonIndex": 12,
+      "note": "D4",
+      "midi": 62,
+      "x": 131.64,
+      "y": 90.31
+    },
+    {
+      "id": "key-c6",
+      "buttonIndex": 13,
+      "note": "C6",
+      "midi": 84,
+      "x": 316.96,
+      "y": 93.16
+    },
+    {
+      "id": "key-c4",
+      "buttonIndex": 14,
+      "note": "C4",
+      "midi": 60,
+      "x": 75.69,
+      "y": 95.66
+    },
+    {
+      "id": "key-d6",
+      "buttonIndex": 15,
+      "note": "D6",
+      "midi": 86,
+      "x": 376.93,
+      "y": 102.88
+    },
+    {
+      "id": "key-f-sharp-4",
+      "buttonIndex": 16,
+      "note": "F#4",
+      "midi": 66,
+      "x": 224.17,
+      "y": 118.71
+    },
+    {
+      "id": "key-c-sharp-5",
+      "buttonIndex": 17,
+      "note": "C#5",
+      "midi": 73,
+      "x": 163.73,
+      "y": 122.38
+    },
+    {
+      "id": "key-a4",
+      "buttonIndex": 18,
+      "note": "A4",
+      "midi": 69,
+      "x": 281.27,
+      "y": 122.38
+    },
+    {
+      "id": "key-e4",
+      "buttonIndex": 19,
+      "note": "E4",
+      "midi": 64,
+      "x": 105.04,
+      "y": 127.71
+    },
+    {
+      "id": "key-c5",
+      "buttonIndex": 20,
+      "note": "C5",
+      "midi": 72,
+      "x": 344.37,
+      "y": 127.71
+    },
+    {
+      "id": "key-b3",
+      "buttonIndex": 21,
+      "note": "B3",
+      "midi": 59,
+      "x": 47.08,
+      "y": 138.03
+    },
+    {
+      "id": "key-e5",
+      "buttonIndex": 22,
+      "note": "E5",
+      "midi": 76,
+      "x": 399.99,
+      "y": 140.38
+    },
+    {
+      "id": "key-b4",
+      "buttonIndex": 23,
+      "note": "B4",
+      "midi": 71,
+      "x": 245.7,
+      "y": 153.96
+    },
+    {
+      "id": "key-d5",
+      "buttonIndex": 24,
+      "note": "D5",
+      "midi": 74,
+      "x": 308.13,
+      "y": 153.96
+    },
+    {
+      "id": "key-g-sharp-4",
+      "buttonIndex": 25,
+      "note": "G#4",
+      "midi": 68,
+      "x": 189.73,
+      "y": 156.03
+    },
+    {
+      "id": "key-a-sharp-4",
+      "buttonIndex": 26,
+      "note": "A#4",
+      "midi": 70,
+      "x": 134.42,
+      "y": 159.55
+    },
+    {
+      "id": "key-f4",
+      "buttonIndex": 27,
+      "note": "F4",
+      "midi": 65,
+      "x": 79.93,
+      "y": 165.15
+    },
+    {
+      "id": "key-g-sharp-5",
+      "buttonIndex": 28,
+      "note": "G#5",
+      "midi": 80,
+      "x": 363.91,
+      "y": 165.15
+    },
+    {
+      "id": "key-a3",
+      "buttonIndex": 29,
+      "note": "A3",
+      "midi": 57,
+      "x": 24.0,
+      "y": 177.55
+    },
+    {
+      "id": "key-b5",
+      "buttonIndex": 30,
+      "note": "B5",
+      "midi": 83,
+      "x": 423.66,
+      "y": 177.55
+    },
+    {
+      "id": "key-d-sharp-5",
+      "buttonIndex": 31,
+      "note": "D#5",
+      "midi": 75,
+      "x": 218.11,
+      "y": 186.55
+    },
+    {
+      "id": "key-f-sharp-5",
+      "buttonIndex": 32,
+      "note": "F#5",
+      "midi": 78,
+      "x": 275.93,
+      "y": 187.3
+    },
+    {
+      "id": "key-f5",
+      "buttonIndex": 33,
+      "note": "F5",
+      "midi": 77,
+      "x": 163.73,
+      "y": 189.78
+    },
+    {
+      "id": "key-a5",
+      "buttonIndex": 34,
+      "note": "A5",
+      "midi": 81,
+      "x": 331.41,
+      "y": 192.55
+    },
+    {
+      "id": "key-d-sharp-4",
+      "buttonIndex": 35,
+      "note": "D#4",
+      "midi": 63,
+      "x": 108.72,
+      "y": 197.8
+    },
+    {
+      "id": "key-c-sharp-6",
+      "buttonIndex": 36,
+      "note": "C#6",
+      "midi": 85,
+      "x": 384.41,
+      "y": 201.55
+    },
+    {
+      "id": "key-a-sharp-3",
+      "buttonIndex": 37,
+      "note": "A#3",
+      "midi": 58,
+      "x": 53.59,
+      "y": 210.55
+    },
+    {
+      "id": "key-g5",
+      "buttonIndex": 38,
+      "note": "G5",
+      "midi": 79,
+      "x": 436.38,
+      "y": 219.55
+    }
+  ]
+}
