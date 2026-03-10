@@ -40,9 +40,15 @@ export class PitchInputHandler implements Focusable {
 
   async start() {
     if (this.#focused) {
+      console.log(
+        "[MUSIC] PitchInputHandler: start() called but already focused, skipping",
+      );
       return this.#startPromise ?? Promise.resolve();
     }
 
+    console.log(
+      "[MUSIC] PitchInputHandler: start() — setting focused, creating detector",
+    );
     this.#focused = true;
     this.#callbacks.onFocus?.();
 
@@ -54,12 +60,20 @@ export class PitchInputHandler implements Focusable {
     const startPromise = detector
       .start()
       .then(() => {
+        console.log(
+          "[MUSIC] PitchInputHandler: detector.start() resolved, focused=%s",
+          this.#focused,
+        );
         if (!this.#focused && this.#detector === detector) {
           detector.stop();
           this.#detector = null;
         }
       })
       .catch((error) => {
+        console.error(
+          "[MUSIC] PitchInputHandler: detector.start() FAILED:",
+          error,
+        );
         if (this.#detector === detector) {
           this.#detector = null;
         }
@@ -80,6 +94,10 @@ export class PitchInputHandler implements Focusable {
   }
 
   stop() {
+    console.log(
+      "[MUSIC] PitchInputHandler: stop() called, was focused=%s",
+      this.#focused,
+    );
     const focused = this.#focused;
     this.#focused = false;
 

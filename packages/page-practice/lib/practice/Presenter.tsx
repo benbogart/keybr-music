@@ -237,6 +237,11 @@ export class Presenter extends PureComponent<Props, State> {
   handleInput = (ev: IInputEvent) => {
     if (this.state.focus) {
       this.props.onInput(ev);
+    } else {
+      console.warn(
+        "[MUSIC] Presenter.handleInput: DROPPED event (focus=false), codePoint=%d",
+        ev.codePoint,
+      );
     }
   };
 

@@ -66,10 +66,22 @@ export class WebAudioPitchDetector implements PitchDetector {
       throw new Error("requestAnimationFrame is not available.");
     }
 
+    console.log("[MUSIC] Detector: requesting getUserMedia...");
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    console.log(
+      "[MUSIC] Detector: getUserMedia succeeded, creating AudioContext...",
+    );
     const audioContext = new AudioContext();
+    console.log("[MUSIC] Detector: AudioContext state=%s", audioContext.state);
     if (audioContext.state === "suspended") {
+      console.log(
+        "[MUSIC] Detector: AudioContext suspended, calling resume()...",
+      );
       await audioContext.resume();
+      console.log(
+        "[MUSIC] Detector: AudioContext resumed, state=%s",
+        audioContext.state,
+      );
     }
 
     try {
@@ -92,7 +104,12 @@ export class WebAudioPitchDetector implements PitchDetector {
       });
       this.#processor.reset();
       this.#frameId = requestAnimationFrame(this.#tick);
+      console.log(
+        "[MUSIC] Detector: tick loop started (frameId=%d)",
+        this.#frameId,
+      );
     } catch (error) {
+      console.error("[MUSIC] Detector: setup error:", error);
       stream.getTracks().forEach((track) => track.stop());
       await audioContext.close();
       throw error;
@@ -143,6 +160,12 @@ export class WebAudioPitchDetector implements PitchDetector {
           },
     );
     if (event != null) {
+      console.log(
+        "[MUSIC] Detector: pitch midi=%d freq=%.1f conf=%.2f",
+        event.midiNote,
+        event.frequency,
+        event.confidence,
+      );
       this.onPitch(event);
     }
 
