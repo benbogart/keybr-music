@@ -11,6 +11,7 @@ import {
 import { TextArea, type TextAreaEventsComponent } from "@keybr/textinput-ui";
 import { type Focusable, Zoomer } from "@keybr/widget";
 import { createRef, PureComponent, type ReactNode } from "react";
+import { BandoneonKeyboard } from "./BandoneonKeyboard.tsx";
 import { Controls } from "./Controls.tsx";
 import { Indicators } from "./Indicators.tsx";
 import { DeferredKeyboardPresenter } from "./KeyboardPresenter.tsx";
@@ -23,6 +24,7 @@ type Props = {
   readonly lines: LineList;
   readonly depressedKeys: readonly KeyId[];
   readonly musicMode?: boolean;
+  readonly musicLastCorrectCodePoint?: number | null;
   readonly eventsComponent?: TextAreaEventsComponent;
   readonly onResetLesson: () => void;
   readonly onSkipLesson: () => void;
@@ -87,6 +89,7 @@ export class Presenter extends PureComponent<Props, State> {
         depressedKeys,
         eventsComponent,
         musicMode = false,
+        musicLastCorrectCodePoint = null,
       },
       state: { view, tour, focus },
       handleResetLesson,
@@ -100,6 +103,15 @@ export class Presenter extends PureComponent<Props, State> {
       handleHelp,
       handleTourClose,
     } = this;
+    const nextMusicCodePoint = musicMode
+      ? findNextMusicCodePoint(state.suffix)
+      : null;
+    const musicKeyboard = musicMode ? (
+      <BandoneonKeyboard
+        targetCodePoint={nextMusicCodePoint}
+        playedCodePoint={musicLastCorrectCodePoint}
+      />
+    ) : null;
     const activeView = musicMode && view === View.Normal ? View.Compact : view;
     switch (activeView) {
       case View.Normal:
@@ -146,6 +158,7 @@ export class Presenter extends PureComponent<Props, State> {
             state={state}
             focus={tour || focus}
             depressedKeys={depressedKeys}
+            musicKeyboard={musicKeyboard}
             controls={
               <Controls
                 musicMode={musicMode}
@@ -183,6 +196,7 @@ export class Presenter extends PureComponent<Props, State> {
             musicMode={musicMode}
             focus={tour || focus}
             depressedKeys={depressedKeys}
+            musicKeyboard={musicKeyboard}
             controls={
               <Controls
                 musicMode={musicMode}
@@ -352,12 +366,14 @@ function NormalLayout({
 
 function CompactLayout({
   state,
+  musicKeyboard,
   controls,
   textInput,
 }: {
   readonly state: LessonState;
   readonly focus: boolean;
   readonly depressedKeys: readonly string[];
+  readonly musicKeyboard: ReactNode;
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
@@ -367,6 +383,7 @@ function CompactLayout({
       <div id={names.textInput} className={styles.textInput_compact}>
         {textInput}
       </div>
+      {musicKeyboard}
       {controls}
     </Screen>
   );
@@ -375,6 +392,7 @@ function CompactLayout({
 function BareLayout({
   state,
   musicMode,
+  musicKeyboard,
   controls,
   textInput,
 }: {
@@ -382,6 +400,7 @@ function BareLayout({
   readonly musicMode?: boolean;
   readonly focus: boolean;
   readonly depressedKeys: readonly string[];
+  readonly musicKeyboard: ReactNode;
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
@@ -397,10 +416,20 @@ function BareLayout({
           <span className={styles.musicStats_value}>{notesPerMinute}</span>
         </div>
       )}
+      {musicKeyboard}
       <div id={names.textInput} className={styles.textInput_bare}>
         {textInput}
       </div>
       {controls}
     </Screen>
   );
+}
+
+function findNextMusicCodePoint(codePoints: readonly number[]): number | null {
+  for (const codePoint of codePoints) {
+    if (codePoint !== 0x0020) {
+      return codePoint;
+    }
+  }
+  return null;
 }
