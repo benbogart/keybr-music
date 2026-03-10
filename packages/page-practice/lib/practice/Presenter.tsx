@@ -2,7 +2,7 @@ import { type KeyId } from "@keybr/keyboard";
 import { names } from "@keybr/lesson-ui";
 import { Screen } from "@keybr/pages-shared";
 import { enumProp, Preferences } from "@keybr/settings";
-import { type LineList } from "@keybr/textinput";
+import { type LineList,makeStats } from "@keybr/textinput";
 import {
   type IInputEvent,
   type IKeyboardEvent,
@@ -11,6 +11,7 @@ import {
 import { TextArea, type TextAreaEventsComponent } from "@keybr/textinput-ui";
 import { type Focusable, Zoomer } from "@keybr/widget";
 import { createRef, PureComponent, type ReactNode } from "react";
+import { FormattedMessage } from "react-intl";
 import { Controls } from "./Controls.tsx";
 import { Indicators } from "./Indicators.tsx";
 import { DeferredKeyboardPresenter } from "./KeyboardPresenter.tsx";
@@ -177,6 +178,7 @@ export class Presenter extends PureComponent<Props, State> {
         return (
           <BareLayout
             state={state}
+            musicMode={musicMode}
             focus={tour || focus}
             depressedKeys={depressedKeys}
             controls={
@@ -237,11 +239,6 @@ export class Presenter extends PureComponent<Props, State> {
   handleInput = (ev: IInputEvent) => {
     if (this.state.focus) {
       this.props.onInput(ev);
-    } else {
-      console.warn(
-        "[MUSIC] Presenter.handleInput: DROPPED event (focus=false), codePoint=%d",
-        ev.codePoint,
-      );
     }
   };
 
@@ -378,17 +375,32 @@ function CompactLayout({
 
 function BareLayout({
   state,
+  musicMode,
   controls,
   textInput,
 }: {
   readonly state: LessonState;
+  readonly musicMode?: boolean;
   readonly focus: boolean;
   readonly depressedKeys: readonly string[];
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
+  const { speed } = makeStats(state.textInput.steps);
+  const notesPerMinute = Math.round(state.lastLesson?.result.speed ?? speed);
   return (
     <Screen>
+      {musicMode && (
+        <div className={styles.musicStats}>
+          <span className={styles.musicStats_label}>
+            <FormattedMessage
+              id="practice.indicator.notesPerMinute"
+              defaultMessage="Notes per minute"
+            />
+          </span>
+          <span className={styles.musicStats_value}>{notesPerMinute}</span>
+        </div>
+      )}
       <div id={names.textInput} className={styles.textInput_bare}>
         {textInput}
       </div>

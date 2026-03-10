@@ -101,11 +101,6 @@ export class PitchInputAdapter {
           ? 0
           : pending.timeStamp - this.#lastInputTimeStamp,
     };
-    console.log(
-      "[MUSIC] Adapter: emitting codePoint=%d timeToType=%d",
-      event.codePoint,
-      event.timeToType,
-    );
     this.#onInput(event);
     this.#lastInputTimeStamp = pending.timeStamp;
     this.#pending = null;
