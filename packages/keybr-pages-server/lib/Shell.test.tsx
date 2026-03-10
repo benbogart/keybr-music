@@ -42,6 +42,7 @@ test("render", () => {
   });
   isTrue(html.includes("google"));
   isTrue(html.includes("cloudflare"));
+  isFalse(html.includes("freestar.config.enabled_slots"));
   equal($("nav").length, 0);
 });
 
@@ -119,6 +120,32 @@ test("render for a bot", () => {
     "data-font": "open-sans",
   });
   equal($("nav").length, 1);
+});
+
+test("render non-practice page with ad setup", () => {
+  const html = renderToStaticMarkup(
+    <ManifestContext.Provider value={Manifest.fake}>
+      <PageDataContext.Provider
+        value={{
+          base: "https://www.keybr.com/",
+          locale: "en",
+          user: null,
+          publicUser: {
+            id: null,
+            name: "name",
+            imageUrl: null,
+          },
+          settings: null,
+        }}
+      >
+        <FakeIntlProvider>
+          <Shell page={Pages.help} headers={fakeHeaders()} />
+        </FakeIntlProvider>
+      </PageDataContext.Provider>
+    </ManifestContext.Provider>,
+  );
+
+  isTrue(html.includes("freestar.config.enabled_slots"));
 });
 
 function fakeHeaders(entries: Record<string, string> = {}) {
