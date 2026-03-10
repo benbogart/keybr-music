@@ -8,34 +8,47 @@ import { type Result, useResults } from "@keybr/result";
 import { useSettings } from "@keybr/settings";
 import { useEffect, useMemo, useState } from "react";
 import { Controller } from "./Controller.tsx";
+import { MusicController } from "./MusicController.tsx";
 import { displayEvent, Progress } from "./state/index.ts";
 
-export function PracticeScreen() {
+export type PracticeMode = "typing" | "music";
+
+export function PracticeScreen({
+  mode = "typing",
+}: {
+  readonly mode?: PracticeMode;
+}) {
   return (
     <KeyboardProvider>
-      <LessonLoader>
-        {(lesson) => <ProgressUpdater lesson={lesson} />}
+      <LessonLoader mode={mode}>
+        {(lesson) => <ProgressUpdater mode={mode} lesson={lesson} />}
       </LessonLoader>
     </KeyboardProvider>
   );
 }
 
-function ProgressUpdater({ lesson }: { readonly lesson: Lesson }) {
+function ProgressUpdater({
+  mode,
+  lesson,
+}: {
+  readonly mode: PracticeMode;
+  readonly lesson: Lesson;
+}) {
   const { results, appendResults } = useResults();
   const [progress, { total, current }] = useProgress(lesson, results);
   if (progress == null) {
     return <LoadingProgress total={total} current={current} />;
   } else {
-    return (
-      <Controller
-        progress={progress}
-        onResult={(result) => {
-          if (result.validate()) {
-            progress.append(result, displayEvent);
-            appendResults([result]);
-          }
-        }}
-      />
+    const onResult = (result: Result) => {
+      if (result.validate()) {
+        progress.append(result, displayEvent);
+        appendResults([result]);
+      }
+    };
+    return mode === "music" ? (
+      <MusicController progress={progress} onResult={onResult} />
+    ) : (
+      <Controller progress={progress} onResult={onResult} />
     );
   }
 }

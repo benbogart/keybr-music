@@ -1,6 +1,7 @@
 import { loadContent } from "@keybr/content-books";
 import { loadWordList } from "@keybr/content-words";
 import { catchError } from "@keybr/debug";
+import { bandoneon, NoteSequenceModel } from "@keybr/instrument";
 import { KeyboardOptions, useKeyboard } from "@keybr/keyboard";
 import {
   BooksLesson,
@@ -10,6 +11,7 @@ import {
   type Lesson,
   lessonProps,
   LessonType,
+  MusicLesson,
   NumbersLesson,
   WordListLesson,
 } from "@keybr/lesson";
@@ -19,28 +21,40 @@ import { PhoneticModelLoader } from "@keybr/phonetic-model-loader";
 import { useSettings } from "@keybr/settings";
 import { type ReactNode, useEffect, useState } from "react";
 
+export type LessonLoaderMode = "typing" | "music";
+
 export function LessonLoader({
   children,
   fallback = <LoadingProgress />,
+  mode = "typing",
 }: {
   readonly children: (result: Lesson) => ReactNode;
   readonly fallback?: ReactNode;
+  readonly mode?: LessonLoaderMode;
 }): ReactNode {
   const { settings } = useSettings();
   const lessonType = settings.get(lessonProps.type);
+  if (mode === "music") {
+    return (
+      <MusicLoader key={`${mode}:${lessonType.id}`} fallback={fallback}>
+        {children}
+      </MusicLoader>
+    );
+  }
+
   const { language } = KeyboardOptions.from(settings);
   return (
     <PhoneticModelLoader language={language}>
       {(model) => (
-        <Loader key={lessonType.id} model={model} fallback={fallback}>
+        <TypingLoader key={lessonType.id} model={model} fallback={fallback}>
           {children}
-        </Loader>
+        </TypingLoader>
       )}
     </PhoneticModelLoader>
   );
 }
 
-function Loader({
+function TypingLoader({
   model,
   children,
   fallback,
@@ -49,7 +63,7 @@ function Loader({
   readonly children: (result: Lesson) => ReactNode;
   readonly fallback?: ReactNode;
 }): ReactNode {
-  const result = useLoader(model);
+  const result = useTypingLoader(model);
   if (result == null) {
     return fallback;
   } else {
@@ -57,7 +71,7 @@ function Loader({
   }
 }
 
-function useLoader(model: PhoneticModel): Lesson | null {
+function useTypingLoader(model: PhoneticModel): Lesson | null {
   const { settings } = useSettings();
   const keyboard = useKeyboard();
   const [result, setResult] = useState<Lesson | null>(null);
@@ -122,6 +136,43 @@ function useLoader(model: PhoneticModel): Lesson | null {
       didCancel = true;
     };
   }, [settings, keyboard, model]);
+
+  return result;
+}
+
+function MusicLoader({
+  children,
+  fallback,
+}: {
+  readonly children: (result: Lesson) => ReactNode;
+  readonly fallback?: ReactNode;
+}): ReactNode {
+  const result = useMusicLoader();
+  if (result == null) {
+    return fallback;
+  } else {
+    return children(result);
+  }
+}
+
+function useMusicLoader(): Lesson | null {
+  const { settings } = useSettings();
+  const [result, setResult] = useState<Lesson | null>(null);
+
+  useEffect(() => {
+    let didCancel = false;
+    const load = async (): Promise<void> => {
+      const instrument = bandoneon();
+      const model = new NoteSequenceModel(instrument.codePoints);
+      if (!didCancel) {
+        setResult(new MusicLesson(settings, instrument, model));
+      }
+    };
+    load().catch(catchError);
+    return () => {
+      didCancel = true;
+    };
+  }, [settings]);
 
   return result;
 }

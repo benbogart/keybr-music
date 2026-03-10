@@ -1330,6 +1330,15 @@ export class Layout implements XEnumItem {
     /* emulate= */ false,
     /* geometries= */ new Enum(Geometry.ANSI_101),
   );
+  static readonly BANDONEON = new Layout(
+    /* id= */ "bandoneon",
+    /* xid= */ 0xfb,
+    /* name= */ "Bandoneon",
+    /* family= */ "bandoneon",
+    /* language= */ Language.EN,
+    /* emulate= */ false,
+    /* geometries= */ new Enum(Geometry.MATRIX),
+  );
 
   static readonly ALL = new XEnum<Layout>(
     Layout.EN_US,
@@ -1426,6 +1435,7 @@ export class Layout implements XEnumItem {
     Layout.TH_PAT,
     Layout.TH_MAN,
     Layout.RO_RO,
+    Layout.BANDONEON,
   );
 
   static findLayout(localeId: string): Layout | null {

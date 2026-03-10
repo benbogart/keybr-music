@@ -6,6 +6,7 @@ import {
   mdiAspectRatio,
   mdiCog,
   mdiHelpCircleOutline,
+  mdiMusicNote,
   mdiRedo,
   mdiUndo,
 } from "@mdi/js";
@@ -15,11 +16,17 @@ import { views } from "../views.tsx";
 import * as styles from "./Controls.module.less";
 
 export const Controls = memo(function Controls({
+  musicMode = false,
+  showChangeView = true,
+  showHelp = true,
   onChangeView,
   onResetLesson,
   onSkipLesson,
   onHelp,
 }: {
+  readonly musicMode?: boolean;
+  readonly showChangeView?: boolean;
+  readonly showHelp?: boolean;
   readonly onChangeView: () => void;
   readonly onResetLesson: () => void;
   readonly onSkipLesson: () => void;
@@ -30,14 +37,16 @@ export const Controls = memo(function Controls({
   const { setView } = useView(views);
   return (
     <div id={names.controls} className={styles.controls}>
-      <IconButton
-        icon={<Icon shape={mdiHelpCircleOutline} />}
-        title={formatMessage({
-          id: "practice.widget.showTour.description",
-          defaultMessage: "Show a guided tour with help slides.",
-        })}
-        onClick={onHelp}
-      />
+      {showHelp && (
+        <IconButton
+          icon={<Icon shape={mdiHelpCircleOutline} />}
+          title={formatMessage({
+            id: "practice.widget.showTour.description",
+            defaultMessage: "Show a guided tour with help slides.",
+          })}
+          onClick={onHelp}
+        />
+      )}
       <Dir swap="icon">
         <IconButton
           icon={<Icon shape={mdiUndo} />}
@@ -56,13 +65,32 @@ export const Controls = memo(function Controls({
           onClick={onSkipLesson}
         />
       </Dir>
+      {showChangeView && (
+        <IconButton
+          icon={<Icon shape={mdiAspectRatio} />}
+          title={formatMessage({
+            id: "practice.widget.switchView.description",
+            defaultMessage: "Switch the current interface layout.",
+          })}
+          onClick={onChangeView}
+        />
+      )}
       <IconButton
-        icon={<Icon shape={mdiAspectRatio} />}
-        title={formatMessage({
-          id: "practice.widget.switchView.description",
-          defaultMessage: "Switch the current interface layout.",
-        })}
-        onClick={onChangeView}
+        icon={<Icon shape={mdiMusicNote} />}
+        title={
+          musicMode
+            ? formatMessage({
+                id: "practice.widget.switchToTyping.description",
+                defaultMessage: "Switch to typing mode.",
+              })
+            : formatMessage({
+                id: "practice.widget.switchToMusic.description",
+                defaultMessage: "Switch to music mode.",
+              })
+        }
+        onClick={() => {
+          setView(musicMode ? "practice" : "music");
+        }}
       />
       {settings.isNew ? (
         <Button
@@ -77,7 +105,7 @@ export const Controls = memo(function Controls({
               "Change lesson settings, configure language, keyboard layout, etc.",
           })}
           onClick={() => {
-            setView("settings");
+            setView("settings", { mode: musicMode ? "music" : "practice" });
           }}
         />
       ) : (
@@ -89,7 +117,7 @@ export const Controls = memo(function Controls({
               "Change lesson settings, configure language, keyboard layout, etc.",
           })}
           onClick={() => {
-            setView("settings");
+            setView("settings", { mode: musicMode ? "music" : "practice" });
           }}
         />
       )}

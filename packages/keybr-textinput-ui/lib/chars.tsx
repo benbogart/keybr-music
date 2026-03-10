@@ -24,7 +24,9 @@ export function renderChars(
           className={getClassName(span)}
           style={getTextStyle(span, /* special= */ false)}
         >
-          {String.fromCodePoint(...span.chars)}
+          {span.chars
+            .map((codePoint) => displayCodePoint(settings, codePoint))
+            .join("")}
         </span>,
       );
     }
@@ -72,6 +74,15 @@ function specialChar(whitespaceStyle: WhitespaceStyle, codePoint: CodePoint) {
     default:
       return `U+${codePoint.toString(16).padStart(4, "0")}`;
   }
+}
+
+function displayCodePoint(
+  settings: TextDisplaySettings,
+  codePoint: CodePoint,
+): string {
+  return (
+    settings.codePointLabels?.get(codePoint) ?? String.fromCodePoint(codePoint)
+  );
 }
 
 function getClassName({ attrs }: { readonly attrs: Attr }) {

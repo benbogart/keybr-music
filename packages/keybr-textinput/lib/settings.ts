@@ -5,6 +5,7 @@ import {
   itemProp,
   type Settings,
 } from "@keybr/settings";
+import { type CodePoint } from "@keybr/unicode";
 import { Font } from "./font.ts";
 
 /**
@@ -56,6 +57,7 @@ export type TextDisplaySettings = {
   readonly caretMovementStyle: CaretMovementStyle;
   readonly whitespaceStyle: WhitespaceStyle;
   readonly language: Language;
+  readonly codePointLabels?: ReadonlyMap<CodePoint, string>;
 };
 
 export enum CaretShapeStyle {
@@ -116,5 +118,6 @@ export function toTextDisplaySettings(settings: Settings): TextDisplaySettings {
     caretMovementStyle,
     whitespaceStyle,
     language,
+    codePointLabels: undefined,
   };
 }

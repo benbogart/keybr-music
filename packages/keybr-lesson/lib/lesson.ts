@@ -1,6 +1,7 @@
 import {
   type Keyboard,
   KeyboardOptions,
+  type Layout,
   type WeightedCodePointSet,
 } from "@keybr/keyboard";
 import { type Letter, PhoneticModel } from "@keybr/phonetic-model";
@@ -30,9 +31,11 @@ export abstract class Lesson {
   }
 
   filter(results: readonly Result[]): readonly Result[] {
-    return ResultGroups.byLayoutFamily(results).get(
-      KeyboardOptions.from(this.settings).layout.family,
-    );
+    return ResultGroups.byLayoutFamily(results).get(this.resultLayout().family);
+  }
+
+  resultLayout(): Layout {
+    return KeyboardOptions.from(this.settings).layout;
   }
 
   abstract get letters(): readonly Letter[];

@@ -22,7 +22,11 @@ import { LessonSettings } from "./LessonSettings.tsx";
 import { MiscSettings } from "./MiscSettings.tsx";
 import * as styles from "./SettingsScreen.module.less";
 
-export function SettingsScreen() {
+export function SettingsScreen({
+  mode = "practice",
+}: {
+  readonly mode?: "practice" | "music";
+}) {
   const { settings, updateSettings } = useSettings();
   const { setView } = useView(views);
   const [newSettings, updateNewSettings] = useState(settings);
@@ -37,7 +41,7 @@ export function SettingsScreen() {
         <Content
           onSubmit={() => {
             updateSettings(newSettings);
-            setView("practice");
+            setView(mode);
           }}
         />
       </KeyboardProvider>

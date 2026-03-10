@@ -1,4 +1,4 @@
-import { keyboardProps, type KeyId } from "@keybr/keyboard";
+import { type KeyId } from "@keybr/keyboard";
 import {
   type DailyGoal,
   Lesson,
@@ -55,7 +55,10 @@ export class LessonState {
     this.settings = progress.settings;
     this.lesson = progress.lesson;
     this.textInputSettings = toTextInputSettings(this.settings);
-    this.textDisplaySettings = toTextDisplaySettings(this.settings);
+    this.textDisplaySettings = {
+      ...toTextDisplaySettings(this.settings),
+      codePointLabels: makeCodePointLabelMap(this.lesson.letters),
+    };
     this.keyStatsMap = progress.keyStatsMap.copy();
     this.summaryStats = progress.summaryStats.copy();
     this.streakList = progress.streakList.copy();
@@ -73,13 +76,41 @@ export class LessonState {
   }
 
   onInput(event: IInputEvent): Feedback {
+    console.log(
+      "[MUSIC] LessonState.onInput: codePoint=%d inputType=%s pos=%d",
+      event.codePoint,
+      event.inputType,
+      this.textInput.pos,
+    );
     const feedback = this.textInput.onInput(event);
+    this.#skipSpaces(event.timeStamp);
+    console.log(
+      "[MUSIC] LessonState.onInput: feedback=%s pos=%d completed=%s",
+      feedback,
+      this.textInput.pos,
+      this.textInput.completed,
+    );
     this.lines = this.textInput.lines;
     this.suffix = this.textInput.remaining.map(({ codePoint }) => codePoint);
     if (this.textInput.completed) {
       this.#onResult(this.#makeResult(), this.textInput);
     }
     return feedback;
+  }
+
+  #skipSpaces(timeStamp: number) {
+    while (
+      !this.textInput.completed &&
+      this.textInput.at(this.textInput.pos).codePoint === 0x0020
+    ) {
+      this.textInput.onInput({
+        type: "input",
+        timeStamp,
+        inputType: "appendChar",
+        codePoint: 0x0020,
+        timeToType: 0,
+      });
+    }
   }
 
   #reset(fragment: StyledText) {
@@ -90,10 +121,22 @@ export class LessonState {
 
   #makeResult(timeStamp = Date.now()) {
     return Result.fromStats(
-      this.settings.get(keyboardProps.layout),
+      this.lesson.resultLayout(),
       this.settings.get(lessonProps.type).textType,
       timeStamp,
       makeStats(this.textInput.steps),
     );
   }
+}
+
+function makeCodePointLabelMap(
+  letters: readonly { readonly codePoint: number; readonly label: string }[],
+) {
+  const labels = new Map<number, string>();
+  for (const { codePoint, label } of letters) {
+    if (label.length > 1) {
+      labels.set(codePoint, label);
+    }
+  }
+  return labels.size > 0 ? labels : undefined;
 }
