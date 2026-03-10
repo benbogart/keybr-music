@@ -1,0 +1,107 @@
+import { memo, type ReactNode } from "react";
+import * as styles from "./Presenter.module.less";
+
+const BANDONEON_SVG_PATH = "/assets/bandoneon/bandoneon-right-opening.svg";
+const SVG_VIEWBOX = "0 0 460.38 243.55";
+const HIGHLIGHT_RADIUS = 16;
+
+type KeyPosition = {
+  readonly x: number;
+  readonly y: number;
+};
+
+type Props = {
+  readonly targetCodePoint: number | null;
+  readonly playedCodePoint: number | null;
+};
+
+// Sourced from BEN-19 bandoneonLayout.right.opening.json.
+const keyPositions = new Map<number, KeyPosition>([
+  [57, { x: 24.0, y: 177.55 }],
+  [58, { x: 53.59, y: 210.55 }],
+  [59, { x: 47.08, y: 138.03 }],
+  [60, { x: 75.69, y: 95.66 }],
+  [61, { x: 100.24, y: 63.41 }],
+  [62, { x: 131.64, y: 90.31 }],
+  [63, { x: 108.72, y: 197.8 }],
+  [64, { x: 105.04, y: 127.71 }],
+  [65, { x: 79.93, y: 165.15 }],
+  [66, { x: 224.17, y: 118.71 }],
+  [67, { x: 192.56, y: 84.16 }],
+  [68, { x: 189.73, y: 156.03 }],
+  [69, { x: 281.27, y: 122.38 }],
+  [70, { x: 134.42, y: 159.55 }],
+  [71, { x: 245.7, y: 153.96 }],
+  [72, { x: 344.37, y: 127.71 }],
+  [73, { x: 163.73, y: 122.38 }],
+  [74, { x: 308.13, y: 153.96 }],
+  [75, { x: 218.11, y: 186.55 }],
+  [76, { x: 399.99, y: 140.38 }],
+  [77, { x: 163.73, y: 189.78 }],
+  [78, { x: 275.93, y: 187.3 }],
+  [79, { x: 436.38, y: 219.55 }],
+  [80, { x: 363.91, y: 165.15 }],
+  [81, { x: 331.41, y: 192.55 }],
+  [82, { x: 256.99, y: 84.88 }],
+  [83, { x: 423.66, y: 177.55 }],
+  [84, { x: 316.96, y: 93.16 }],
+  [85, { x: 384.41, y: 201.55 }],
+  [86, { x: 376.93, y: 102.88 }],
+  [87, { x: 349.71, y: 66.88 }],
+  [88, { x: 296.0, y: 55.5 }],
+  [89, { x: 329.99, y: 30.13 }],
+  [90, { x: 224.17, y: 55.5 }],
+  [91, { x: 264.2, y: 25.62 }],
+  [92, { x: 194.22, y: 24.0 }],
+  [93, { x: 159.0, y: 55.63 }],
+  [95, { x: 131.17, y: 28.45 }],
+]);
+
+export const BandoneonKeyboard = memo(function BandoneonKeyboard({
+  targetCodePoint,
+  playedCodePoint,
+}: Props): ReactNode {
+  const target =
+    targetCodePoint == null ? null : keyPositions.get(targetCodePoint);
+  const played =
+    playedCodePoint == null ? null : keyPositions.get(playedCodePoint);
+  return (
+    <section
+      className={styles.bandoneon}
+      aria-label="Bandoneon keyboard visual"
+    >
+      <header className={styles.bandoneon_heading}>Right hand - Opening</header>
+      <div className={styles.bandoneon_canvas}>
+        <img
+          src={BANDONEON_SVG_PATH}
+          className={styles.bandoneon_svg}
+          alt="Bandoneon right hand opening keyboard"
+        />
+        <svg
+          viewBox={SVG_VIEWBOX}
+          className={styles.bandoneon_overlay}
+          aria-hidden={true}
+        >
+          {target != null && (
+            <circle
+              cx={target.x}
+              cy={target.y}
+              r={HIGHLIGHT_RADIUS}
+              className={styles.bandoneon_target}
+              data-testid="bandoneon-target-key"
+            />
+          )}
+          {played != null && (
+            <circle
+              cx={played.x}
+              cy={played.y}
+              r={HIGHLIGHT_RADIUS}
+              className={styles.bandoneon_played}
+              data-testid="bandoneon-played-key"
+            />
+          )}
+        </svg>
+      </div>
+    </section>
+  );
+});

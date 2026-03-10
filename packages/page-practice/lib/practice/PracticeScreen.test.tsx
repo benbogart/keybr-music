@@ -33,3 +33,21 @@ test("render", async () => {
 
   r.unmount();
 });
+
+test("render music mode with bandoneon keyboard visual", async () => {
+  const r = render(
+    <FakeIntlProvider>
+      <FakeSettingsContext initialSettings={new Settings()}>
+        <FakeResultContext initialResults={faker.nextResultList(20)}>
+          <PracticeScreen mode="music" />
+        </FakeResultContext>
+      </FakeSettingsContext>
+    </FakeIntlProvider>,
+  );
+
+  isNotNull(await r.findByText("Right hand - Opening"));
+  isNotNull(await r.findByAltText("Bandoneon right hand opening keyboard"));
+  isNotNull(await r.findByTestId("bandoneon-target-key"));
+
+  r.unmount();
+});

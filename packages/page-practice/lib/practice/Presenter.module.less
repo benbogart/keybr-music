@@ -33,3 +33,49 @@
 .keyboard {
   margin-block-start: 3rem;
 }
+
+.bandoneon {
+  margin-block-start: 2.5rem;
+}
+
+.bandoneon_heading {
+  margin-block-end: 1.2rem;
+  color: var(--color-text-subtle);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.bandoneon_canvas {
+  position: relative;
+  inline-size: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.bandoneon_svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.bandoneon_overlay {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+.bandoneon_target {
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 3.5;
+}
+
+.bandoneon_played {
+  fill: rgb(34 197 94 / 36%);
+  stroke: #16a34a;
+  stroke-width: 2.5;
+}
