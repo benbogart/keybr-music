@@ -49,7 +49,6 @@ export const PitchEvents = memo(function PitchEvents({
     };
     input.addEventListener("focus", handleFocus);
     input.addEventListener("blur", handleBlur);
-    input.focus();
     return () => {
       input.removeEventListener("focus", handleFocus);
       input.removeEventListener("blur", handleBlur);
