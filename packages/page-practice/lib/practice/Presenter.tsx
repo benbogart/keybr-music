@@ -138,6 +138,7 @@ export class Presenter extends PureComponent<Props, State> {
                   focusRef={this.focusRef}
                   settings={state.textDisplaySettings}
                   lines={lines}
+                  displayMode={musicMode ? "staff" : "text"}
                   size="X0"
                   demo={tour}
                   onFocus={handleFocus}
@@ -176,6 +177,7 @@ export class Presenter extends PureComponent<Props, State> {
                   focusRef={this.focusRef}
                   settings={state.textDisplaySettings}
                   lines={lines}
+                  displayMode={musicMode ? "staff" : "text"}
                   size="X1"
                   demo={tour}
                   onFocus={handleFocus}
@@ -214,6 +216,7 @@ export class Presenter extends PureComponent<Props, State> {
                   focusRef={this.focusRef}
                   settings={state.textDisplaySettings}
                   lines={lines}
+                  displayMode={musicMode ? "staff" : "text"}
                   size="X2"
                   demo={tour}
                   onFocus={handleFocus}

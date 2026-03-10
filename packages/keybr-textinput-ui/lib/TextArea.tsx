@@ -23,6 +23,7 @@ import {
   useState,
 } from "react";
 import { FormattedMessage } from "react-intl";
+import { MusicStaff } from "./MusicStaff.tsx";
 import * as styles from "./TextArea.module.less";
 import { TextLines, type TextLineSize } from "./TextLines.tsx";
 
@@ -42,6 +43,7 @@ export function TextArea({
   lines,
   wrap,
   size,
+  displayMode = "text",
   lineTemplate,
   demo,
   moving,
@@ -57,6 +59,7 @@ export function TextArea({
   readonly lines: LineList;
   readonly wrap?: boolean;
   readonly size?: TextLineSize;
+  readonly displayMode?: "text" | "staff";
   readonly lineTemplate?: ComponentType<any>;
   readonly demo?: boolean;
   readonly moving?: boolean;
@@ -119,15 +122,24 @@ export function TextArea({
         onKeyUp={onKeyUp}
         onInput={onInput}
       />
-      <TextLines
-        settings={settings}
-        lines={lines}
-        wrap={wrap}
-        size={size}
-        lineTemplate={lineTemplate}
-        cursor={!demo && focus}
-        focus={demo || focus}
-      />
+      {displayMode === "staff" ? (
+        <MusicStaff
+          settings={settings}
+          lines={lines}
+          size={size}
+          focus={demo || focus}
+        />
+      ) : (
+        <TextLines
+          settings={settings}
+          lines={lines}
+          wrap={wrap}
+          size={size}
+          lineTemplate={lineTemplate}
+          cursor={!demo && focus}
+          focus={demo || focus}
+        />
+      )}
       {!demo && focus && ModifierState.capsLock && (
         <div className={styles.messageArea}>
           <div className={styles.messageText}>

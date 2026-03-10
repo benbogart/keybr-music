@@ -14,9 +14,9 @@
     "@keybr/textinput-events": "*",
     "@keybr/textinput-sounds": "*",
     "@keybr/unicode": "*",
-    "@keybr/widget": "*"
+    "@keybr/widget": "*",
+    "vexflow": "^5.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "clean": "rm -fr .types",
     "compile": "tsc",
