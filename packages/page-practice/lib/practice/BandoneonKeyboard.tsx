@@ -1,7 +1,7 @@
 import { memo, type ReactNode } from "react";
+import bandoneonSvg from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
-const BANDONEON_SVG_PATH = "/assets/bandoneon/bandoneon-right-opening.svg";
 const SVG_VIEWBOX = "0 0 460.38 243.55";
 const HIGHLIGHT_RADIUS = 16;
 
@@ -73,7 +73,7 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
       <header className={styles.bandoneon_heading}>Right hand - Opening</header>
       <div className={styles.bandoneon_canvas}>
         <img
-          src={BANDONEON_SVG_PATH}
+          src={bandoneonSvg}
           className={styles.bandoneon_svg}
           alt="Bandoneon right hand opening keyboard"
         />
