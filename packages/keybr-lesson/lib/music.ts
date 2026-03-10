@@ -82,15 +82,23 @@ export class MusicLesson extends Lesson {
       }
     }
 
-    const confidenceOf = (key: LessonKey): number => {
-      return recoverKeys ? (key.confidence ?? 0) : (key.bestConfidence ?? 0);
-    };
-    const weakestKeys = lessonKeys
-      .findIncludedKeys()
-      .filter((key) => confidenceOf(key) < 1)
-      .sort((a, b) => confidenceOf(a) - confidenceOf(b));
-    if (weakestKeys.length > 0) {
-      lessonKeys.focus(weakestKeys[0].letter);
+    const includedKeys = lessonKeys.findIncludedKeys();
+    const slowest = includedKeys
+      .filter((key) => key.timeToType != null)
+      .sort((a, b) => (b.timeToType ?? 0) - (a.timeToType ?? 0))
+      .at(0);
+    if (slowest != null) {
+      lessonKeys.focus(slowest.letter);
+    } else {
+      const confidenceOf = (key: LessonKey): number => {
+        return recoverKeys ? (key.confidence ?? 0) : (key.bestConfidence ?? 0);
+      };
+      const weakestKeys = includedKeys
+        .filter((key) => confidenceOf(key) < 1)
+        .sort((a, b) => confidenceOf(a) - confidenceOf(b));
+      if (weakestKeys.length > 0) {
+        lessonKeys.focus(weakestKeys[0].letter);
+      }
     }
 
     return lessonKeys;

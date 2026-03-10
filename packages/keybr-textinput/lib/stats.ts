@@ -14,11 +14,11 @@ export function makeStats(steps: readonly Step[]): Stats {
   if (steps.length >= 2) {
     const { timeStamp: startedAt } = steps.at(0)!;
     const { timeStamp: endedAt } = steps.at(-1)!;
-    const { length } = steps;
+    const length = countLength(steps);
     const time = Math.round(endedAt - startedAt);
     const speed = computeSpeed(length, time);
     const errors = countErrors(steps);
-    const accuracy = (length - errors) / length;
+    const accuracy = length > 0 ? (length - errors) / length : 0;
     return {
       time,
       speed,
@@ -37,6 +37,20 @@ export function makeStats(steps: readonly Step[]): Stats {
       histogram: Histogram.empty,
     };
   }
+}
+
+function countLength(steps: readonly Step[]): number {
+  let length = 0;
+  for (const step of steps) {
+    if (!isAutoSkippedSpace(step)) {
+      length += 1;
+    }
+  }
+  return length;
+}
+
+function isAutoSkippedSpace({ codePoint, timeToType, typo }: Step): boolean {
+  return codePoint === 0x0020 && timeToType === 0 && !typo;
 }
 
 export function countErrors(steps: readonly Step[]): number {
