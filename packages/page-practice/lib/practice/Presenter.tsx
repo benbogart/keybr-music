@@ -2,7 +2,7 @@ import { type KeyId } from "@keybr/keyboard";
 import { names } from "@keybr/lesson-ui";
 import { Screen } from "@keybr/pages-shared";
 import { enumProp, Preferences } from "@keybr/settings";
-import { type LineList,makeStats } from "@keybr/textinput";
+import { type LineList, makeStats } from "@keybr/textinput";
 import {
   type IInputEvent,
   type IKeyboardEvent,
@@ -11,7 +11,6 @@ import {
 import { TextArea, type TextAreaEventsComponent } from "@keybr/textinput-ui";
 import { type Focusable, Zoomer } from "@keybr/widget";
 import { createRef, PureComponent, type ReactNode } from "react";
-import { FormattedMessage } from "react-intl";
 import { Controls } from "./Controls.tsx";
 import { Indicators } from "./Indicators.tsx";
 import { DeferredKeyboardPresenter } from "./KeyboardPresenter.tsx";
@@ -24,7 +23,6 @@ type Props = {
   readonly lines: LineList;
   readonly depressedKeys: readonly KeyId[];
   readonly musicMode?: boolean;
-  readonly forceBare?: boolean;
   readonly eventsComponent?: TextAreaEventsComponent;
   readonly onResetLesson: () => void;
   readonly onSkipLesson: () => void;
@@ -45,14 +43,14 @@ enum View {
   Bare = 3,
 }
 
-function getNextView(view: View): View {
+function getNextView(view: View, musicMode = false): View {
   switch (view) {
     case View.Normal:
       return View.Compact;
     case View.Compact:
       return View.Bare;
     case View.Bare:
-      return View.Normal;
+      return musicMode ? View.Compact : View.Normal;
   }
 }
 
@@ -68,7 +66,12 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   override componentDidMount() {
-    if (!this.props.forceBare && this.props.state.settings.isNew) {
+    if (this.props.musicMode) {
+      const view = this.state.view;
+      if (view === View.Normal) {
+        this.setState({ view: View.Compact });
+      }
+    } else if (this.props.state.settings.isNew) {
       this.setState({
         view: View.Normal,
         tour: true,
@@ -82,7 +85,6 @@ export class Presenter extends PureComponent<Props, State> {
         state,
         lines,
         depressedKeys,
-        forceBare = false,
         eventsComponent,
         musicMode = false,
       },
@@ -98,7 +100,7 @@ export class Presenter extends PureComponent<Props, State> {
       handleHelp,
       handleTourClose,
     } = this;
-    const activeView = forceBare ? View.Bare : view;
+    const activeView = musicMode && view === View.Normal ? View.Compact : view;
     switch (activeView) {
       case View.Normal:
         return (
@@ -111,7 +113,7 @@ export class Presenter extends PureComponent<Props, State> {
               <Controls
                 musicMode={musicMode}
                 showHelp={!musicMode}
-                showChangeView={!forceBare}
+                showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -148,7 +150,7 @@ export class Presenter extends PureComponent<Props, State> {
               <Controls
                 musicMode={musicMode}
                 showHelp={!musicMode}
-                showChangeView={!forceBare}
+                showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -185,7 +187,7 @@ export class Presenter extends PureComponent<Props, State> {
               <Controls
                 musicMode={musicMode}
                 showHelp={!musicMode}
-                showChangeView={!forceBare}
+                showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
                 onSkipLesson={handleSkipLesson}
@@ -265,12 +267,9 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   handleChangeView = () => {
-    if (this.props.forceBare) {
-      return;
-    }
     this.setState(
       ({ view }) => {
-        const nextView = getNextView(view);
+        const nextView = getNextView(view, this.props.musicMode);
         Preferences.set(propView, nextView);
         return { view: nextView };
       },
@@ -386,18 +385,15 @@ function BareLayout({
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
-  const { speed } = makeStats(state.textInput.steps);
-  const notesPerMinute = Math.round(state.lastLesson?.result.speed ?? speed);
+  const { speed: liveSpeed } = makeStats(state.textInput.steps);
+  const notesPerMinute = Math.round(
+    liveSpeed || state.lastLesson?.result.speed || 0,
+  );
   return (
     <Screen>
       {musicMode && (
         <div className={styles.musicStats}>
-          <span className={styles.musicStats_label}>
-            <FormattedMessage
-              id="practice.indicator.notesPerMinute"
-              defaultMessage="Notes per minute"
-            />
-          </span>
+          <span className={styles.musicStats_label}>Notes per minute</span>
           <span className={styles.musicStats_value}>{notesPerMinute}</span>
         </div>
       )}

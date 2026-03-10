@@ -77,17 +77,7 @@ export const Controls = memo(function Controls({
       )}
       <IconButton
         icon={<Icon shape={mdiMusicNote} />}
-        title={
-          musicMode
-            ? formatMessage({
-                id: "practice.widget.switchToTyping.description",
-                defaultMessage: "Switch to typing mode.",
-              })
-            : formatMessage({
-                id: "practice.widget.switchToMusic.description",
-                defaultMessage: "Switch to music mode.",
-              })
-        }
+        title={musicMode ? "Switch to typing mode." : "Switch to music mode."}
         onClick={() => {
           setView(musicMode ? "practice" : "music");
         }}
