@@ -13,9 +13,11 @@ import {
   makeKeyStatsMap,
   type Result,
   ResultGroups,
+  SpeedUnit,
+  uiProps,
   useResults,
 } from "@keybr/result";
-import { useSettings } from "@keybr/settings";
+import { SettingsContext, useSettings } from "@keybr/settings";
 import { Field, FieldList, OptionList } from "@keybr/widget";
 import { type ReactNode, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -45,7 +47,7 @@ export function ResultGrouper({
   children: (keyStatsMap: KeyStatsMap) => ReactNode;
 }) {
   const { formatMessage } = useIntl();
-  const { settings } = useSettings();
+  const { settings, updateSettings } = useSettings();
   const { results } = useResults();
   const groups = ResultGroups.byLayout(results);
   const resultsLayouts = new Set(groups.keys());
@@ -66,6 +68,9 @@ export function ResultGrouper({
   const keyboard = loadKeyboard(selectedLayout);
   const group = groups.get(selectedLayout);
   const isBandoneonLayout = selectedLayout.family === BANDONEON_FAMILY;
+  const profileSettings = isBandoneonLayout
+    ? settings.set(uiProps.speedUnit, SpeedUnit.CPM)
+    : settings;
 
   return (
     <>
@@ -127,33 +132,40 @@ export function ResultGrouper({
         )}
       </FieldList>
 
-      <KeyboardContext.Provider value={keyboard}>
-        {isBandoneonLayout ? (
-          children(makeKeyStatsMap(makeBandoneonLetters(group), group))
-        ) : (
-          <PhoneticModelLoader language={selectedLayout.language}>
-            {({ letters }) => {
-              switch (characterClass) {
-                case "letters":
-                  return children(
-                    makeKeyStatsMap(
-                      Letter.restrict(letters, keyboard.getCodePoints()),
-                      group,
-                    ),
-                  );
-                case "digits":
-                  return children(makeKeyStatsMap(Letter.digits, group));
-                case "punctuators":
-                  return children(makeKeyStatsMap(Letter.punctuators, group));
-                case "specials":
-                  return children(makeKeyStatsMap(Letter.specials, group));
-                default:
-                  throw new Error();
-              }
-            }}
-          </PhoneticModelLoader>
-        )}
-      </KeyboardContext.Provider>
+      <SettingsContext.Provider
+        value={{
+          settings: profileSettings,
+          updateSettings,
+        }}
+      >
+        <KeyboardContext.Provider value={keyboard}>
+          {isBandoneonLayout ? (
+            children(makeKeyStatsMap(makeBandoneonLetters(group), group))
+          ) : (
+            <PhoneticModelLoader language={selectedLayout.language}>
+              {({ letters }) => {
+                switch (characterClass) {
+                  case "letters":
+                    return children(
+                      makeKeyStatsMap(
+                        Letter.restrict(letters, keyboard.getCodePoints()),
+                        group,
+                      ),
+                    );
+                  case "digits":
+                    return children(makeKeyStatsMap(Letter.digits, group));
+                  case "punctuators":
+                    return children(makeKeyStatsMap(Letter.punctuators, group));
+                  case "specials":
+                    return children(makeKeyStatsMap(Letter.specials, group));
+                  default:
+                    throw new Error();
+                }
+              }}
+            </PhoneticModelLoader>
+          )}
+        </KeyboardContext.Provider>
+      </SettingsContext.Provider>
     </>
   );
 }

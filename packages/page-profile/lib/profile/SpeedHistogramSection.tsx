@@ -1,5 +1,6 @@
 import { makeSpeedDistribution, SpeedHistogram } from "@keybr/chart";
 import { useIntlNumbers } from "@keybr/intl";
+import { useKeyboard } from "@keybr/keyboard";
 import { type SummaryStats } from "@keybr/result";
 import {
   Explainer,
@@ -17,6 +18,8 @@ import { ChartWrapper } from "./ChartWrapper.tsx";
 export function SpeedHistogramSection({ stats }: { stats: SummaryStats }) {
   const distribution = useMemo(() => makeSpeedDistribution(), []);
   const { formatMessage } = useIntl();
+  const { layout } = useKeyboard();
+  const isBandoneon = layout.family === "bandoneon";
   const { formatPercents } = useIntlNumbers();
   const [period, setPeriod] = useState("average");
 
@@ -26,26 +29,62 @@ export function SpeedHistogramSection({ stats }: { stats: SummaryStats }) {
   return (
     <Figure>
       <Figure.Caption>
-        <FormattedMessage
-          id="profile.chart.histogram.caption"
-          defaultMessage="Relative Typing Speed"
-        />
+        {isBandoneon ? (
+          <FormattedMessage
+            id="profile.chart.histogram.caption.music"
+            defaultMessage="Relative Note Speed"
+          />
+        ) : (
+          <FormattedMessage
+            id="profile.chart.histogram.caption"
+            defaultMessage="Relative Typing Speed"
+          />
+        )}
       </Figure.Caption>
 
       <Explainer>
         <Figure.Description>
-          <FormattedMessage
-            id="profile.chart.histogram.description"
-            defaultMessage="This is a histogram of the typing speeds of all users, and your position in relation to them."
-          />
+          {isBandoneon ? (
+            <FormattedMessage
+              id="profile.chart.histogram.description.music"
+              defaultMessage="This is a histogram of note speeds of all users, and your position in relation to them."
+            />
+          ) : (
+            <FormattedMessage
+              id="profile.chart.histogram.description"
+              defaultMessage="This is a histogram of the typing speeds of all users, and your position in relation to them."
+            />
+          )}
         </Figure.Description>
       </Explainer>
 
       <Para align="center">
         {period === "average" ? (
+          isBandoneon ? (
+            <FormattedMessage
+              id="profile.chart.compareAverageSpeed.description.music"
+              defaultMessage="Your all time average note speed beats {value} of all other people."
+              values={{
+                value: (
+                  <Value value={value > 0 ? formatPercents(cdf) : "N/A"} />
+                ),
+              }}
+            />
+          ) : (
+            <FormattedMessage
+              id="profile.chart.compareAverageSpeed.description"
+              defaultMessage="Your all time average speed beats {value} of all other people."
+              values={{
+                value: (
+                  <Value value={value > 0 ? formatPercents(cdf) : "N/A"} />
+                ),
+              }}
+            />
+          )
+        ) : isBandoneon ? (
           <FormattedMessage
-            id="profile.chart.compareAverageSpeed.description"
-            defaultMessage="Your all time average speed beats {value} of all other people."
+            id="profile.chart.compareTopSpeed.description.music"
+            defaultMessage="Your all time top note speed beats {value} of all other people."
             values={{
               value: <Value value={value > 0 ? formatPercents(cdf) : "N/A"} />,
             }}

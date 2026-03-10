@@ -1,4 +1,5 @@
 import { Marker, SpeedChart } from "@keybr/chart";
+import { useKeyboard } from "@keybr/keyboard";
 import { hasData } from "@keybr/math";
 import { type Result } from "@keybr/result";
 import { Explainer, Figure } from "@keybr/widget";
@@ -9,22 +10,38 @@ import { SmoothnessRange } from "./SmoothnessRange.tsx";
 
 export function SpeedChartSection({ results }: { results: readonly Result[] }) {
   const [smoothness, setSmoothness] = useState(0.5);
+  const { layout } = useKeyboard();
+  const isBandoneon = layout.family === "bandoneon";
 
   return (
     <Figure>
       <Figure.Caption>
-        <FormattedMessage
-          id="profile.chart.speed.caption"
-          defaultMessage="Typing Speed"
-        />
+        {isBandoneon ? (
+          <FormattedMessage
+            id="profile.chart.speed.caption.music"
+            defaultMessage="Note Speed"
+          />
+        ) : (
+          <FormattedMessage
+            id="profile.chart.speed.caption"
+            defaultMessage="Typing Speed"
+          />
+        )}
       </Figure.Caption>
 
       <Explainer>
         <Figure.Description>
-          <FormattedMessage
-            id="profile.chart.speed.description"
-            defaultMessage="This chart shows how overall typing speed changes over time."
-          />
+          {isBandoneon ? (
+            <FormattedMessage
+              id="profile.chart.speed.description.music"
+              defaultMessage="This chart shows how overall note speed changes over time."
+            />
+          ) : (
+            <FormattedMessage
+              id="profile.chart.speed.description"
+              defaultMessage="This chart shows how overall typing speed changes over time."
+            />
+          )}
         </Figure.Description>
       </Explainer>
 
@@ -44,15 +61,27 @@ export function SpeedChartSection({ results }: { results: readonly Result[] }) {
       />
 
       <Figure.Legend>
-        <FormattedMessage
-          id="profile.chart.speed.legend"
-          defaultMessage="Horizontal axis: lesson number. Vertical axis: {label1} – typing speed, {label2} – typing accuracy, {label3} – number of keys in the lessons."
-          values={{
-            label1: <Marker type="speed" />,
-            label2: <Marker type="accuracy" />,
-            label3: <Marker type="complexity" />,
-          }}
-        />
+        {isBandoneon ? (
+          <FormattedMessage
+            id="profile.chart.speed.legend.music"
+            defaultMessage="Horizontal axis: lesson number. Vertical axis: {label1} – note speed, {label2} – note accuracy, {label3} – number of notes in the lessons."
+            values={{
+              label1: <Marker type="speed" />,
+              label2: <Marker type="accuracy" />,
+              label3: <Marker type="complexity" />,
+            }}
+          />
+        ) : (
+          <FormattedMessage
+            id="profile.chart.speed.legend"
+            defaultMessage="Horizontal axis: lesson number. Vertical axis: {label1} – typing speed, {label2} – typing accuracy, {label3} – number of keys in the lessons."
+            values={{
+              label1: <Marker type="speed" />,
+              label2: <Marker type="accuracy" />,
+              label3: <Marker type="complexity" />,
+            }}
+          />
+        )}
       </Figure.Legend>
     </Figure>
   );
