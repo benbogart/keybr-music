@@ -76,20 +76,8 @@ export class LessonState {
   }
 
   onInput(event: IInputEvent): Feedback {
-    console.log(
-      "[MUSIC] LessonState.onInput: codePoint=%d inputType=%s pos=%d",
-      event.codePoint,
-      event.inputType,
-      this.textInput.pos,
-    );
     const feedback = this.textInput.onInput(event);
     this.#skipSpaces(event.timeStamp);
-    console.log(
-      "[MUSIC] LessonState.onInput: feedback=%s pos=%d completed=%s",
-      feedback,
-      this.textInput.pos,
-      this.textInput.completed,
-    );
     this.lines = this.textInput.lines;
     this.suffix = this.textInput.remaining.map(({ codePoint }) => codePoint);
     if (this.textInput.completed) {

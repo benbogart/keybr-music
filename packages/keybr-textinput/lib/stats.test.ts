@@ -66,3 +66,28 @@ test("compute accuracy", () => {
     1,
   );
 });
+
+test("exclude auto-skipped spaces from speed", () => {
+  const stats = makeStats([
+    { timeStamp: 100, codePoint: X, timeToType: 900, typo: false }, // Trigger is ignored.
+    { timeStamp: 200, codePoint: A, timeToType: 100, typo: false },
+    { timeStamp: 200, codePoint: Space, timeToType: 0, typo: false },
+    { timeStamp: 300, codePoint: B, timeToType: 100, typo: false },
+    { timeStamp: 300, codePoint: Space, timeToType: 0, typo: false },
+    { timeStamp: 400, codePoint: C, timeToType: 100, typo: false },
+  ]);
+
+  deepEqual(stats, {
+    time: 300,
+    speed: 800,
+    length: 4,
+    errors: 0,
+    accuracy: 1,
+    histogram: new Histogram([
+      { codePoint: Space, hitCount: 2, missCount: 0, timeToType: 0 },
+      { codePoint: A, hitCount: 1, missCount: 0, timeToType: 100 },
+      { codePoint: B, hitCount: 1, missCount: 0, timeToType: 100 },
+      { codePoint: C, hitCount: 1, missCount: 0, timeToType: 100 },
+    ]),
+  });
+});

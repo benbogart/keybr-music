@@ -102,6 +102,36 @@ test("select text type", async () => {
   r.unmount();
 });
 
+test("render bandoneon note labels", async () => {
+  PhoneticModelLoader.loader = FakePhoneticModel.loader;
+
+  const result = faker.nextResult({ layout: Layout.BANDONEON });
+  const r = render(
+    <FakeIntlProvider>
+      <FakeSettingsContext
+        initialSettings={new Settings().set(
+          keyboardProps.layout,
+          Layout.BANDONEON,
+        )}
+      >
+        <FakeResultContext initialResults={[result]}>
+          <ResultGrouper>
+            {(keyStatsMap) => <TestChild keyStatsMap={keyStatsMap} />}
+          </ResultGrouper>
+        </FakeResultContext>
+      </FakeSettingsContext>
+    </FakeIntlProvider>,
+  );
+
+  equal((await r.findByTitle("layout")).textContent, "bandoneon");
+  equal(
+    (await r.findByTitle("alphabet")).textContent,
+    "C#7D7D#7E7F7F#7G7G#7A7A#7",
+  );
+
+  r.unmount();
+});
+
 function TestChild({ keyStatsMap }: { keyStatsMap: KeyStatsMap }) {
   const { layout } = useKeyboard();
   const { clearResults } = useResults();

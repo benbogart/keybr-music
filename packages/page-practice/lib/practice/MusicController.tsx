@@ -47,7 +47,6 @@ export const MusicController = memo(function MusicController({
       lines={state.lines}
       depressedKeys={state.depressedKeys}
       musicMode={true}
-      forceBare={true}
       eventsComponent={PitchEvents}
       onResetLesson={handleResetLesson}
       onSkipLesson={handleSkipLesson}

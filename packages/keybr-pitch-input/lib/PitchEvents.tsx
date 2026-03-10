@@ -42,20 +42,13 @@ export const PitchEvents = memo(function PitchEvents({
       return;
     }
     const handleFocus = () => {
-      console.log(
-        "[MUSIC] PitchEvents: textarea focused, calling handler.start()",
-      );
       void handler.start();
     };
     const handleBlur = () => {
-      console.log(
-        "[MUSIC] PitchEvents: textarea blurred, calling handler.stop()",
-      );
       handler.stop();
     };
     input.addEventListener("focus", handleFocus);
     input.addEventListener("blur", handleBlur);
-    console.log("[MUSIC] PitchEvents: useEffect ran, listeners registered");
     return () => {
       input.removeEventListener("focus", handleFocus);
       input.removeEventListener("blur", handleBlur);

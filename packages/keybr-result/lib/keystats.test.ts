@@ -110,3 +110,79 @@ test("compute key stats", () => {
     bestTimeToType: 200,
   });
 });
+
+test("compute key stats for midi note letters", () => {
+  const faker = new ResultFaker();
+  const c4 = new Letter(60, 1, "C4");
+  const d4 = new Letter(62, 1, "D4");
+  const r1 = faker.nextResult({
+    histogram: new Histogram([
+      {
+        codePoint: c4.codePoint,
+        hitCount: 2,
+        missCount: 0,
+        timeToType: 400,
+      },
+    ]),
+  });
+  const r2 = faker.nextResult({
+    histogram: new Histogram([
+      {
+        codePoint: c4.codePoint,
+        hitCount: 1,
+        missCount: 0,
+        timeToType: 600,
+      },
+      {
+        codePoint: d4.codePoint,
+        hitCount: 1,
+        missCount: 0,
+        timeToType: 300,
+      },
+    ]),
+  });
+
+  const keyStatsMap = new MutableKeyStatsMap([c4, d4]);
+  keyStatsMap.append(r1);
+  keyStatsMap.append(r2);
+
+  deepEqual(keyStatsMap.copy().get(c4), {
+    letter: c4,
+    samples: [
+      {
+        index: 0,
+        timeStamp: r1.timeStamp,
+        hitCount: 2,
+        missCount: 0,
+        timeToType: 400,
+        filteredTimeToType: 400,
+      },
+      {
+        index: 1,
+        timeStamp: r2.timeStamp,
+        hitCount: 1,
+        missCount: 0,
+        timeToType: 600,
+        filteredTimeToType: 420,
+      },
+    ],
+    timeToType: 420,
+    bestTimeToType: 400,
+  });
+
+  deepEqual(keyStatsMap.copy().get(d4), {
+    letter: d4,
+    samples: [
+      {
+        index: 1,
+        timeStamp: r2.timeStamp,
+        hitCount: 1,
+        missCount: 0,
+        timeToType: 300,
+        filteredTimeToType: 300,
+      },
+    ],
+    timeToType: 300,
+    bestTimeToType: 300,
+  });
+});
