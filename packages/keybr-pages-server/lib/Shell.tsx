@@ -29,6 +29,7 @@ export function Shell({
   readonly headers: IncomingHeaders;
 }) {
   const { publicUser } = usePageData();
+  const showAds = page.path !== Pages.practice.path;
   return (
     <Html>
       <Head page={page}>
@@ -36,9 +37,11 @@ export function Shell({
           <>
             <CloudflareAnalytics />
             <GoogleTagManager />
-            <SetupAds>
-              <ScriptAssets entrypoint="ads" />
-            </SetupAds>
+            {showAds && (
+              <SetupAds>
+                <ScriptAssets entrypoint="ads" />
+              </SetupAds>
+            )}
           </>
         )}
       </Head>
