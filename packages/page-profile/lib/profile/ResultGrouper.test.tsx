@@ -132,6 +132,40 @@ test("render bandoneon note labels", async () => {
   r.unmount();
 });
 
+test("select bandoneon in mixed layouts", async () => {
+  PhoneticModelLoader.loader = FakePhoneticModel.loader;
+
+  const r = render(
+    <FakeIntlProvider>
+      <FakeSettingsContext
+        initialSettings={new Settings().set(keyboardProps.layout, Layout.EN_US)}
+      >
+        <FakeResultContext
+          initialResults={[
+            faker.nextResult({ layout: Layout.EN_US }),
+            faker.nextResult({ layout: Layout.BANDONEON }),
+          ]}
+        >
+          <ResultGrouper>
+            {(keyStatsMap) => <TestChild keyStatsMap={keyStatsMap} />}
+          </ResultGrouper>
+        </FakeResultContext>
+      </FakeSettingsContext>
+    </FakeIntlProvider>,
+  );
+
+  fireEvent.click(await r.findByText("English/United States"));
+  fireEvent.click(await r.findByText(/bandoneon/i));
+
+  equal((await r.findByTitle("layout")).textContent, "bandoneon");
+  equal(
+    (await r.findByTitle("alphabet")).textContent,
+    "C#7D7D#7E7F7F#7G7G#7A7A#7",
+  );
+
+  r.unmount();
+});
+
 function TestChild({ keyStatsMap }: { keyStatsMap: KeyStatsMap }) {
   const { layout } = useKeyboard();
   const { clearResults } = useResults();

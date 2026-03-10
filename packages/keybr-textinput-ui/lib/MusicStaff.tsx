@@ -147,7 +147,7 @@ export const MusicStaff = memo(function MusicStaff({
     }
 
     const activeEl = container.querySelector<SVGGElement>(".music-note-active");
-    if (activeEl != null) {
+    if (activeEl != null && typeof activeEl.scrollIntoView === "function") {
       activeEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }
   }, [clef, notes, size]);

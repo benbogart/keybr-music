@@ -15,9 +15,10 @@ import { BandoneonKeyboard } from "./BandoneonKeyboard.tsx";
 import { Controls } from "./Controls.tsx";
 import { Indicators } from "./Indicators.tsx";
 import { DeferredKeyboardPresenter } from "./KeyboardPresenter.tsx";
+import { MusicLessonSummaryPanel } from "./MusicLessonSummary.tsx";
 import { PracticeTour } from "./PracticeTour.tsx";
 import * as styles from "./Presenter.module.less";
-import { type LessonState } from "./state/index.ts";
+import { type LessonState, type MusicLessonSummary } from "./state/index.ts";
 
 type Props = {
   readonly state: LessonState;
@@ -25,6 +26,8 @@ type Props = {
   readonly depressedKeys: readonly KeyId[];
   readonly musicMode?: boolean;
   readonly musicLastCorrectCodePoint?: number | null;
+  readonly musicLessonSummary?: MusicLessonSummary | null;
+  readonly musicTargetSpeed?: number;
   readonly eventsComponent?: TextAreaEventsComponent;
   readonly onResetLesson: () => void;
   readonly onSkipLesson: () => void;
@@ -90,6 +93,8 @@ export class Presenter extends PureComponent<Props, State> {
         eventsComponent,
         musicMode = false,
         musicLastCorrectCodePoint = null,
+        musicLessonSummary = null,
+        musicTargetSpeed = 0,
       },
       state: { view, tour, focus },
       handleResetLesson,
@@ -160,6 +165,8 @@ export class Presenter extends PureComponent<Props, State> {
             focus={tour || focus}
             depressedKeys={depressedKeys}
             musicKeyboard={musicKeyboard}
+            musicLessonSummary={musicLessonSummary}
+            musicTargetSpeed={musicTargetSpeed}
             controls={
               <Controls
                 musicMode={musicMode}
@@ -199,6 +206,8 @@ export class Presenter extends PureComponent<Props, State> {
             focus={tour || focus}
             depressedKeys={depressedKeys}
             musicKeyboard={musicKeyboard}
+            musicLessonSummary={musicLessonSummary}
+            musicTargetSpeed={musicTargetSpeed}
             controls={
               <Controls
                 musicMode={musicMode}
@@ -370,6 +379,8 @@ function NormalLayout({
 function CompactLayout({
   state,
   musicKeyboard,
+  musicLessonSummary,
+  musicTargetSpeed,
   controls,
   textInput,
 }: {
@@ -377,6 +388,8 @@ function CompactLayout({
   readonly focus: boolean;
   readonly depressedKeys: readonly string[];
   readonly musicKeyboard: ReactNode;
+  readonly musicLessonSummary: MusicLessonSummary | null;
+  readonly musicTargetSpeed: number;
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
@@ -387,6 +400,12 @@ function CompactLayout({
         {textInput}
       </div>
       {musicKeyboard}
+      {musicLessonSummary != null && (
+        <MusicLessonSummaryPanel
+          summary={musicLessonSummary}
+          targetSpeed={musicTargetSpeed}
+        />
+      )}
       {controls}
     </Screen>
   );
@@ -396,6 +415,8 @@ function BareLayout({
   state,
   musicMode,
   musicKeyboard,
+  musicLessonSummary,
+  musicTargetSpeed,
   controls,
   textInput,
 }: {
@@ -404,25 +425,52 @@ function BareLayout({
   readonly focus: boolean;
   readonly depressedKeys: readonly string[];
   readonly musicKeyboard: ReactNode;
+  readonly musicLessonSummary: MusicLessonSummary | null;
+  readonly musicTargetSpeed: number;
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
 }) {
-  const { speed: liveSpeed } = makeStats(state.textInput.steps);
+  const { speed: liveSpeed, accuracy: liveAccuracy } = makeStats(
+    state.textInput.steps,
+  );
   const notesPerMinute = Math.round(
     liveSpeed || state.lastLesson?.result.speed || 0,
   );
+  const accuracy = liveAccuracy || state.lastLesson?.result.accuracy || 0;
+  const focusedConfidence = state.lessonKeys.findFocusedKey()?.confidence;
+  const consistency = focusedConfidence ?? 0;
   return (
     <Screen>
       {musicMode && (
         <div className={styles.musicStats}>
-          <span className={styles.musicStats_label}>Notes per minute</span>
-          <span className={styles.musicStats_value}>{notesPerMinute}</span>
+          <span className={styles.musicStats_metric}>
+            <span className={styles.musicStats_label}>Notes per minute</span>
+            <span className={styles.musicStats_value}>{notesPerMinute}</span>
+          </span>
+          <span className={styles.musicStats_metric}>
+            <span className={styles.musicStats_label}>Accuracy</span>
+            <span className={styles.musicStats_value_small}>
+              {Math.round(accuracy * 100)}%
+            </span>
+          </span>
+          <span className={styles.musicStats_metric}>
+            <span className={styles.musicStats_label}>Focus consistency</span>
+            <span className={styles.musicStats_value_small}>
+              {Math.round(consistency * 100)}%
+            </span>
+          </span>
         </div>
       )}
       {musicKeyboard}
       <div id={names.textInput} className={styles.textInput_bare}>
         {textInput}
       </div>
+      {musicLessonSummary != null && (
+        <MusicLessonSummaryPanel
+          summary={musicLessonSummary}
+          targetSpeed={musicTargetSpeed}
+        />
+      )}
       {controls}
     </Screen>
   );
