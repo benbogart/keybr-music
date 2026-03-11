@@ -49,6 +49,7 @@ export function SpeedChartSection({ results }: { results: readonly Result[] }) {
         <SpeedChart
           results={results}
           smoothness={smoothness}
+          showComplexity={!isBandoneon}
           width="100%"
           height="25rem"
         />
@@ -64,11 +65,10 @@ export function SpeedChartSection({ results }: { results: readonly Result[] }) {
         {isBandoneon ? (
           <FormattedMessage
             id="profile.chart.speed.legend.music"
-            defaultMessage="Horizontal axis: lesson number. Vertical axis: {label1} – note speed, {label2} – note accuracy, {label3} – number of notes in the lessons."
+            defaultMessage="Horizontal axis: lesson number. Vertical axis: {label1} – note speed (left, cpm), {label2} – note accuracy (right, %)."
             values={{
               label1: <Marker type="speed" />,
               label2: <Marker type="accuracy" />,
-              label3: <Marker type="complexity" />,
             }}
           />
         ) : (

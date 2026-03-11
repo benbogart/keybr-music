@@ -1,6 +1,6 @@
 # English
 
-Translated: 360 messages, 4910 words
+Translated: 360 messages, 4913 words
 
 Untranslated: 0 messages, 0 words
 
@@ -8,7 +8,7 @@ Untranslated: 0 messages, 0 words
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 142 words
+Untranslated: 19 messages, 145 words
 
 * *Letters*
 * *Volume:*
@@ -20,12 +20,12 @@ Untranslated: 19 messages, 142 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -34,7 +34,7 @@ Untranslated: 19 messages, 142 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -44,12 +44,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -58,7 +58,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -68,12 +68,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -82,7 +82,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -92,12 +92,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -106,7 +106,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 310 messages, 3556 words
 
-Untranslated: 46 messages, 1308 words
+Untranslated: 46 messages, 1311 words
 
 * *Errors*
 * *Zones:*
@@ -123,18 +123,18 @@ Untranslated: 46 messages, 1308 words
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
 * *The previous keys are also above the target speed*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *Generate lessons that resemble the specified programming lan...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * ...
 
 # Czech
 
 Translated: 336 messages, 4740 words
 
-Untranslated: 22 messages, 146 words
+Untranslated: 22 messages, 149 words
 
 * *Font:*
 * *Reset*
@@ -149,12 +149,12 @@ Untranslated: 22 messages, 146 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * ...
 
@@ -162,7 +162,7 @@ Untranslated: 22 messages, 146 words
 
 Translated: 331 messages, 4689 words
 
-Untranslated: 25 messages, 175 words
+Untranslated: 25 messages, 178 words
 
 * *Score*
 * *Layout*
@@ -179,18 +179,18 @@ Untranslated: 25 messages, 175 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
+* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # German
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 142 words
+Untranslated: 19 messages, 145 words
 
 * *Position*
 * *Alphabet:*
@@ -202,12 +202,12 @@ Untranslated: 19 messages, 142 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -216,7 +216,7 @@ Untranslated: 19 messages, 142 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -226,12 +226,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -240,7 +240,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 77 messages, 1126 words
 
-Untranslated: 274 messages, 3702 words
+Untranslated: 274 messages, 3705 words
 
 * *GO!*
 * *Copy*
@@ -268,7 +268,7 @@ Untranslated: 274 messages, 3702 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -278,12 +278,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -292,7 +292,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 143 words
+Untranslated: 20 messages, 146 words
 
 * *GO!*
 * *Font:*
@@ -305,12 +305,12 @@ Untranslated: 20 messages, 143 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -319,7 +319,7 @@ Untranslated: 20 messages, 143 words
 
 Translated: 287 messages, 2823 words
 
-Untranslated: 69 messages, 2041 words
+Untranslated: 69 messages, 2044 words
 
 * *Books*
 * *Zones:*
@@ -347,7 +347,7 @@ Untranslated: 69 messages, 2041 words
 
 Translated: 208 messages, 2284 words
 
-Untranslated: 144 messages, 2546 words
+Untranslated: 144 messages, 2549 words
 
 * *GO!*
 * *Time*
@@ -375,7 +375,7 @@ Untranslated: 144 messages, 2546 words
 
 Translated: 44 messages, 583 words
 
-Untranslated: 306 messages, 4234 words
+Untranslated: 306 messages, 4237 words
 
 * *GO!*
 * *Copy*
@@ -403,7 +403,7 @@ Untranslated: 306 messages, 4234 words
 
 Translated: 333 messages, 4544 words
 
-Untranslated: 25 messages, 342 words
+Untranslated: 25 messages, 345 words
 
 * *Zones:*
 * *Options*
@@ -418,12 +418,12 @@ Untranslated: 25 messages, 342 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * ...
 
@@ -431,7 +431,7 @@ Untranslated: 25 messages, 342 words
 
 Translated: 337 messages, 4735 words
 
-Untranslated: 21 messages, 151 words
+Untranslated: 21 messages, 154 words
 
 * *Zones:*
 * *Note Speed*
@@ -445,12 +445,12 @@ Untranslated: 21 messages, 151 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * ...
@@ -459,7 +459,7 @@ Untranslated: 21 messages, 151 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -469,12 +469,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -483,7 +483,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 337 messages, 4740 words
 
-Untranslated: 21 messages, 146 words
+Untranslated: 21 messages, 149 words
 
 * *Font:*
 * *Reset*
@@ -497,12 +497,12 @@ Untranslated: 21 messages, 146 words
 * *Premium account price:*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * ...
@@ -511,7 +511,7 @@ Untranslated: 21 messages, 146 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -521,12 +521,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -535,7 +535,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 142 words
+Untranslated: 19 messages, 145 words
 
 * *GO!*
 * *Volume:*
@@ -547,12 +547,12 @@ Untranslated: 19 messages, 142 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -561,7 +561,7 @@ Untranslated: 19 messages, 142 words
 
 Translated: 95 messages, 1742 words
 
-Untranslated: 256 messages, 3086 words
+Untranslated: 256 messages, 3089 words
 
 * *GO!*
 * *Copy*
@@ -589,7 +589,7 @@ Untranslated: 256 messages, 3086 words
 
 Translated: 334 messages, 4738 words
 
-Untranslated: 23 messages, 146 words
+Untranslated: 23 messages, 149 words
 
 * *Font:*
 * *Layout*
@@ -605,19 +605,19 @@ Untranslated: 23 messages, 146 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * ...
 
 # Japanese
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -627,12 +627,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -641,7 +641,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 145 messages, 1297 words
 
-Untranslated: 211 messages, 3567 words
+Untranslated: 211 messages, 3570 words
 
 * *Copy*
 * *Done*
@@ -669,7 +669,7 @@ Untranslated: 211 messages, 3567 words
 
 Translated: 298 messages, 3096 words
 
-Untranslated: 57 messages, 1759 words
+Untranslated: 57 messages, 1762 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -687,17 +687,17 @@ Untranslated: 57 messages, 1759 words
 * *Test pitch detection with your instrument.*
 * *Download all your typing data in JSON format.*
 * *Help us translate keybr.com into your language.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *The detailed statistics regarding your learning progress.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
+* *This chart shows the average speed for each individual note.*
 * ...
 
 # Mongolian
 
 Translated: 16 messages, 378 words
 
-Untranslated: 332 messages, 4410 words
+Untranslated: 332 messages, 4413 words
 
 * *GO!*
 * *Copy*
@@ -725,7 +725,7 @@ Untranslated: 332 messages, 4410 words
 
 Translated: 158 messages, 2338 words
 
-Untranslated: 194 messages, 2493 words
+Untranslated: 194 messages, 2496 words
 
 * *Done*
 * *Help*
@@ -753,7 +753,7 @@ Untranslated: 194 messages, 2493 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -763,12 +763,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -777,7 +777,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 333 messages, 4736 words
 
-Untranslated: 24 messages, 148 words
+Untranslated: 24 messages, 151 words
 
 * *Score*
 * *Zones:*
@@ -794,18 +794,18 @@ Untranslated: 24 messages, 148 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
+* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # Polish
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -815,12 +815,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -829,7 +829,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 143 words
+Untranslated: 20 messages, 146 words
 
 * *Layout*
 * *Layout:*
@@ -842,12 +842,12 @@ Untranslated: 20 messages, 143 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -856,7 +856,7 @@ Untranslated: 20 messages, 143 words
 
 Translated: 318 messages, 4597 words
 
-Untranslated: 38 messages, 267 words
+Untranslated: 38 messages, 270 words
 
 * *Books*
 * *Layout*
@@ -884,7 +884,7 @@ Untranslated: 38 messages, 267 words
 
 Translated: 298 messages, 3587 words
 
-Untranslated: 53 messages, 1255 words
+Untranslated: 53 messages, 1258 words
 
 * *Font:*
 * *Layout*
@@ -912,7 +912,7 @@ Untranslated: 53 messages, 1255 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -922,12 +922,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -936,7 +936,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 340 messages, 4745 words
 
-Untranslated: 18 messages, 141 words
+Untranslated: 18 messages, 144 words
 
 * *Syntax:*
 * *Note Speed*
@@ -947,12 +947,12 @@ Untranslated: 18 messages, 141 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -961,7 +961,7 @@ Untranslated: 18 messages, 141 words
 
 Translated: 192 messages, 3519 words
 
-Untranslated: 165 messages, 1365 words
+Untranslated: 165 messages, 1368 words
 
 * *Copy*
 * *Done*
@@ -989,7 +989,7 @@ Untranslated: 165 messages, 1365 words
 
 Translated: 43 messages, 684 words
 
-Untranslated: 307 messages, 4133 words
+Untranslated: 307 messages, 4136 words
 
 * *GO!*
 * *Copy*
@@ -1017,7 +1017,7 @@ Untranslated: 307 messages, 4133 words
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 143 words
+Untranslated: 20 messages, 146 words
 
 * *Layout*
 * *Layout:*
@@ -1030,12 +1030,12 @@ Untranslated: 20 messages, 143 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -1044,7 +1044,7 @@ Untranslated: 20 messages, 143 words
 
 Translated: 329 messages, 4635 words
 
-Untranslated: 27 messages, 229 words
+Untranslated: 27 messages, 232 words
 
 * *Zones:*
 * *Note Speed*
@@ -1061,18 +1061,18 @@ Untranslated: 27 messages, 229 words
 * *Premium account price:*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
+* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # Turkish
 
 Translated: 227 messages, 2126 words
 
-Untranslated: 126 messages, 2705 words
+Untranslated: 126 messages, 2708 words
 
 * *Books*
 * *Font:*
@@ -1100,7 +1100,7 @@ Untranslated: 126 messages, 2705 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1110,12 +1110,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -1124,7 +1124,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 275 messages, 2745 words
 
-Untranslated: 80 messages, 2110 words
+Untranslated: 80 messages, 2113 words
 
 * *Visit*
 * *Typing*
@@ -1152,7 +1152,7 @@ Untranslated: 80 messages, 2110 words
 
 Translated: 340 messages, 4739 words
 
-Untranslated: 18 messages, 147 words
+Untranslated: 18 messages, 150 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1163,12 +1163,12 @@ Untranslated: 18 messages, 147 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -1177,7 +1177,7 @@ Untranslated: 18 messages, 147 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 140 words
+Untranslated: 17 messages, 143 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1187,12 +1187,12 @@ Untranslated: 17 messages, 140 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
@@ -1201,7 +1201,7 @@ Untranslated: 17 messages, 140 words
 
 Translated: 340 messages, 4745 words
 
-Untranslated: 18 messages, 141 words
+Untranslated: 18 messages, 144 words
 
 * *GO!*
 * *Note Speed*
@@ -1212,12 +1212,12 @@ Untranslated: 18 messages, 141 words
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Test pitch detection with your instrument.*
-* *This chart shows relative note frequencies as a heatmap.*
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Cell color: {label1} – more notes played, {label2} – more er...*
+* *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
+* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*

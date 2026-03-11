@@ -13,14 +13,16 @@ import { type ChartStyles, useChartStyles } from "./use-chart-styles.ts";
 export function SpeedChart({
   results,
   smoothness,
+  showComplexity = true,
   width,
   height,
 }: {
   readonly results: readonly Result[];
   readonly smoothness: number;
+  readonly showComplexity?: boolean;
 } & SizeProps): ReactNode {
   const styles = useChartStyles();
-  const paint = usePaint(styles, results, smoothness);
+  const paint = usePaint(styles, results, smoothness, showComplexity);
   return (
     <Chart width={width} height={height}>
       <Canvas paint={chartArea(styles, paint)} />
@@ -32,6 +34,7 @@ function usePaint(
   styles: ChartStyles,
   results: readonly Result[],
   smoothness: number,
+  showComplexity: boolean,
 ) {
   const { formatMessage } = useIntl();
   const { formatInteger, formatPercents } = useIntlNumbers();
@@ -81,9 +84,13 @@ function usePaint(
       g.paintGrid(box, "vertical", { lines: 5 }),
       g.paintAxis(box, "bottom"),
       g.paintAxis(box, "left"),
-      paintScatterPlot(projComplexity, vIndex, vComplexity, {
-        style: styles.complexity,
-      }),
+      ...(showComplexity
+        ? [
+            paintScatterPlot(projComplexity, vIndex, vComplexity, {
+              style: styles.complexity,
+            }),
+          ]
+        : []),
       paintScatterPlot(projAccuracy, vIndex, vAccuracy, {
         style: styles.accuracy,
       }),

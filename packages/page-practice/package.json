@@ -10,6 +10,7 @@
     "@keybr/code": "*",
     "@keybr/content": "*",
     "@keybr/debug": "*",
+    "@keybr/instrument": "*",
     "@keybr/intl": "*",
     "@keybr/keyboard": "*",
     "@keybr/keyboard-ui": "*",
