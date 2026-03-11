@@ -1,3 +1,4 @@
+import { Target } from "@keybr/lesson";
 import { PitchEvents } from "@keybr/pitch-input";
 import { type Result } from "@keybr/result";
 import { type LineList, type Step } from "@keybr/textinput";
@@ -15,8 +16,12 @@ import {
   type LastLesson,
   LessonState,
   makeLastLesson,
+  makeMusicLessonSummary,
+  type MusicLessonSummary,
   type Progress,
 } from "./state/index.ts";
+
+const LESSON_SUMMARY_MIN_DURATION = 1000;
 
 export const MusicController = memo(function MusicController({
   progress,
@@ -28,6 +33,8 @@ export const MusicController = memo(function MusicController({
   const {
     state,
     lastCorrectCodePoint,
+    lessonSummary,
+    musicTargetSpeed,
     handleResetLesson,
     handleSkipLesson,
     handleKeyDown,
@@ -49,6 +56,8 @@ export const MusicController = memo(function MusicController({
       depressedKeys={state.depressedKeys}
       musicMode={true}
       musicLastCorrectCodePoint={lastCorrectCodePoint}
+      musicLessonSummary={lessonSummary}
+      musicTargetSpeed={musicTargetSpeed}
       eventsComponent={PitchEvents}
       onResetLesson={handleResetLesson}
       onSkipLesson={handleSkipLesson}
@@ -70,16 +79,28 @@ function useLessonState(
   const [lastCorrectCodePoint, setLastCorrectCodePoint] = useState<
     number | null
   >(null);
+  const [lessonSummary, setLessonSummary] = useState<MusicLessonSummary | null>(
+    null,
+  );
   const lastLessonRef = useRef<LastLesson | null>(null);
+  const nextLessonTimeout = useTimeout();
 
   const onResultRef = useRef(onResult);
   onResultRef.current = onResult;
 
   const handlers = useMemo(() => {
-    const state = new LessonState(progress, (result, textInput) => {
-      setKey(key + 1);
+    let state!: LessonState;
+    state = new LessonState(progress, (result, textInput) => {
       lastLessonRef.current = makeLastLesson(result, textInput.steps);
+      const targetSpeed = new Target(state.settings).targetSpeed;
+      setLessonSummary(
+        makeMusicLessonSummary(result, state.lessonKeys, targetSpeed),
+      );
       onResultRef.current(result);
+      nextLessonTimeout.schedule(() => {
+        setLessonSummary(null);
+        setKey((value) => value + 1);
+      }, LESSON_SUMMARY_MIN_DURATION);
     });
     state.lastLesson = lastLessonRef.current;
     setLines(state.lines);
@@ -88,6 +109,8 @@ function useLessonState(
       setLines(state.lines);
       resetTimeout.cancel();
       confirmationTimeout.cancel();
+      nextLessonTimeout.cancel();
+      setLessonSummary(null);
       setLastCorrectCodePoint(null);
     };
     const handleSkipLesson = () => {
@@ -95,10 +118,15 @@ function useLessonState(
       setLines(state.lines);
       resetTimeout.cancel();
       confirmationTimeout.cancel();
+      nextLessonTimeout.cancel();
+      setLessonSummary(null);
       setLastCorrectCodePoint(null);
     };
     const playSounds = makeSoundPlayer(state.settings);
     const handleInput = (event: Parameters<LessonState["onInput"]>[0]) => {
+      if (state.textInput.completed || nextLessonTimeout.pending) {
+        return;
+      }
       state.lastLesson = null;
       const stepCount = state.textInput.steps.length;
       const feedback = state.onInput(event);
@@ -122,9 +150,12 @@ function useLessonState(
       handleKeyUp: noopKeyHandler,
       handleInput,
     };
-  }, [progress, resetTimeout, confirmationTimeout, key]);
+  }, [progress, resetTimeout, confirmationTimeout, nextLessonTimeout, key]);
+  const musicTargetSpeed = new Target(handlers.state.settings).targetSpeed;
   return {
     ...handlers,
+    lessonSummary,
+    musicTargetSpeed,
     lastCorrectCodePoint,
   };
 }

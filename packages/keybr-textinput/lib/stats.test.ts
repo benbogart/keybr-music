@@ -2,10 +2,12 @@ import { test } from "node:test";
 import { deepEqual, equal } from "rich-assert";
 import { Histogram } from "./histogram.ts";
 import { makeStats } from "./stats.ts";
+import { Feedback, TextInput } from "./textinput.ts";
 
 const A = /* "a" */ 0x0061;
 const B = /* "b" */ 0x0062;
 const C = /* "c" */ 0x0063;
+const D = /* "d" */ 0x0064;
 const X = /* "x" */ 0x0078;
 const Space = /* SPACE */ 0x0020;
 
@@ -90,4 +92,22 @@ test("exclude auto-skipped spaces from speed", () => {
       { codePoint: C, hitCount: 1, missCount: 0, timeToType: 100 },
     ]),
   });
+});
+
+test("forgiveErrors recovered typo affects accuracy", () => {
+  const textInput = new TextInput("abcd", {
+    stopOnError: true,
+    forgiveErrors: true,
+    spaceSkipsWords: true,
+  });
+
+  equal(textInput.appendChar(100, B, 101), Feedback.Failed);
+  equal(textInput.appendChar(200, C, 102), Feedback.Failed);
+  equal(textInput.appendChar(300, D, 103), Feedback.Recovered);
+
+  const stats = makeStats(textInput.steps);
+
+  equal(stats.length, 4);
+  equal(stats.errors, 1);
+  equal(stats.accuracy, 0.75);
 });

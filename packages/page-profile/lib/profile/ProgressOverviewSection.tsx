@@ -1,4 +1,5 @@
 import { Marker, ProgressOverviewChart } from "@keybr/chart";
+import { useKeyboard } from "@keybr/keyboard";
 import { type KeyStatsMap } from "@keybr/result";
 import { Explainer, Figure } from "@keybr/widget";
 import { FormattedMessage } from "react-intl";
@@ -9,6 +10,8 @@ export function ProgressOverviewSection({
 }: {
   keyStatsMap: KeyStatsMap;
 }) {
+  const { layout } = useKeyboard();
+  const isBandoneon = layout.family === "bandoneon";
   return (
     <Figure>
       <Figure.Caption>
@@ -36,14 +39,25 @@ export function ProgressOverviewSection({
       </ChartWrapper>
 
       <Figure.Legend>
-        <FormattedMessage
-          id="profile.chart.progressOverview.legend"
-          defaultMessage="Horizontal axis: lesson number. Vertical axis: typing speed for each individual key, {label1} – slow, {label2} – fast."
-          values={{
-            label1: <Marker type="slow" />,
-            label2: <Marker type="fast" />,
-          }}
-        />
+        {isBandoneon ? (
+          <FormattedMessage
+            id="profile.chart.progressOverview.legend.music"
+            defaultMessage="Horizontal axis: lesson number. Vertical axis: speed for each individual note, {label1} – slow, {label2} – fast."
+            values={{
+              label1: <Marker type="slow" />,
+              label2: <Marker type="fast" />,
+            }}
+          />
+        ) : (
+          <FormattedMessage
+            id="profile.chart.progressOverview.legend"
+            defaultMessage="Horizontal axis: lesson number. Vertical axis: typing speed for each individual key, {label1} – slow, {label2} – fast."
+            values={{
+              label1: <Marker type="slow" />,
+              label2: <Marker type="fast" />,
+            }}
+          />
+        )}
       </Figure.Legend>
     </Figure>
   );

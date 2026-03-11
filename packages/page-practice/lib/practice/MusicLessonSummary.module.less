@@ -1,0 +1,132 @@
+.root {
+  inline-size: min(100%, 90rem);
+  margin-inline: auto;
+  margin-block: 1.6rem 0;
+  padding: 1.6rem;
+  border: var(--separator-border);
+  border-radius: 0.8rem;
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: 1.8rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-end: 1.2rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.metricName {
+  color: var(--Name-color);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  color: var(--Value-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.metricValue_strong {
+  color: var(--Value-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(6rem, 10rem) minmax(8rem, 11rem) 1fr minmax(
+      6rem,
+      8rem
+    );
+  padding-block-end: 0.6rem;
+  border-block-end: var(--separator-border);
+  color: var(--Name-color);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.notes {
+  display: grid;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 10rem) minmax(8rem, 11rem) 1fr minmax(
+      6rem,
+      8rem
+    );
+  align-items: center;
+  min-block-size: 3rem;
+  padding-block: 0.5rem;
+  border-block-end: var(--separator-border);
+}
+
+.row:last-child {
+  border-block-end: 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.badge {
+  margin-inline-start: 0.4rem;
+  color: var(--Name-color);
+  font-size: 1.1rem;
+  font-style: normal;
+}
+
+.status {
+  color: var(--Name-color);
+  font-size: 1.2rem;
+}
+
+.speed {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.bar {
+  display: inline-flex;
+  inline-size: min(100%, 28rem);
+  block-size: 0.8rem;
+  border-radius: 99px;
+  overflow: hidden;
+  background: rgb(127 127 127 / 20%);
+}
+
+.bar_slow,
+.bar_fast {
+  display: block;
+  block-size: 100%;
+}
+
+.bar_slow {
+  background: #f59e0b;
+}
+
+.bar_fast {
+  background: #22c55e;
+}
+
+.speedValue,
+.accuracy,
+.empty {
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: var(--Name-color);
+}
