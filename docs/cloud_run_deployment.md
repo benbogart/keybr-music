@@ -24,7 +24,7 @@ Set these variables in `Settings -> Secrets and variables -> Actions -> Variable
 - `GAR_REPOSITORY` (Artifact Registry repository name)
 - `CLOUD_RUN_SERVICE` (Cloud Run service name)
 - `APP_URL` (public app URL, e.g. `https://keybr.example.com/`)
-- `COOKIE_DOMAIN` (e.g. `keybr.example.com`)
+- `COOKIE_DOMAIN` (cookie domain only, no scheme; usually `keybr.example.com`)
 - `LITESTREAM_REPLICA_URL` (e.g. `gs://my-keybr-backups/database`)
 
 Optional:
@@ -34,6 +34,7 @@ Optional:
 - `CLOUD_RUN_EXTRA_ENV_VARS` (comma-separated `KEY=VALUE` list)
 - `CLOUD_RUN_SECRETS` (comma-separated Cloud Run secret bindings, e.g.
   `MAIL_KEY=mail-key:latest`)
+- `RUN_CLOUD_RUN_SMOKE_TEST` (`true` by default)
 
 ## Required GitHub repository secret
 
@@ -47,6 +48,25 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
 - The deployment sets `--max-instances=1` to avoid multi-writer divergence with
   SQLite.
 - Health endpoint: `GET /healthz` returns `200 OK` with `ok`.
+- `LITESTREAM_REPLICA_URL` is a private GCS URI (`gs://...`) and does not need
+  public access; the Cloud Run runtime identity needs bucket permissions.
+
+## Variables vs secrets
+
+Non-sensitive values should preferably be stored as Actions Variables. This
+workflow also supports reading the same names from Actions Secrets for
+backwards compatibility.
+
+## How to determine key values
+
+- `GCP_PROJECT_ID`:
+  `gcloud config get-value project`
+- `GCP_REGION`:
+  your Cloud Run region (for example, `us-central1`)
+- `CLOUD_RUN_SERVICE`:
+  `gcloud run services list --region <REGION>`
+- `GAR_REPOSITORY`:
+  `gcloud artifacts repositories list --location <REGION>`
 
 ## Persistence verification
 
@@ -55,3 +75,15 @@ After deployment:
 1. Create or update data in the app.
 2. Trigger another deployment (push to `main`).
 3. Verify the record still exists after rollout.
+
+## Automated smoke test
+
+The deploy workflow runs `scripts/cloud-run-smoke-test.sh` after deployment
+(unless `RUN_CLOUD_RUN_SMOKE_TEST=false`).
+
+The smoke test validates:
+
+1. `/healthz` returns `ok`
+2. login via `/login/xyz` works
+3. authenticated `PATCH /_/account` succeeds
+4. `/account` reflects the updated user state
