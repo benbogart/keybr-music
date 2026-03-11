@@ -25,7 +25,7 @@ Set these variables in `Settings -> Secrets and variables -> Actions -> Variable
 - `CLOUD_RUN_SERVICE` (Cloud Run service name)
 - `APP_URL` (public app URL, e.g. `https://keybr.example.com/`)
 - `COOKIE_DOMAIN` (cookie domain only, no scheme; usually `keybr.example.com`)
-- `LITESTREAM_REPLICA_URL` (e.g. `gs://my-keybr-backups/database`)
+- `LITESTREAM_REPLICA_URI` (e.g. `gs://my-keybr-backups/database`)
 
 Optional:
 
@@ -48,7 +48,7 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
 - The deployment sets `--max-instances=1` to avoid multi-writer divergence with
   SQLite.
 - Health endpoint: `GET /healthz` returns `200 OK` with `ok`.
-- `LITESTREAM_REPLICA_URL` is a private GCS URI (`gs://...`) and does not need
+- `LITESTREAM_REPLICA_URI` is a private GCS URI (`gs://...`) and does not need
   public access; the Cloud Run runtime identity needs bucket permissions.
 
 ## Variables vs secrets
@@ -56,6 +56,9 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
 Non-sensitive values should preferably be stored as Actions Variables. This
 workflow also supports reading the same names from Actions Secrets for
 backwards compatibility.
+
+For backward compatibility, the deploy workflow also accepts the legacy
+`LITESTREAM_REPLICA_URL` input name.
 
 ## How to determine key values
 

@@ -5,7 +5,8 @@ set -euo pipefail
 DATABASE_CLIENT="${DATABASE_CLIENT:-sqlite}"
 DATABASE_FILENAME="${DATABASE_FILENAME:-/var/lib/keybr/database.sqlite}"
 LITESTREAM_CONFIG_PATH="${LITESTREAM_CONFIG_PATH:-/etc/keybr/litestream.yml}"
-LITESTREAM_REPLICA_URL="${LITESTREAM_REPLICA_URL:-}"
+# Prefer URI naming but keep URL for backward compatibility.
+LITESTREAM_REPLICA_URI="${LITESTREAM_REPLICA_URI:-${LITESTREAM_REPLICA_URL:-}}"
 LITESTREAM_RETENTION="${LITESTREAM_RETENTION:-168h}"
 
 mkdir -p "$(dirname "${DATABASE_FILENAME}")"
@@ -15,8 +16,8 @@ if [[ "${DATABASE_CLIENT}" != "sqlite" ]]; then
   exec npm run start-docker
 fi
 
-if [[ -z "${LITESTREAM_REPLICA_URL}" ]]; then
-  echo "LITESTREAM_REPLICA_URL is not set, starting without replication." >&2
+if [[ -z "${LITESTREAM_REPLICA_URI}" ]]; then
+  echo "LITESTREAM_REPLICA_URI is not set, starting without replication." >&2
   exec npm run start-docker
 fi
 
@@ -24,7 +25,7 @@ cat >"${LITESTREAM_CONFIG_PATH}" <<EOF
 dbs:
   - path: ${DATABASE_FILENAME}
     replicas:
-      - url: ${LITESTREAM_REPLICA_URL}
+      - url: ${LITESTREAM_REPLICA_URI}
         retention: ${LITESTREAM_RETENTION}
 EOF
 

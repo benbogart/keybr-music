@@ -25,7 +25,7 @@ jobs:
       IMAGE_NAME: ${{ vars.IMAGE_NAME || secrets.IMAGE_NAME }}
       APP_URL: ${{ vars.APP_URL || secrets.APP_URL }}
       COOKIE_DOMAIN: ${{ vars.COOKIE_DOMAIN || secrets.COOKIE_DOMAIN }}
-      LITESTREAM_REPLICA_URL: ${{ vars.LITESTREAM_REPLICA_URL || secrets.LITESTREAM_REPLICA_URL }}
+      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI || secrets.LITESTREAM_REPLICA_URI || vars.LITESTREAM_REPLICA_URL || secrets.LITESTREAM_REPLICA_URL }}
       LITESTREAM_RETENTION: ${{ vars.LITESTREAM_RETENTION }}
       CLOUD_RUN_EXTRA_ENV_VARS: ${{ vars.CLOUD_RUN_EXTRA_ENV_VARS }}
       CLOUD_RUN_SECRETS: ${{ vars.CLOUD_RUN_SECRETS }}
@@ -52,7 +52,7 @@ jobs:
             CLOUD_RUN_SERVICE
             APP_URL
             COOKIE_DOMAIN
-            LITESTREAM_REPLICA_URL
+            LITESTREAM_REPLICA_URI
           )
 
           for variable in "${required_vars[@]}"; do
@@ -76,7 +76,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URL=${LITESTREAM_REPLICA_URL}"
+          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI}"
           if [[ -n "${LITESTREAM_RETENTION}" ]]; then
             base_env_vars="${base_env_vars},LITESTREAM_RETENTION=${LITESTREAM_RETENTION}"
           fi
