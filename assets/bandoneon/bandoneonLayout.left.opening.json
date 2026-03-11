@@ -1,0 +1,273 @@
+{
+  "instrument": "bandoneon",
+  "system": "rheinische-142",
+  "side": "left",
+  "direction": "opening",
+  "source": "Bandoneon Keyboard organized.ai by Ben Bogart, revised by Carlos Moreno",
+  "keys": [
+    {
+      "id": "key-f2",
+      "buttonIndex": 1,
+      "note": "F2",
+      "midi": 41,
+      "x": 79.93,
+      "y": 16.0
+    },
+    {
+      "id": "key-c2",
+      "buttonIndex": 2,
+      "note": "C2",
+      "midi": 36,
+      "x": 206.63,
+      "y": 16.1
+    },
+    {
+      "id": "key-f-sharp2",
+      "buttonIndex": 3,
+      "note": "F#2",
+      "midi": 42,
+      "x": 152.47,
+      "y": 36.26
+    },
+    {
+      "id": "key-g-sharp4",
+      "buttonIndex": 4,
+      "note": "G#4",
+      "midi": 68,
+      "x": 30.8,
+      "y": 49.28
+    },
+    {
+      "id": "key-g2",
+      "buttonIndex": 5,
+      "note": "G2",
+      "midi": 43,
+      "x": 104.49,
+      "y": 62.71
+    },
+    {
+      "id": "key-d-sharp2",
+      "buttonIndex": 6,
+      "note": "D#2",
+      "midi": 39,
+      "x": 184.9,
+      "y": 81.5
+    },
+    {
+      "id": "key-a-sharp3",
+      "buttonIndex": 7,
+      "note": "A#3",
+      "midi": 58,
+      "x": 54.32,
+      "y": 91.48
+    },
+    {
+      "id": "key-c-sharp4",
+      "buttonIndex": 8,
+      "note": "C#4",
+      "midi": 61,
+      "x": 133.68,
+      "y": 103.97
+    },
+    {
+      "id": "key-f3",
+      "buttonIndex": 9,
+      "note": "F3",
+      "midi": 53,
+      "x": 17.89,
+      "y": 123.18
+    },
+    {
+      "id": "key-c3",
+      "buttonIndex": 10,
+      "note": "C3",
+      "midi": 48,
+      "x": 86.23,
+      "y": 129.48
+    },
+    {
+      "id": "key-f-sharp3",
+      "buttonIndex": 11,
+      "note": "F#3",
+      "midi": 54,
+      "x": 175.14,
+      "y": 147.01
+    },
+    {
+      "id": "key-f4",
+      "buttonIndex": 12,
+      "note": "F4",
+      "midi": 65,
+      "x": 49.17,
+      "y": 158.87
+    },
+    {
+      "id": "key-f-sharp4",
+      "buttonIndex": 13,
+      "note": "F#4",
+      "midi": 66,
+      "x": 123.81,
+      "y": 171.15
+    },
+    {
+      "id": "key-c-sharp3",
+      "buttonIndex": 14,
+      "note": "C#3",
+      "midi": 49,
+      "x": 16.0,
+      "y": 193.51
+    },
+    {
+      "id": "key-e4",
+      "buttonIndex": 15,
+      "note": "E4",
+      "midi": 64,
+      "x": 80.77,
+      "y": 196.97
+    },
+    {
+      "id": "key-d-sharp4",
+      "buttonIndex": 16,
+      "note": "D#4",
+      "midi": 63,
+      "x": 165.8,
+      "y": 216.71
+    },
+    {
+      "id": "key-d-sharp3",
+      "buttonIndex": 17,
+      "note": "D#3",
+      "midi": 51,
+      "x": 42.98,
+      "y": 229.52
+    },
+    {
+      "id": "key-d4",
+      "buttonIndex": 18,
+      "note": "D4",
+      "midi": 62,
+      "x": 120.45,
+      "y": 238.12
+    },
+    {
+      "id": "key-c4",
+      "buttonIndex": 19,
+      "note": "C4",
+      "midi": 60,
+      "x": 78.67,
+      "y": 259.75
+    },
+    {
+      "id": "key-a-sharp2",
+      "buttonIndex": 20,
+      "note": "A#2",
+      "midi": 46,
+      "x": 18.1,
+      "y": 263.0
+    },
+    {
+      "id": "key-a4",
+      "buttonIndex": 21,
+      "note": "A4",
+      "midi": 69,
+      "x": 173.57,
+      "y": 280.01
+    },
+    {
+      "id": "key-g3",
+      "buttonIndex": 22,
+      "note": "G3",
+      "midi": 55,
+      "x": 50.54,
+      "y": 293.66
+    },
+    {
+      "id": "key-b3",
+      "buttonIndex": 23,
+      "note": "B3",
+      "midi": 59,
+      "x": 130.0,
+      "y": 303.42
+    },
+    {
+      "id": "key-a3",
+      "buttonIndex": 24,
+      "note": "A3",
+      "midi": 57,
+      "x": 91.16,
+      "y": 326.93
+    },
+    {
+      "id": "key-g-sharp2",
+      "buttonIndex": 25,
+      "note": "G#2",
+      "midi": 44,
+      "x": 25.34,
+      "y": 328.3
+    },
+    {
+      "id": "key-g4",
+      "buttonIndex": 26,
+      "note": "G4",
+      "midi": 67,
+      "x": 184.17,
+      "y": 342.15
+    },
+    {
+      "id": "key-a2",
+      "buttonIndex": 27,
+      "note": "A2",
+      "midi": 45,
+      "x": 59.77,
+      "y": 358.74
+    },
+    {
+      "id": "key-g-sharp3",
+      "buttonIndex": 28,
+      "note": "G#3",
+      "midi": 56,
+      "x": 140.81,
+      "y": 362.62
+    },
+    {
+      "id": "key-d3",
+      "buttonIndex": 29,
+      "note": "D3",
+      "midi": 50,
+      "x": 98.51,
+      "y": 383.41
+    },
+    {
+      "id": "key-b2",
+      "buttonIndex": 30,
+      "note": "B2",
+      "midi": 47,
+      "x": 196.45,
+      "y": 390.23
+    },
+    {
+      "id": "key-e3",
+      "buttonIndex": 31,
+      "note": "E3",
+      "midi": 52,
+      "x": 151.21,
+      "y": 412.38
+    },
+    {
+      "id": "key-e2",
+      "buttonIndex": 32,
+      "note": "E2",
+      "midi": 40,
+      "x": 72.69,
+      "y": 419.62
+    },
+    {
+      "id": "key-d2",
+      "buttonIndex": 33,
+      "note": "D2",
+      "midi": 38,
+      "x": 209.99,
+      "y": 436.0
+    }
+  ]
+}

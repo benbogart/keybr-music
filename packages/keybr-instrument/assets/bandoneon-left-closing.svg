@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 225.99 452.0" role="img" aria-labelledby="title desc">
+  <title id="title">Bandoneon left keyboard (closing)</title>
+  <desc id="desc">Rheinische 142 left-hand closing keys with addressable note paths.</desc>
+  <style>
+    .key { fill: #f5f5f4; stroke: #20232a; stroke-width: 1.5; }
+    .key-label { font-family: Inter, "Segoe UI", Arial, sans-serif; font-size: 8px; text-anchor: middle; dominant-baseline: middle; pointer-events: none; fill: #111827; }
+  </style>
+  <g id="left-closing-keys" data-side="left" data-direction="closing">
+    <path id="key-f-sharp2" class="key" data-note="F#2" data-midi="42" d="M 65.93 16.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f2" class="key" data-note="F2" data-midi="41" d="M 192.63 16.10 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-b2" class="key" data-note="B2" data-midi="47" d="M 138.47 36.26 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g4" class="key" data-note="G4" data-midi="67" d="M 16.80 49.28 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f-sharp3" class="key" data-note="F#3" data-midi="54" d="M 90.49 62.71 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c-sharp2" class="key" data-note="C#2" data-midi="37" d="M 170.90 81.50 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c3" class="key" data-note="C3" data-midi="48" d="M 40.32 91.48 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp3" class="key" data-note="G#3" data-midi="56" d="M 119.68 103.97 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d-sharp4" class="key" data-note="D#4" data-midi="63" d="M 3.89 123.18 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f4" class="key" data-note="F4" data-midi="65" d="M 72.23 129.48 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f3" class="key" data-note="F3" data-midi="53" d="M 161.14 147.01 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c-sharp3" class="key" data-note="C#3" data-midi="49" d="M 35.17 158.87 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e4" class="key" data-note="E4" data-midi="64" d="M 109.81 171.15 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d-sharp3" class="key" data-note="D#3" data-midi="51" d="M 2.00 193.51 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d4" class="key" data-note="D4" data-midi="62" d="M 66.77 196.97 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-b4" class="key" data-note="B4" data-midi="71" d="M 151.80 216.71 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c4" class="key" data-note="C4" data-midi="60" d="M 28.98 229.52 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c-sharp4" class="key" data-note="C#4" data-midi="61" d="M 106.45 238.12 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-b3" class="key" data-note="B3" data-midi="59" d="M 64.67 259.75 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a-sharp2" class="key" data-note="A#2" data-midi="46" d="M 4.10 263.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp4" class="key" data-note="G#4" data-midi="68" d="M 159.57 280.01 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a-sharp3" class="key" data-note="A#3" data-midi="58" d="M 36.54 293.66 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a3" class="key" data-note="A3" data-midi="57" d="M 116.00 303.42 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g3" class="key" data-note="G3" data-midi="55" d="M 77.16 326.93 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp2" class="key" data-note="G#2" data-midi="44" d="M 11.34 328.30 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f-sharp4" class="key" data-note="F#4" data-midi="66" d="M 170.17 342.15 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d3" class="key" data-note="D3" data-midi="50" d="M 45.77 358.74 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e3-28" class="key" data-note="E3" data-midi="52" d="M 126.81 362.62 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g2" class="key" data-note="G2" data-midi="43" d="M 84.51 383.41 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e3-30" class="key" data-note="E3" data-midi="52" d="M 182.45 390.23 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a2" class="key" data-note="A2" data-midi="45" d="M 137.21 412.38 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d2" class="key" data-note="D2" data-midi="38" d="M 58.69 419.62 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e2" class="key" data-note="E2" data-midi="40" d="M 195.99 436.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+  </g>
+  <g id="left-closing-labels" aria-hidden="true">
+    <text class="key-label" x="79.93" y="16.00">F#2</text>
+    <text class="key-label" x="206.63" y="16.10">F2</text>
+    <text class="key-label" x="152.47" y="36.26">B2</text>
+    <text class="key-label" x="30.80" y="49.28">G4</text>
+    <text class="key-label" x="104.49" y="62.71">F#3</text>
+    <text class="key-label" x="184.90" y="81.50">C#2</text>
+    <text class="key-label" x="54.32" y="91.48">C3</text>
+    <text class="key-label" x="133.68" y="103.97">G#3</text>
+    <text class="key-label" x="17.89" y="123.18">D#4</text>
+    <text class="key-label" x="86.23" y="129.48">F4</text>
+    <text class="key-label" x="175.14" y="147.01">F3</text>
+    <text class="key-label" x="49.17" y="158.87">C#3</text>
+    <text class="key-label" x="123.81" y="171.15">E4</text>
+    <text class="key-label" x="16.00" y="193.51">D#3</text>
+    <text class="key-label" x="80.77" y="196.97">D4</text>
+    <text class="key-label" x="165.80" y="216.71">B4</text>
+    <text class="key-label" x="42.98" y="229.52">C4</text>
+    <text class="key-label" x="120.45" y="238.12">C#4</text>
+    <text class="key-label" x="78.67" y="259.75">B3</text>
+    <text class="key-label" x="18.10" y="263.00">A#2</text>
+    <text class="key-label" x="173.57" y="280.01">G#4</text>
+    <text class="key-label" x="50.54" y="293.66">A#3</text>
+    <text class="key-label" x="130.00" y="303.42">A3</text>
+    <text class="key-label" x="91.16" y="326.93">G3</text>
+    <text class="key-label" x="25.34" y="328.30">G#2</text>
+    <text class="key-label" x="184.17" y="342.15">F#4</text>
+    <text class="key-label" x="59.77" y="358.74">D3</text>
+    <text class="key-label" x="140.81" y="362.62">E3</text>
+    <text class="key-label" x="98.51" y="383.41">G2</text>
+    <text class="key-label" x="196.45" y="390.23">E3</text>
+    <text class="key-label" x="151.21" y="412.38">A2</text>
+    <text class="key-label" x="72.69" y="419.62">D2</text>
+    <text class="key-label" x="209.99" y="436.00">E2</text>
+  </g>
+</svg>
