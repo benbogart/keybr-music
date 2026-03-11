@@ -51,6 +51,19 @@
   margin-block-start: 2.5rem;
 }
 
+.bandoneon_layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem;
+  align-items: start;
+  inline-size: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.bandoneon_panel {
+  min-inline-size: 0;
+}
+
 .bandoneon_heading {
   margin-block-end: 1.2rem;
   color: var(--color-text-subtle);
@@ -63,8 +76,25 @@
 
 .bandoneon_canvas {
   position: relative;
-  inline-size: min(100%, 72rem);
-  margin-inline: auto;
+  inline-size: 100%;
+}
+
+.bandoneon_placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 460.38 / 243.55;
+  border: 1px dashed var(--color-border);
+  border-radius: 0.8rem;
+  background-color: rgb(148 163 184 / 10%);
+}
+
+.bandoneon_placeholderLabel {
+  color: var(--color-text-subtle);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .bandoneon_svg {
@@ -91,4 +121,10 @@
   fill: rgb(34 197 94 / 36%);
   stroke: #16a34a;
   stroke-width: 2.5;
+}
+
+@media (max-width: 900px) {
+  .bandoneon_layout {
+    grid-template-columns: 1fr;
+  }
 }

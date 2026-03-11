@@ -8,7 +8,9 @@ test("render keyboard label and svg", () => {
     <BandoneonKeyboard targetCodePoint={60} playedCodePoint={null} />,
   );
 
+  isNotNull(r.getByText("Left hand - Opening"));
   isNotNull(r.getByText("Right hand - Opening"));
+  isNotNull(r.getByLabelText("Left hand keyboard coming soon"));
   isNotNull(r.getByAltText("Bandoneon right hand opening keyboard"));
   isNotNull(r.getByTestId("bandoneon-target-key"));
   isNull(r.queryByTestId("bandoneon-played-key"));
