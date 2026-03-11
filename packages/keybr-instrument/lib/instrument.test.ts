@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import { Letter } from "@keybr/phonetic-model";
 import { deepEqual, equal } from "rich-assert";
-import { bandoneon,BandoneonRange } from "./instrument.ts";
+import { bandoneon, BandoneonRange } from "./instrument.ts";
 
 test("bandoneon creates note letters in C4-B4 range with expected labels", () => {
   const instrument = bandoneon();
@@ -9,7 +9,8 @@ test("bandoneon creates note letters in C4-B4 range with expected labels", () =>
   equal(instrument.id, "bandoneon");
   equal(instrument.name, "Bandoneon");
   equal(instrument.letters.length, 12);
-  equal(instrument.letters[0]?.f, 1 / 12);
+  equal(instrument.letters[0]?.f, 1 / 72);
+  equal(instrument.letters[9]?.f, 10 / 72);
 
   deepEqual(
     instrument.letters.map(({ codePoint, label }) => [codePoint, label]),
@@ -35,6 +36,15 @@ test("bandoneon creates note letters in C4-B4 range with expected labels", () =>
     pocMinMidiNote: 60,
     pocMaxMidiNote: 71,
   });
+});
+
+test("bandoneon note frequencies are centered around A4", () => {
+  const instrument = bandoneon();
+  const ordered = Letter.frequencyOrder(instrument.letters)
+    .slice(0, 6)
+    .map(({ codePoint }) => codePoint);
+
+  deepEqual(ordered, [69, 68, 70, 67, 71, 66]);
 });
 
 test("bandoneon exposes expected weighted MIDI code points", () => {
