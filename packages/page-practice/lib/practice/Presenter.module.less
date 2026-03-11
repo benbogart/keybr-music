@@ -52,8 +52,8 @@
 }
 
 .bandoneon_layout {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 1.6rem;
   align-items: start;
   inline-size: min(100%, 72rem);
@@ -61,6 +61,7 @@
 }
 
 .bandoneon_panel {
+  flex: 1 1 0;
   min-inline-size: 0;
 }
 
@@ -86,7 +87,8 @@
   aspect-ratio: 460.38 / 243.55;
   border: 1px dashed var(--color-border);
   border-radius: 0.8rem;
-  background-color: rgb(148 163 184 / 10%);
+  overflow: hidden;
+  background-color: rgb(148 163 184 / 12%);
 }
 
 .bandoneon_placeholderLabel {
@@ -94,6 +96,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.03em;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -121,10 +124,4 @@
   fill: rgb(34 197 94 / 36%);
   stroke: #16a34a;
   stroke-width: 2.5;
-}
-
-@media (max-width: 900px) {
-  .bandoneon_layout {
-    grid-template-columns: 1fr;
-  }
 }
