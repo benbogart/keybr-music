@@ -53,12 +53,8 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
 
 ## Variables vs secrets
 
-Non-sensitive values should preferably be stored as Actions Variables. This
-workflow also supports reading the same names from Actions Secrets for
-backwards compatibility.
-
-For backward compatibility, the deploy workflow also accepts the legacy
-`LITESTREAM_REPLICA_URL` input name.
+Deployment configuration values are expected from Actions Variables. Only
+`GCP_SA_KEY` is required as an Actions Secret.
 
 ## How to determine key values
 

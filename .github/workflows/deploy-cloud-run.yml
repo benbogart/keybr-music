@@ -18,14 +18,14 @@ jobs:
     permissions:
       contents: read
     env:
-      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID || secrets.GCP_PROJECT_ID }}
-      GCP_REGION: ${{ vars.GCP_REGION || secrets.GCP_REGION }}
-      GAR_REPOSITORY: ${{ vars.GAR_REPOSITORY || secrets.GAR_REPOSITORY }}
-      CLOUD_RUN_SERVICE: ${{ vars.CLOUD_RUN_SERVICE || secrets.CLOUD_RUN_SERVICE }}
-      IMAGE_NAME: ${{ vars.IMAGE_NAME || secrets.IMAGE_NAME }}
-      APP_URL: ${{ vars.APP_URL || secrets.APP_URL }}
-      COOKIE_DOMAIN: ${{ vars.COOKIE_DOMAIN || secrets.COOKIE_DOMAIN }}
-      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI || secrets.LITESTREAM_REPLICA_URI || vars.LITESTREAM_REPLICA_URL || secrets.LITESTREAM_REPLICA_URL }}
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      GAR_REPOSITORY: ${{ vars.GAR_REPOSITORY }}
+      CLOUD_RUN_SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+      APP_URL: ${{ vars.APP_URL }}
+      COOKIE_DOMAIN: ${{ vars.COOKIE_DOMAIN }}
+      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI }}
       LITESTREAM_RETENTION: ${{ vars.LITESTREAM_RETENTION }}
       CLOUD_RUN_EXTRA_ENV_VARS: ${{ vars.CLOUD_RUN_EXTRA_ENV_VARS }}
       CLOUD_RUN_SECRETS: ${{ vars.CLOUD_RUN_SECRETS }}
