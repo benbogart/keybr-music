@@ -51,6 +51,34 @@
   margin-block-start: 2.5rem;
 }
 
+.bandoneon_direction + .bandoneon_direction {
+  margin-block-start: 2.4rem;
+}
+
+.bandoneon_directionHeading {
+  margin-block-end: 1.1rem;
+  color: var(--color-text-subtle);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.bandoneon_layout {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1.6rem;
+  align-items: start;
+  inline-size: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.bandoneon_panel {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
 .bandoneon_heading {
   margin-block-end: 1.2rem;
   color: var(--color-text-subtle);
@@ -63,14 +91,21 @@
 
 .bandoneon_canvas {
   position: relative;
-  inline-size: min(100%, 72rem);
-  margin-inline: auto;
+  inline-size: 100%;
 }
 
 .bandoneon_svg {
   display: block;
   inline-size: 100%;
   block-size: auto;
+}
+
+.bandoneon_static {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 0.8rem;
 }
 
 .bandoneon_overlay {
