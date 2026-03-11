@@ -51,6 +51,20 @@
   margin-block-start: 2.5rem;
 }
 
+.bandoneon_direction + .bandoneon_direction {
+  margin-block-start: 2.4rem;
+}
+
+.bandoneon_directionHeading {
+  margin-block-end: 1.1rem;
+  color: var(--color-text-subtle);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .bandoneon_layout {
   display: flex;
   flex-wrap: nowrap;
@@ -80,30 +94,18 @@
   inline-size: 100%;
 }
 
-.bandoneon_placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 460.38 / 243.55;
-  border: 1px dashed var(--color-border);
-  border-radius: 0.8rem;
-  overflow: hidden;
-  background-color: rgb(148 163 184 / 12%);
-}
-
-.bandoneon_placeholderLabel {
-  color: var(--color-text-subtle);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 .bandoneon_svg {
   display: block;
   inline-size: 100%;
   block-size: auto;
+}
+
+.bandoneon_static {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 0.8rem;
 }
 
 .bandoneon_overlay {

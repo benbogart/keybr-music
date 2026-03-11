@@ -8,10 +8,16 @@ test("render keyboard label and svg", () => {
     <BandoneonKeyboard targetCodePoint={60} playedCodePoint={null} />,
   );
 
+  isNotNull(r.getByText("Opening"));
+  isNotNull(r.getByText("Closing"));
   isNotNull(r.getByText("Left hand - Opening"));
+  isNotNull(r.getByText("Left hand - Closing"));
   isNotNull(r.getByText("Right hand - Opening"));
-  isNotNull(r.getByLabelText("Left hand keyboard coming soon"));
+  isNotNull(r.getByText("Right hand - Closing"));
+  isNotNull(r.getByAltText("Bandoneon left hand opening keyboard"));
+  isNotNull(r.getByAltText("Bandoneon left hand closing keyboard"));
   isNotNull(r.getByAltText("Bandoneon right hand opening keyboard"));
+  isNotNull(r.getByAltText("Bandoneon right hand closing keyboard"));
   isNotNull(r.getByTestId("bandoneon-target-key"));
   isNull(r.queryByTestId("bandoneon-played-key"));
 
