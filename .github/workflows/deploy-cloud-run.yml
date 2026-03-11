@@ -72,51 +72,27 @@ jobs:
               exit 1
             fi
           done
-
-      - name: Resolve Artifact Registry coordinates
-        id: registry
-        run: |
-          registry_host="${GCP_REGION}-docker.pkg.dev"
-          registry_project="${GCP_PROJECT_ID}"
-          repository="${GAR_REPOSITORY}"
-
-          # GAR_REPOSITORY can be either:
-          # 1) repository name only: "docker-registry"
-          # 2) full path: "us-central1-docker.pkg.dev/uncharles/docker-registry"
           if [[ "${GAR_REPOSITORY}" == *"/"* ]]; then
-            IFS='/' read -r provided_host provided_project provided_repo extra <<<"${GAR_REPOSITORY}"
-            if [[ -n "${extra:-}" || -z "${provided_repo:-}" ]]; then
-              echo "Invalid GAR_REPOSITORY format: ${GAR_REPOSITORY}" >&2
-              echo "Expected either '<repo>' or '<region>-docker.pkg.dev/<project>/<repo>'." >&2
-              exit 1
-            fi
-            if [[ "${provided_host}" != "${registry_host}" ]]; then
-              echo "GAR_REPOSITORY host '${provided_host}' does not match GCP_REGION host '${registry_host}'." >&2
-              exit 1
-            fi
-            registry_project="${provided_project}"
-            repository="${provided_repo}"
+            echo "GAR_REPOSITORY must be a repository name only (for example: docker-registry)." >&2
+            echo "Do not use a full Artifact Registry path." >&2
+            exit 1
           fi
 
-          echo "registry_host=${registry_host}" >> "${GITHUB_OUTPUT}"
-          echo "registry_project=${registry_project}" >> "${GITHUB_OUTPUT}"
-          echo "repository=${repository}" >> "${GITHUB_OUTPUT}"
-
       - name: Configure Docker authentication
-        run: gcloud auth configure-docker "${{ steps.registry.outputs.registry_host }}" --quiet
+        run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
 
       - name: Validate Artifact Registry repository exists
         run: |
-          if ! gcloud artifacts repositories describe "${{ steps.registry.outputs.repository }}" \
-            --project="${{ steps.registry.outputs.registry_project }}" \
+          if ! gcloud artifacts repositories describe "${GAR_REPOSITORY}" \
+            --project="${GCP_PROJECT_ID}" \
             --location="${GCP_REGION}" >/dev/null 2>&1; then
             echo "Artifact Registry repository not found." >&2
-            echo "Expected repository name: ${{ steps.registry.outputs.repository }}" >&2
-            echo "Project: ${{ steps.registry.outputs.registry_project }}" >&2
+            echo "Expected repository name: ${GAR_REPOSITORY}" >&2
+            echo "Project: ${GCP_PROJECT_ID}" >&2
             echo "Location: ${GCP_REGION}" >&2
             echo "Available repositories in this location:" >&2
             gcloud artifacts repositories list \
-              --project="${{ steps.registry.outputs.registry_project }}" \
+              --project="${GCP_PROJECT_ID}" \
               --location="${GCP_REGION}" >&2 || true
             exit 1
           fi
@@ -125,7 +101,7 @@ jobs:
         id: image
         run: |
           image_name="${IMAGE_NAME:-keybr-com}"
-          image_uri="${{ steps.registry.outputs.registry_host }}/${{ steps.registry.outputs.registry_project }}/${{ steps.registry.outputs.repository }}/${image_name}:${GITHUB_SHA}"
+          image_uri="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/${image_name}:${GITHUB_SHA}"
           echo "Using image URI: ${image_uri}"
           docker build --tag "${image_uri}" .
           docker push "${image_uri}"
