@@ -1,8 +1,8 @@
 import { bandoneonKeyPositions, SVG_VIEWBOX } from "@keybr/instrument";
 import { memo, type ReactNode } from "react";
-import bandoneonLeftClosing from "../../assets/bandoneon-left-closing.jpg";
-import bandoneonLeftOpening from "../../assets/bandoneon-left-opening.jpg";
-import bandoneonRightClosing from "../../assets/bandoneon-right-closing.jpg";
+import bandoneonLeftClosing from "../../assets/bandoneon-left-closing.svg";
+import bandoneonLeftOpening from "../../assets/bandoneon-left-opening.svg";
+import bandoneonRightClosing from "../../assets/bandoneon-right-closing.svg";
 import bandoneonSvg from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
