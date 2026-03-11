@@ -76,3 +76,8 @@ npm run watch
 There is also an ability to deploy app with Docker or Docker Compose, `Dockerfile` and `docker-compose.yaml` are provided.
 
 There are some limitations: exposed port should always be 3000
+
+### Cloud Run
+
+For CI/CD and managed deployment with Litestream + GCS on Cloud Run, see
+`docs/cloud_run_deployment.md`.
