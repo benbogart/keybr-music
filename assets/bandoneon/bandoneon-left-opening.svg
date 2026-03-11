@@ -6,39 +6,39 @@
     .key-label { font-family: Inter, "Segoe UI", Arial, sans-serif; font-size: 8px; text-anchor: middle; dominant-baseline: middle; pointer-events: none; fill: #111827; }
   </style>
   <g id="left-opening-keys" data-side="left" data-direction="opening">
-    <path id="key-f2" class="key" data-note="F2" data-midi="41" d="M 436.00 65.93 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-c2" class="key" data-note="C2" data-midi="36" d="M 435.90 192.63 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-f-sharp2" class="key" data-note="F#2" data-midi="42" d="M 415.74 138.47 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g-sharp4" class="key" data-note="G#4" data-midi="68" d="M 402.72 16.80 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g2" class="key" data-note="G2" data-midi="43" d="M 389.29 90.49 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d-sharp2" class="key" data-note="D#2" data-midi="39" d="M 370.50 170.90 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-a-sharp3" class="key" data-note="A#3" data-midi="58" d="M 360.52 40.32 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-c-sharp4" class="key" data-note="C#4" data-midi="61" d="M 348.03 119.68 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-f3" class="key" data-note="F3" data-midi="53" d="M 328.82 3.89 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-c3" class="key" data-note="C3" data-midi="48" d="M 322.52 72.23 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-f-sharp3" class="key" data-note="F#3" data-midi="54" d="M 304.99 161.14 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-f4" class="key" data-note="F4" data-midi="65" d="M 293.13 35.17 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-f-sharp4" class="key" data-note="F#4" data-midi="66" d="M 280.85 109.81 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-c-sharp3" class="key" data-note="C#3" data-midi="49" d="M 258.49 2.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-e4" class="key" data-note="E4" data-midi="64" d="M 255.03 66.77 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d-sharp4" class="key" data-note="D#4" data-midi="63" d="M 235.29 151.80 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d-sharp3" class="key" data-note="D#3" data-midi="51" d="M 222.48 28.98 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d4" class="key" data-note="D4" data-midi="62" d="M 213.88 106.45 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-c4" class="key" data-note="C4" data-midi="60" d="M 192.25 64.67 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-a-sharp2" class="key" data-note="A#2" data-midi="46" d="M 189.00 4.10 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-a4" class="key" data-note="A4" data-midi="69" d="M 171.99 159.57 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g3" class="key" data-note="G3" data-midi="55" d="M 158.34 36.54 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-b3" class="key" data-note="B3" data-midi="59" d="M 148.58 116.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-a3" class="key" data-note="A3" data-midi="57" d="M 125.07 77.16 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g-sharp2" class="key" data-note="G#2" data-midi="44" d="M 123.70 11.34 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g4" class="key" data-note="G4" data-midi="67" d="M 109.85 170.17 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-a2" class="key" data-note="A2" data-midi="45" d="M 93.26 45.77 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-g-sharp3" class="key" data-note="G#3" data-midi="56" d="M 89.38 126.81 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d3" class="key" data-note="D3" data-midi="50" d="M 68.59 84.51 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-b2" class="key" data-note="B2" data-midi="47" d="M 61.77 182.45 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-e3" class="key" data-note="E3" data-midi="52" d="M 39.62 137.21 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-e2" class="key" data-note="E2" data-midi="40" d="M 32.38 58.69 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
-    <path id="key-d2" class="key" data-note="D2" data-midi="38" d="M 16.00 195.99 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f2" class="key" data-note="F2" data-midi="41" d="M 422.00 79.93 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c2" class="key" data-note="C2" data-midi="36" d="M 421.90 206.63 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f-sharp2" class="key" data-note="F#2" data-midi="42" d="M 401.74 152.47 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp4" class="key" data-note="G#4" data-midi="68" d="M 388.72 30.80 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g2" class="key" data-note="G2" data-midi="43" d="M 375.29 104.49 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d-sharp2" class="key" data-note="D#2" data-midi="39" d="M 356.50 184.90 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a-sharp3" class="key" data-note="A#3" data-midi="58" d="M 346.52 54.32 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c-sharp4" class="key" data-note="C#4" data-midi="61" d="M 334.03 133.68 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f3" class="key" data-note="F3" data-midi="53" d="M 314.82 17.89 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c3" class="key" data-note="C3" data-midi="48" d="M 308.52 86.23 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f-sharp3" class="key" data-note="F#3" data-midi="54" d="M 290.99 175.14 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f4" class="key" data-note="F4" data-midi="65" d="M 279.13 49.17 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-f-sharp4" class="key" data-note="F#4" data-midi="66" d="M 266.85 123.81 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c-sharp3" class="key" data-note="C#3" data-midi="49" d="M 244.49 16.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e4" class="key" data-note="E4" data-midi="64" d="M 241.03 80.77 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d-sharp4" class="key" data-note="D#4" data-midi="63" d="M 221.29 165.80 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d-sharp3" class="key" data-note="D#3" data-midi="51" d="M 208.48 42.98 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d4" class="key" data-note="D4" data-midi="62" d="M 199.88 120.45 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-c4" class="key" data-note="C4" data-midi="60" d="M 178.25 78.67 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a-sharp2" class="key" data-note="A#2" data-midi="46" d="M 175.00 18.10 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a4" class="key" data-note="A4" data-midi="69" d="M 157.99 173.57 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g3" class="key" data-note="G3" data-midi="55" d="M 144.34 50.54 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-b3" class="key" data-note="B3" data-midi="59" d="M 134.58 130.00 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a3" class="key" data-note="A3" data-midi="57" d="M 111.07 91.16 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp2" class="key" data-note="G#2" data-midi="44" d="M 109.70 25.34 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g4" class="key" data-note="G4" data-midi="67" d="M 95.85 184.17 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-a2" class="key" data-note="A2" data-midi="45" d="M 79.26 59.77 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-g-sharp3" class="key" data-note="G#3" data-midi="56" d="M 75.38 140.81 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d3" class="key" data-note="D3" data-midi="50" d="M 54.59 98.51 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-b2" class="key" data-note="B2" data-midi="47" d="M 47.77 196.45 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e3" class="key" data-note="E3" data-midi="52" d="M 25.62 151.21 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-e2" class="key" data-note="E2" data-midi="40" d="M 18.38 72.69 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
+    <path id="key-d2" class="key" data-note="D2" data-midi="38" d="M 2.00 209.99 a 14.00 14.00 0 1 0 28.00 0 a 14.00 14.00 0 1 0 -28.00 0" />
   </g>
   <g id="left-opening-labels" aria-hidden="true">
     <text class="key-label" x="436.00" y="79.93">F2</text>
