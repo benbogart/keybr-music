@@ -73,14 +73,37 @@ jobs:
             fi
           done
 
+          if [[ "${GAR_REPOSITORY}" == */* ]]; then
+            echo "GAR_REPOSITORY must be the repository name only (for example: keybr-images)." >&2
+            echo "Do not set GAR_REPOSITORY to a full URI." >&2
+            exit 1
+          fi
+
       - name: Configure Docker authentication
         run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
+
+      - name: Validate Artifact Registry repository exists
+        run: |
+          if ! gcloud artifacts repositories describe "${GAR_REPOSITORY}" \
+            --project="${GCP_PROJECT_ID}" \
+            --location="${GCP_REGION}" >/dev/null 2>&1; then
+            echo "Artifact Registry repository not found." >&2
+            echo "Expected repository name: ${GAR_REPOSITORY}" >&2
+            echo "Project: ${GCP_PROJECT_ID}" >&2
+            echo "Location: ${GCP_REGION}" >&2
+            echo "Available repositories in this location:" >&2
+            gcloud artifacts repositories list \
+              --project="${GCP_PROJECT_ID}" \
+              --location="${GCP_REGION}" >&2 || true
+            exit 1
+          fi
 
       - name: Build and push image
         id: image
         run: |
           image_name="${IMAGE_NAME:-keybr-com}"
           image_uri="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/${image_name}:${GITHUB_SHA}"
+          echo "Using image URI: ${image_uri}"
           docker build --tag "${image_uri}" .
           docker push "${image_uri}"
           echo "image_uri=${image_uri}" >> "${GITHUB_OUTPUT}"
