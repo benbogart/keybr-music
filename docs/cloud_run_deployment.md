@@ -21,7 +21,8 @@ Set these variables in `Settings -> Secrets and variables -> Actions -> Variable
 
 - `GCP_PROJECT_ID` (e.g. `my-project`)
 - `GCP_REGION` (e.g. `us-central1`)
-- `GAR_REPOSITORY` (Artifact Registry repository name)
+- `GAR_REPOSITORY` (either repository name, e.g. `docker-registry`, or full
+  path, e.g. `us-central1-docker.pkg.dev/uncharles/docker-registry`)
 - `CLOUD_RUN_SERVICE` (Cloud Run service name)
 - `APP_URL` (public app URL, e.g. `https://keybr.example.com/`)
 - `COOKIE_DOMAIN` (cookie domain only, no scheme; usually `keybr.example.com`)
