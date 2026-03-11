@@ -33,13 +33,11 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
             <header className={styles.bandoneon_heading}>
               Left hand - Opening
             </header>
-            <div className={styles.bandoneon_rotatedSlot}>
-              <img
-                src={bandoneonLeftOpening}
-                className={`${styles.bandoneon_static} ${styles.bandoneon_staticRotated}`}
-                alt="Bandoneon left hand opening keyboard"
-              />
-            </div>
+            <img
+              src={bandoneonLeftOpening}
+              className={styles.bandoneon_static}
+              alt="Bandoneon left hand opening keyboard"
+            />
           </article>
           <article className={styles.bandoneon_panel}>
             <header className={styles.bandoneon_heading}>
@@ -86,13 +84,11 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
             <header className={styles.bandoneon_heading}>
               Left hand - Closing
             </header>
-            <div className={styles.bandoneon_rotatedSlot}>
-              <img
-                src={bandoneonLeftClosing}
-                className={`${styles.bandoneon_static} ${styles.bandoneon_staticRotated}`}
-                alt="Bandoneon left hand closing keyboard"
-              />
-            </div>
+            <img
+              src={bandoneonLeftClosing}
+              className={styles.bandoneon_static}
+              alt="Bandoneon left hand closing keyboard"
+            />
           </article>
           <article className={styles.bandoneon_panel}>
             <header className={styles.bandoneon_heading}>
