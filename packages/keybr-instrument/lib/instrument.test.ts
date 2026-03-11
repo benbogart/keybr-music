@@ -1,15 +1,22 @@
 import { test } from "node:test";
 import { Letter } from "@keybr/phonetic-model";
 import { deepEqual, equal } from "rich-assert";
-import { bandoneon,BandoneonRange } from "./instrument.ts";
+import { bandoneon, BandoneonRange } from "./instrument.ts";
 
-test("bandoneon creates note letters in C4-B4 range with expected labels", () => {
+test("bandoneon creates note letters in C4-E5 range with expected labels", () => {
   const instrument = bandoneon();
 
   equal(instrument.id, "bandoneon");
   equal(instrument.name, "Bandoneon");
-  equal(instrument.letters.length, 12);
-  equal(instrument.letters[0]?.f, 1 / 12);
+  equal(instrument.letters.length, 17);
+  equal(
+    instrument.letters.find(({ codePoint }) => codePoint === 68)?.f,
+    17 / 153,
+  );
+  equal(
+    instrument.letters.find(({ codePoint }) => codePoint === 76)?.f,
+    12 / 153,
+  );
 
   deepEqual(
     instrument.letters.map(({ codePoint, label }) => [codePoint, label]),
@@ -26,6 +33,11 @@ test("bandoneon creates note letters in C4-B4 range with expected labels", () =>
       [69, "A4"],
       [70, "A#4"],
       [71, "B4"],
+      [72, "C5"],
+      [73, "C#5"],
+      [74, "D5"],
+      [75, "D#5"],
+      [76, "E5"],
     ],
   );
 
@@ -33,13 +45,24 @@ test("bandoneon creates note letters in C4-B4 range with expected labels", () =>
     minMidiNote: 45,
     maxMidiNote: 93,
     pocMinMidiNote: 60,
-    pocMaxMidiNote: 71,
+    pocMaxMidiNote: 76,
   });
+});
+
+test("bandoneon note frequencies start with requested initial sequence", () => {
+  const instrument = bandoneon();
+  const ordered = Letter.frequencyOrder(instrument.letters)
+    .slice(0, 6)
+    .map(({ codePoint }) => codePoint);
+
+  deepEqual(ordered, [68, 69, 71, 72, 74, 76]);
 });
 
 test("bandoneon exposes expected weighted MIDI code points", () => {
   const instrument = bandoneon();
-  const expected = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71];
+  const expected = [
+    60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+  ];
 
   deepEqual([...instrument.codePoints], expected);
   equal(instrument.codePoints.size, expected.length);
@@ -48,8 +71,8 @@ test("bandoneon exposes expected weighted MIDI code points", () => {
     equal(instrument.codePoints.has(midiNote), true);
     equal(instrument.codePoints.weight(midiNote), 1);
   }
-  equal(instrument.codePoints.has(72), false);
-  equal(instrument.codePoints.weight(72), 1000);
+  equal(instrument.codePoints.has(77), false);
+  equal(instrument.codePoints.weight(77), 1000);
 });
 
 test("Letter helpers work with note letters", () => {
@@ -69,7 +92,7 @@ test("Letter helpers work with note letters", () => {
   );
 
   const restricted = Letter.restrict(
-    [...instrument.letters, new Letter(72, 1 / 12, "C5")],
+    [...instrument.letters, new Letter(77, 1 / 17, "F5")],
     instrument.codePoints,
   );
   deepEqual(restricted, instrument.letters);

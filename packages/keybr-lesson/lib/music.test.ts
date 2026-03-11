@@ -2,7 +2,7 @@ import { test } from "node:test";
 import { bandoneon, NoteSequenceModel } from "@keybr/instrument";
 import { type KeyStats, type KeyStatsMap } from "@keybr/result";
 import { Settings } from "@keybr/settings";
-import { equal } from "rich-assert";
+import { deepEqual, equal } from "rich-assert";
 import { MusicLesson } from "./music.ts";
 import { lessonProps } from "./settings.ts";
 
@@ -14,7 +14,10 @@ test("focuses the slowest included note", () => {
     instrument,
     new NoteSequenceModel(instrument.codePoints),
   );
-  const [n1, n2, n3, n4, n5, n6] = lesson.letters;
+  const [n1, n2, n3, n4, n5, n6] = [68, 69, 71, 72, 74, 76].map(
+    (codePoint) =>
+      lesson.letters.find((letter) => letter.codePoint === codePoint)!,
+  );
   const keyStatsMap = makeKeyStatsMapWithTimes(lesson.letters, [
     [n1.codePoint, 300],
     [n2.codePoint, 220],
@@ -28,6 +31,24 @@ test("focuses the slowest included note", () => {
 
   equal(lessonKeys.findIncludedKeys().length, 6);
   equal(lessonKeys.findFocusedKey()?.letter.codePoint, n3.codePoint);
+});
+
+test("starts with the requested initial note pool", () => {
+  const instrument = bandoneon();
+  const settings = new Settings().set(lessonProps.guided.alphabetSize, 0);
+  const lesson = new MusicLesson(
+    settings,
+    instrument,
+    new NoteSequenceModel(instrument.codePoints),
+  );
+  const lessonKeys = lesson.update(
+    makeKeyStatsMapWithTimes(lesson.letters, []),
+  );
+  const includedCodePoints = lessonKeys
+    .findIncludedKeys()
+    .map(({ letter }) => letter.codePoint);
+
+  deepEqual(includedCodePoints, [68, 69, 71, 72, 74, 76]);
 });
 
 function makeKeyStatsMapWithTimes(
