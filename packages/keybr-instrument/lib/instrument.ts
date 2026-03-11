@@ -20,8 +20,8 @@ const NOTE_NAMES = [
 const BANDONEON_MIN_MIDI_NOTE = 45; // A2
 const BANDONEON_MAX_MIDI_NOTE = 93; // A6
 const BANDONEON_POC_MIN_MIDI_NOTE = 60; // C4
-const BANDONEON_POC_MAX_MIDI_NOTE = 71; // B4
-const BANDONEON_REFERENCE_MIDI_NOTE = 69; // A4
+const BANDONEON_POC_MAX_MIDI_NOTE = 74; // D5
+const BANDONEON_INITIAL_MIDI_NOTE = 69; // A4
 
 export type Instrument = {
   readonly id: string;
@@ -35,9 +35,9 @@ export function bandoneon(): Instrument {
     BANDONEON_POC_MIN_MIDI_NOTE,
     BANDONEON_POC_MAX_MIDI_NOTE,
   );
-  const frequencies = centerOutFrequencies(
+  const frequencies = ascendingFromNoteFrequencies(
     notes,
-    BANDONEON_REFERENCE_MIDI_NOTE,
+    BANDONEON_INITIAL_MIDI_NOTE,
   );
   const letters = notes.map(
     (midiNote, index) =>
@@ -66,18 +66,23 @@ function midiRange(begin: number, end: number): CodePoint[] {
   return notes;
 }
 
-function centerOutFrequencies(
+function ascendingFromNoteFrequencies(
   notes: readonly CodePoint[],
-  center: number,
+  start: number,
 ): number[] {
   if (notes.length === 0) {
     return [];
   }
-  const distances = notes.map((note) => Math.abs(note - center));
-  const maxDistance = Math.max(...distances);
-  const weights = distances.map((distance) => maxDistance - distance + 1);
+  const orderedNotes = [
+    ...notes.filter((note) => note >= start).sort((a, b) => a - b),
+    ...notes.filter((note) => note < start).sort((a, b) => b - a),
+  ];
+  const weightByNote = new Map<CodePoint, number>(
+    orderedNotes.map((note, index) => [note, orderedNotes.length - index]),
+  );
+  const weights = notes.map((note) => weightByNote.get(note) ?? 0);
   const total = weights.reduce((sum, weight) => sum + weight, 0);
-  return weights.map((weight) => weight / total);
+  return weights.map((weight) => (total > 0 ? weight / total : 0));
 }
 
 function midiNoteToLabel(midiNote: number): string {

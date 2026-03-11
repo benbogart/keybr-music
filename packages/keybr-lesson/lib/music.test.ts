@@ -14,7 +14,7 @@ test("focuses the slowest included note", () => {
     instrument,
     new NoteSequenceModel(instrument.codePoints),
   );
-  const [n1, n2, n3, n4, n5, n6] = [69, 68, 70, 67, 71, 66].map(
+  const [n1, n2, n3, n4, n5, n6] = [69, 70, 71, 72, 73, 74].map(
     (codePoint) =>
       lesson.letters.find((letter) => letter.codePoint === codePoint)!,
   );
@@ -33,7 +33,7 @@ test("focuses the slowest included note", () => {
   equal(lessonKeys.findFocusedKey()?.letter.codePoint, n3.codePoint);
 });
 
-test("starts with an A4-centered initial note pool", () => {
+test("starts with an A4-to-D5 initial note pool", () => {
   const instrument = bandoneon();
   const settings = new Settings().set(lessonProps.guided.alphabetSize, 0);
   const lesson = new MusicLesson(
@@ -48,7 +48,7 @@ test("starts with an A4-centered initial note pool", () => {
     .findIncludedKeys()
     .map(({ letter }) => letter.codePoint);
 
-  deepEqual(includedCodePoints, [69, 68, 70, 67, 71, 66]);
+  deepEqual(includedCodePoints, [69, 70, 71, 72, 73, 74]);
 });
 
 function makeKeyStatsMapWithTimes(
