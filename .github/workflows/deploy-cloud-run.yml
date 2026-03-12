@@ -118,6 +118,8 @@ jobs:
           echo "image_uri=${image_uri}" >> "${GITHUB_OUTPUT}"
 
       - name: Deploy to Cloud Run
+        id: deploy
+        continue-on-error: true
         run: |
           base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI}"
           if [[ -n "${LITESTREAM_RETENTION}" ]]; then
@@ -129,7 +131,6 @@ jobs:
             "--project=${GCP_PROJECT_ID}"
             "--region=${GCP_REGION}"
             "--platform=managed"
-            "--allow-unauthenticated"
             "--port=3000"
             "--max-instances=1"
             "--image=${{ steps.image.outputs.image_uri }}"
@@ -146,6 +147,19 @@ jobs:
 
           gcloud run deploy "${args[@]}"
 
+      - name: Print Cloud Run logs on deploy failure
+        if: ${{ steps.deploy.outcome == 'failure' }}
+        run: |
+          echo "Deploy failed. Recent Cloud Run logs:"
+          gcloud run services logs read "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --limit=200 || true
+
+      - name: Fail workflow if deploy failed
+        if: ${{ steps.deploy.outcome == 'failure' }}
+        run: exit 1
+
       - name: Smoke test deployed service
-        if: ${{ env.RUN_CLOUD_RUN_SMOKE_TEST == 'true' }}
+        if: ${{ steps.deploy.outcome == 'success' && env.RUN_CLOUD_RUN_SMOKE_TEST == 'true' }}
         run: ./scripts/cloud-run-smoke-test.sh

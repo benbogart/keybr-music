@@ -38,7 +38,9 @@ litestream restore \
   -if-db-not-exists \
   -if-replica-exists \
   -config "${LITESTREAM_CONFIG_PATH}" \
-  "${DATABASE_FILENAME}"
+  "${DATABASE_FILENAME}" || {
+  echo "Litestream restore failed; continuing startup." >&2
+}
 
 exec litestream replicate \
   -config "${LITESTREAM_CONFIG_PATH}" \
