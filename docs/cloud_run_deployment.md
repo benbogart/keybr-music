@@ -25,12 +25,13 @@ Set these variables in `Settings -> Secrets and variables -> Actions -> Variable
 - `CLOUD_RUN_SERVICE` (Cloud Run service name)
 - `APP_URL` (public app URL, e.g. `https://keybr.example.com/`)
 - `COOKIE_DOMAIN` (cookie domain only, no scheme; usually `keybr.example.com`)
-- `LITESTREAM_REPLICA_URI` (e.g. `gcs://my-keybr-backups/database`)
+- `LITESTREAM_REPLICA_URI` (e.g. `gs://my-keybr-backups/database`)
 
 Optional:
 
 - `IMAGE_NAME` (defaults to `keybr-com`)
 - `LITESTREAM_RETENTION` (defaults to `168h`)
+- `CLOUD_RUN_MEMORY` (defaults to `1Gi`)
 - `CLOUD_RUN_EXTRA_ENV_VARS` (comma-separated `KEY=VALUE` list)
 - `CLOUD_RUN_SECRETS` (comma-separated Cloud Run secret bindings, e.g.
   `MAIL_KEY=mail-key:latest`)
@@ -47,8 +48,10 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
 
 - The deployment sets `--max-instances=1` to avoid multi-writer divergence with
   SQLite.
+- The deployment sets `SERVER_HTTP_WORKERS=1` and `SERVER_ENABLE_WS=false` to
+  keep memory usage within Cloud Run limits.
 - Health endpoint: `GET /healthz` returns `200 OK` with `ok`.
-- `LITESTREAM_REPLICA_URI` is a private GCS URI (`gcs://...`) and does not need
+- `LITESTREAM_REPLICA_URI` is a private GCS URI (`gs://...`) and does not need
   public access; the Cloud Run runtime identity needs bucket permissions.
 
 ## Variables vs secrets

@@ -30,6 +30,7 @@ jobs:
       LITESTREAM_RETENTION: ${{ vars.LITESTREAM_RETENTION }}
       CLOUD_RUN_EXTRA_ENV_VARS: ${{ vars.CLOUD_RUN_EXTRA_ENV_VARS }}
       CLOUD_RUN_SECRETS: ${{ vars.CLOUD_RUN_SECRETS }}
+      CLOUD_RUN_MEMORY: ${{ vars.CLOUD_RUN_MEMORY || '1Gi' }}
       RUN_CLOUD_RUN_SMOKE_TEST: ${{ vars.RUN_CLOUD_RUN_SMOKE_TEST || 'true' }}
 
     steps:
@@ -73,13 +74,9 @@ jobs:
             fi
           done
 
-          if [[ "${LITESTREAM_REPLICA_URI}" == gs://* ]]; then
-            echo "LITESTREAM_REPLICA_URI uses gs:// but Litestream expects gcs://." >&2
-            echo "Example: gcs://my-keybr-backups/database" >&2
-            exit 1
-          fi
-          if [[ "${LITESTREAM_REPLICA_URI}" != gcs://* ]]; then
-            echo "LITESTREAM_REPLICA_URI must start with gcs://." >&2
+          if [[ "${LITESTREAM_REPLICA_URI}" != gs://* ]]; then
+            echo "LITESTREAM_REPLICA_URI must start with gs:// for Litestream v0.5.9." >&2
+            echo "Example: gs://my-keybr-backups/database" >&2
             exit 1
           fi
           if [[ "${GAR_REPOSITORY}" == *"/"* ]]; then
@@ -121,7 +118,7 @@ jobs:
         id: deploy
         continue-on-error: true
         run: |
-          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI}"
+          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI},SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false"
           if [[ -n "${LITESTREAM_RETENTION}" ]]; then
             base_env_vars="${base_env_vars},LITESTREAM_RETENTION=${LITESTREAM_RETENTION}"
           fi
@@ -132,6 +129,7 @@ jobs:
             "--region=${GCP_REGION}"
             "--platform=managed"
             "--port=3000"
+            "--memory=${CLOUD_RUN_MEMORY}"
             "--max-instances=1"
             "--image=${{ steps.image.outputs.image_uri }}"
             "--set-env-vars=${base_env_vars}"

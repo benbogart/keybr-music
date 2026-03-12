@@ -20,9 +20,9 @@ if [[ -z "${LITESTREAM_REPLICA_URI}" ]]; then
   exec npm run start-docker
 fi
 
-if [[ "${LITESTREAM_REPLICA_URI}" == gs://* ]]; then
-  # Litestream expects the gcs:// scheme.
-  LITESTREAM_REPLICA_URI="gcs://${LITESTREAM_REPLICA_URI#gs://}"
+if [[ "${LITESTREAM_REPLICA_URI}" == gcs://* ]]; then
+  # Litestream v0.5.9 expects the gs:// scheme.
+  LITESTREAM_REPLICA_URI="gs://${LITESTREAM_REPLICA_URI#gcs://}"
   echo "Normalized Litestream replica URI to '${LITESTREAM_REPLICA_URI}'." >&2
 fi
 
