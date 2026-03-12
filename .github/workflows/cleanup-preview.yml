@@ -1,0 +1,47 @@
+name: Cleanup Preview
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup:
+    name: Delete preview deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Delete Cloud Run service
+        run: |
+          service_name="keybr-pr-${PR_NUMBER}"
+          echo "Deleting Cloud Run service: ${service_name}"
+          gcloud run services delete "${service_name}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --quiet || {
+            echo "Service ${service_name} not found or already deleted."
+          }
+
+      - name: Delete preview database replica
+        run: |
+          bucket_base="$(echo "${LITESTREAM_REPLICA_URI}" | sed -E 's|^gs://([^/]+).*|\1|')"
+          pr_path="pr-${PR_NUMBER}/"
+          echo "Deleting gs://${bucket_base}/${pr_path}"
+          gsutil -m rm -r "gs://${bucket_base}/${pr_path}" || {
+            echo "No replica data found for PR ${PR_NUMBER}, or already cleaned up."
+          }

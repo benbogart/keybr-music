@@ -6,6 +6,7 @@ DATABASE_CLIENT="${DATABASE_CLIENT:-sqlite}"
 DATABASE_FILENAME="${DATABASE_FILENAME:-/var/lib/keybr/database.sqlite}"
 LITESTREAM_CONFIG_PATH="${LITESTREAM_CONFIG_PATH:-/etc/keybr/litestream.yml}"
 LITESTREAM_REPLICA_URI="${LITESTREAM_REPLICA_URI:-}"
+LITESTREAM_RESTORE_URI="${LITESTREAM_RESTORE_URI:-${LITESTREAM_REPLICA_URI}}"
 LITESTREAM_RETENTION="${LITESTREAM_RETENTION:-168h}"
 
 mkdir -p "$(dirname "${DATABASE_FILENAME}")"
@@ -25,6 +26,10 @@ if [[ "${LITESTREAM_REPLICA_URI}" == gcs://* ]]; then
   LITESTREAM_REPLICA_URI="gs://${LITESTREAM_REPLICA_URI#gcs://}"
   echo "Normalized Litestream replica URI to '${LITESTREAM_REPLICA_URI}'." >&2
 fi
+if [[ "${LITESTREAM_RESTORE_URI}" == gcs://* ]]; then
+  LITESTREAM_RESTORE_URI="gs://${LITESTREAM_RESTORE_URI#gcs://}"
+  echo "Normalized Litestream restore URI to '${LITESTREAM_RESTORE_URI}'." >&2
+fi
 
 cat >"${LITESTREAM_CONFIG_PATH}" <<EOF
 dbs:
@@ -34,11 +39,25 @@ dbs:
       retention: ${LITESTREAM_RETENTION}
 EOF
 
-echo "Preparing SQLite restore from '${LITESTREAM_REPLICA_URI}'..." >&2
+# Restore from LITESTREAM_RESTORE_URI (defaults to LITESTREAM_REPLICA_URI).
+# This allows preview deployments to seed from the prod database.
+restore_config="${LITESTREAM_CONFIG_PATH}"
+if [[ "${LITESTREAM_RESTORE_URI}" != "${LITESTREAM_REPLICA_URI}" ]]; then
+  restore_config="$(mktemp)"
+  cat >"${restore_config}" <<EOF
+dbs:
+  - path: ${DATABASE_FILENAME}
+    replica:
+      url: ${LITESTREAM_RESTORE_URI}
+EOF
+  echo "Restoring from '${LITESTREAM_RESTORE_URI}' (differs from replica URI)." >&2
+fi
+
+echo "Preparing SQLite restore from '${LITESTREAM_RESTORE_URI}'..." >&2
 litestream restore \
   -if-db-not-exists \
   -if-replica-exists \
-  -config "${LITESTREAM_CONFIG_PATH}" \
+  -config "${restore_config}" \
   "${DATABASE_FILENAME}" || {
   echo "Litestream restore failed; continuing startup." >&2
 }
