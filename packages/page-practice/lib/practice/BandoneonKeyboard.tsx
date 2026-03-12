@@ -16,7 +16,6 @@ import bandoneonRightOpening from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
 const HIGHLIGHT_RADIUS = 14;
-const KEY_CENTER_OFFSET = 14;
 const LEFT_HAND_SVG_WIDTH = 452.0;
 
 type Props = {
@@ -148,13 +147,13 @@ function normalizeOverlayPosition(
   if (activeHand === "right") {
     return {
       x: position.x,
-      y: position.y + KEY_CENTER_OFFSET,
+      y: position.y,
     };
   }
   // Left-hand maps are stored in a transposed coordinate system.
   return {
     x: LEFT_HAND_SVG_WIDTH - position.y,
-    y: position.x + KEY_CENTER_OFFSET,
+    y: position.x,
   };
 }
 
