@@ -20,30 +20,12 @@ import { CustomTextLessonSettings } from "./lesson/CustomTextLessonSettings.tsx"
 import { DailyGoalSettings } from "./lesson/DailyGoalSettings.tsx";
 import { GuidedLessonSettings } from "./lesson/GuidedLessonSettings.tsx";
 import { LessonPreview } from "./lesson/LessonPreview.tsx";
-import { MusicLessonSettings } from "./lesson/MusicLessonSettings.tsx";
 import { NumbersLessonSettings } from "./lesson/NumbersLessonSettings.tsx";
 import { WordListLessonSettings } from "./lesson/WordListLessonSettings.tsx";
 
-export function LessonSettings({
-  mode = "practice",
-}: {
-  readonly mode?: "practice" | "music";
-}): ReactNode {
+export function LessonSettings(): ReactNode {
   const { formatMessage } = useIntl();
   const { settings, updateSettings } = useSettings();
-  if (mode === "music") {
-    return (
-      <LessonLoader mode="music">
-        {(lesson) => (
-          <>
-            <MusicLessonSettings />
-            <LessonPreview lesson={lesson} />
-            <DailyGoalSettings />
-          </>
-        )}
-      </LessonLoader>
-    );
-  }
   return (
     <>
       <TabList

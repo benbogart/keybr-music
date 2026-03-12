@@ -61,7 +61,7 @@ test("render music settings with layout picker", async () => {
   );
 
   isNotNull(await r.findByText("Lessons"));
-  fireEvent.click(r.getByText("Lessons"));
+  fireEvent.click(r.getByText("Keyboard"));
 
   isNotNull(r.queryByText("Instrument options"));
   isNotNull(r.queryByText("Bandoneon layout"));

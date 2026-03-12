@@ -67,7 +67,7 @@ function Content({
         <Header level={1}>
           <FormattedMessage id="t_Lessons" defaultMessage="Lessons" />
         </Header>
-        <LessonSettings mode={mode} />
+        <LessonSettings />
 
         <Spacer size={5} />
 
@@ -81,7 +81,7 @@ function Content({
         <Header level={1}>
           <FormattedMessage id="t_Keyboard" defaultMessage="Keyboard" />
         </Header>
-        <KeyboardSettings />
+        <KeyboardSettings mode={mode} />
 
         <Spacer size={5} />
 

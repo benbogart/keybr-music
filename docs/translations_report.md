@@ -1,6 +1,6 @@
 # English
 
-Translated: 360 messages, 4913 words
+Translated: 363 messages, 4935 words
 
 Untranslated: 0 messages, 0 words
 
@@ -8,7 +8,7 @@ Untranslated: 0 messages, 0 words
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 145 words
+Untranslated: 22 messages, 167 words
 
 * *Letters*
 * *Volume:*
@@ -16,6 +16,8 @@ Untranslated: 19 messages, 145 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -28,18 +30,20 @@ Untranslated: 19 messages, 145 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Arabic
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -52,18 +56,21 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Bulgarian
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -76,18 +83,21 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Bangla
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -100,13 +110,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Catalan
 
 Translated: 310 messages, 3556 words
 
-Untranslated: 46 messages, 1311 words
+Untranslated: 49 messages, 1333 words
 
 * *Errors*
 * *Zones:*
@@ -116,8 +127,10 @@ Untranslated: 46 messages, 1311 words
 * *Explain charts*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
 * *Relative Accuracy*
 * *Repeat each word:*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -126,15 +139,13 @@ Untranslated: 46 messages, 1311 words
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *Generate lessons that resemble the specified programming lan...*
-* *This chart shows relative note frequencies as a heatmap on t...*
 * ...
 
 # Czech
 
 Translated: 336 messages, 4740 words
 
-Untranslated: 22 messages, 149 words
+Untranslated: 25 messages, 171 words
 
 * *Font:*
 * *Reset*
@@ -145,6 +156,8 @@ Untranslated: 22 messages, 149 words
 * *Sound theme:*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -154,15 +167,13 @@ Untranslated: 22 messages, 149 words
 * *This chart shows the average speed for each individual note.*
 * *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
-* *Circle size: relative frequency. Circle color: {label1} – hi...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * ...
 
 # Danish
 
 Translated: 331 messages, 4689 words
 
-Untranslated: 25 messages, 178 words
+Untranslated: 28 messages, 200 words
 
 * *Score*
 * *Layout*
@@ -175,6 +186,8 @@ Untranslated: 25 messages, 178 words
 * *Download data*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -182,15 +195,13 @@ Untranslated: 25 messages, 178 words
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *This chart shows relative note frequencies as a heatmap on t...*
-* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # German
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 145 words
+Untranslated: 22 messages, 167 words
 
 * *Position*
 * *Alphabet:*
@@ -198,6 +209,8 @@ Untranslated: 19 messages, 145 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -210,18 +223,20 @@ Untranslated: 19 messages, 145 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Greek
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -234,13 +249,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Esperanto
 
 Translated: 77 messages, 1126 words
 
-Untranslated: 274 messages, 3705 words
+Untranslated: 277 messages, 3727 words
 
 * *GO!*
 * *Copy*
@@ -268,12 +284,14 @@ Untranslated: 274 messages, 3705 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -286,13 +304,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Estonian
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 146 words
+Untranslated: 23 messages, 168 words
 
 * *GO!*
 * *Font:*
@@ -301,6 +320,8 @@ Untranslated: 20 messages, 146 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -312,14 +333,13 @@ Untranslated: 20 messages, 146 words
 * *This is a histogram of note speeds of all users, and your po...*
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
-* *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Persian
 
 Translated: 287 messages, 2823 words
 
-Untranslated: 69 messages, 2044 words
+Untranslated: 72 messages, 2066 words
 
 * *Books*
 * *Zones:*
@@ -333,21 +353,21 @@ Untranslated: 69 messages, 2044 words
 * *Key sounds only*
 * *Accuracy Streaks*
 * *Average accuracy*
+* *Bandoneon layout*
 * *Relative Accuracy*
 * *Repeat each word:*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
 * *Keyboard hardware emulates layout*
-* *Switch the current interface layout.*
-* *Test pitch detection with your instrument.*
 * ...
 
 # Finnish
 
 Translated: 208 messages, 2284 words
 
-Untranslated: 144 messages, 2549 words
+Untranslated: 147 messages, 2571 words
 
 * *GO!*
 * *Time*
@@ -375,7 +395,7 @@ Untranslated: 144 messages, 2549 words
 
 Translated: 44 messages, 583 words
 
-Untranslated: 306 messages, 4237 words
+Untranslated: 309 messages, 4259 words
 
 * *GO!*
 * *Copy*
@@ -403,7 +423,7 @@ Untranslated: 306 messages, 4237 words
 
 Translated: 333 messages, 4544 words
 
-Untranslated: 25 messages, 345 words
+Untranslated: 28 messages, 367 words
 
 * *Zones:*
 * *Options*
@@ -414,6 +434,8 @@ Untranslated: 25 messages, 345 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -423,15 +445,13 @@ Untranslated: 25 messages, 345 words
 * *This chart shows the average speed for each individual note.*
 * *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
-* *Circle size: relative frequency. Circle color: {label1} – hi...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * ...
 
 # Irish
 
 Translated: 337 messages, 4735 words
 
-Untranslated: 21 messages, 154 words
+Untranslated: 24 messages, 176 words
 
 * *Zones:*
 * *Note Speed*
@@ -441,6 +461,8 @@ Untranslated: 21 messages, 154 words
 * *M|T|W|T|F|S|S*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -451,20 +473,20 @@ Untranslated: 21 messages, 154 words
 * *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
-* *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * ...
 
 # Hebrew
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -477,13 +499,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Croatian
 
 Translated: 337 messages, 4740 words
 
-Untranslated: 21 messages, 149 words
+Untranslated: 24 messages, 171 words
 
 * *Font:*
 * *Reset*
@@ -492,6 +515,8 @@ Untranslated: 21 messages, 149 words
 * *Multiplayer*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Premium account price:*
@@ -503,20 +528,20 @@ Untranslated: 21 messages, 149 words
 * *This chart shows relative note frequencies as a heatmap on t...*
 * *This is a histogram of note speeds of all users, and your po...*
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
-* *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * ...
 
 # Hungarian
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -529,13 +554,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Indonesian
 
 Translated: 339 messages, 4744 words
 
-Untranslated: 19 messages, 145 words
+Untranslated: 22 messages, 167 words
 
 * *GO!*
 * *Volume:*
@@ -543,6 +569,8 @@ Untranslated: 19 messages, 145 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -555,13 +583,13 @@ Untranslated: 19 messages, 145 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Icelandic
 
 Translated: 95 messages, 1742 words
 
-Untranslated: 256 messages, 3089 words
+Untranslated: 259 messages, 3111 words
 
 * *GO!*
 * *Copy*
@@ -589,7 +617,7 @@ Untranslated: 256 messages, 3089 words
 
 Translated: 334 messages, 4738 words
 
-Untranslated: 23 messages, 149 words
+Untranslated: 26 messages, 171 words
 
 * *Font:*
 * *Layout*
@@ -601,6 +629,8 @@ Untranslated: 23 messages, 149 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -609,20 +639,20 @@ Untranslated: 23 messages, 149 words
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
 * *This chart shows relative note frequencies as a heatmap on t...*
-* *This is a histogram of note speeds of all users, and your po...*
-* *Circle size: relative frequency. Circle color: {label1} – hi...*
 * ...
 
 # Japanese
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -635,13 +665,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Korean
 
 Translated: 145 messages, 1297 words
 
-Untranslated: 211 messages, 3570 words
+Untranslated: 214 messages, 3592 words
 
 * *Copy*
 * *Done*
@@ -669,14 +700,16 @@ Untranslated: 211 messages, 3570 words
 
 Translated: 298 messages, 3096 words
 
-Untranslated: 57 messages, 1762 words
+Untranslated: 60 messages, 1784 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
 * *Accuracy Streaks*
+* *Bandoneon layout*
 * *Relative Accuracy*
+* *Instrument options*
 * *Relative Note Speed*
 * *No accuracy streaks.*
 * *Note Frequency Heatmap*
@@ -689,15 +722,13 @@ Untranslated: 57 messages, 1762 words
 * *Help us translate keybr.com into your language.*
 * *The detailed statistics regarding your learning progress.*
 * *This chart shows how overall note speed changes over time.*
-* *This chart shows the speed change for each individual note.*
-* *This chart shows the average speed for each individual note.*
 * ...
 
 # Mongolian
 
 Translated: 16 messages, 378 words
 
-Untranslated: 332 messages, 4413 words
+Untranslated: 335 messages, 4435 words
 
 * *GO!*
 * *Copy*
@@ -725,7 +756,7 @@ Untranslated: 332 messages, 4413 words
 
 Translated: 158 messages, 2338 words
 
-Untranslated: 194 messages, 2496 words
+Untranslated: 197 messages, 2518 words
 
 * *Done*
 * *Help*
@@ -753,12 +784,14 @@ Untranslated: 194 messages, 2496 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -771,13 +804,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Dutch
 
 Translated: 333 messages, 4736 words
 
-Untranslated: 24 messages, 151 words
+Untranslated: 27 messages, 173 words
 
 * *Score*
 * *Zones:*
@@ -790,6 +824,8 @@ Untranslated: 24 messages, 151 words
 * *Per-note Speed*
 * *Key sounds only*
 * *Premium account*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -797,20 +833,20 @@ Untranslated: 24 messages, 151 words
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *This chart shows relative note frequencies as a heatmap on t...*
-* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # Polish
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -823,13 +859,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Brazilian Portuguese
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 146 words
+Untranslated: 23 messages, 168 words
 
 * *Layout*
 * *Layout:*
@@ -838,6 +875,8 @@ Untranslated: 20 messages, 146 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -849,14 +888,13 @@ Untranslated: 20 messages, 146 words
 * *This is a histogram of note speeds of all users, and your po...*
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
-* *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # European Portuguese
 
 Translated: 318 messages, 4597 words
 
-Untranslated: 38 messages, 270 words
+Untranslated: 41 messages, 292 words
 
 * *Books*
 * *Layout*
@@ -874,17 +912,17 @@ Untranslated: 38 messages, 270 words
 * *Per-note Speed*
 * *Key sounds only*
 * *Average accuracy*
+* *Bandoneon layout*
 * *Relative Accuracy*
 * *Repeat each word:*
-* *Daily goal reached!*
-* *Relative Note Speed*
+* *Instrument options*
 * ...
 
 # Romanian
 
 Translated: 298 messages, 3587 words
 
-Untranslated: 53 messages, 1258 words
+Untranslated: 56 messages, 1280 words
 
 * *Font:*
 * *Layout*
@@ -902,22 +940,24 @@ Untranslated: 53 messages, 1258 words
 * *Per-note Speed*
 * *Key sounds only*
 * *Average accuracy*
+* *Bandoneon layout*
 * *Relative Accuracy*
 * *Repeat each word:*
-* *Relative Note Speed*
-* *Start in {countDown}*
+* *Instrument options*
 * ...
 
 # Russian
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -930,19 +970,22 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Slovak
 
 Translated: 340 messages, 4745 words
 
-Untranslated: 18 messages, 144 words
+Untranslated: 21 messages, 166 words
 
 * *Syntax:*
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -955,13 +998,14 @@ Untranslated: 18 messages, 144 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* *Choose which hand and bellows direction to practice. Notes a...*
+* ...
 
 # Slovenian
 
 Translated: 192 messages, 3519 words
 
-Untranslated: 165 messages, 1368 words
+Untranslated: 168 messages, 1390 words
 
 * *Copy*
 * *Done*
@@ -989,7 +1033,7 @@ Untranslated: 165 messages, 1368 words
 
 Translated: 43 messages, 684 words
 
-Untranslated: 307 messages, 4136 words
+Untranslated: 310 messages, 4158 words
 
 * *GO!*
 * *Copy*
@@ -1017,7 +1061,7 @@ Untranslated: 307 messages, 4136 words
 
 Translated: 338 messages, 4743 words
 
-Untranslated: 20 messages, 146 words
+Untranslated: 23 messages, 168 words
 
 * *Layout*
 * *Layout:*
@@ -1026,6 +1070,8 @@ Untranslated: 20 messages, 146 words
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -1037,14 +1083,13 @@ Untranslated: 20 messages, 146 words
 * *This is a histogram of note speeds of all users, and your po...*
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
-* *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Thai
 
 Translated: 329 messages, 4635 words
 
-Untranslated: 27 messages, 232 words
+Untranslated: 30 messages, 254 words
 
 * *Zones:*
 * *Note Speed*
@@ -1054,8 +1099,10 @@ Untranslated: 27 messages, 232 words
 * *Per-note Speed*
 * *Key sounds only*
 * *Average accuracy*
+* *Bandoneon layout*
 * *Relative Accuracy*
 * *Repeat each word:*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Premium account price:*
@@ -1064,15 +1111,13 @@ Untranslated: 27 messages, 232 words
 * *This chart shows how overall note speed changes over time.*
 * *This chart shows the speed change for each individual note.*
 * *This chart shows the average speed for each individual note.*
-* *This chart shows relative note frequencies as a heatmap on t...*
-* *This is a histogram of note speeds of all users, and your po...*
 * ...
 
 # Turkish
 
 Translated: 227 messages, 2126 words
 
-Untranslated: 126 messages, 2708 words
+Untranslated: 129 messages, 2730 words
 
 * *Books*
 * *Font:*
@@ -1100,12 +1145,14 @@ Untranslated: 126 messages, 2708 words
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -1118,13 +1165,14 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Vietnamese
 
 Translated: 275 messages, 2745 words
 
-Untranslated: 80 messages, 2113 words
+Untranslated: 83 messages, 2135 words
 
 * *Visit*
 * *Typing*
@@ -1143,22 +1191,24 @@ Untranslated: 80 messages, 2113 words
 * *Per-note Speed*
 * *Key sounds only*
 * *Average accuracy*
+* *Bandoneon layout*
 * *Underline cursor*
 * *Repeat each word:*
-* *Relative Note Speed*
 * ...
 
 # Simplified Chinese
 
 Translated: 340 messages, 4739 words
 
-Untranslated: 18 messages, 150 words
+Untranslated: 21 messages, 172 words
 
 * *Note Speed*
 * *Pitch Test*
 * *M|T|W|T|F|S|S*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -1171,18 +1221,21 @@ Untranslated: 18 messages, 150 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* *Choose which hand and bellows direction to practice. Notes a...*
+* ...
 
 # Traditional Chinese
 
 Translated: 341 messages, 4746 words
 
-Untranslated: 17 messages, 143 words
+Untranslated: 20 messages, 165 words
 
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -1195,19 +1248,22 @@ Untranslated: 17 messages, 143 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
+* *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
 
 # Chinese (Taiwan)
 
 Translated: 340 messages, 4745 words
 
-Untranslated: 18 messages, 144 words
+Untranslated: 21 messages, 166 words
 
 * *GO!*
 * *Note Speed*
 * *Pitch Test*
 * *Per-note Speed*
 * *Key sounds only*
+* *Bandoneon layout*
+* *Instrument options*
 * *Relative Note Speed*
 * *Note Frequency Heatmap*
 * *Per-note Speed Histogram*
@@ -1220,4 +1276,5 @@ Untranslated: 18 messages, 144 words
 * *Circle size: relative frequency. Circle color: {label1} – hi...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – sp...*
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
-* *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* *Choose which hand and bellows direction to practice. Notes a...*
+* ...
