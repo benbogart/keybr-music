@@ -126,16 +126,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const body = `### Preview deployment ready
-
-**URL:** ${{ steps.deploy.outputs.url }}
-
-Access requires IAM authentication. Use:
-\`\`\`
-gcloud run services proxy ${{ steps.deploy.outputs.service_name }} --project=${{ env.GCP_PROJECT_ID }} --region=${{ env.GCP_REGION }}
-\`\`\`
-
-_Deployed from commit ${context.sha.substring(0, 8)}_`;
+            const body = [
+              '### Preview deployment ready',
+              '',
+              `**URL:** ${{ steps.deploy.outputs.url }}`,
+              '',
+              'Access requires IAM authentication. Use:',
+              '```',
+              `gcloud run services proxy ${{ steps.deploy.outputs.service_name }} --project=${{ env.GCP_PROJECT_ID }} --region=${{ env.GCP_REGION }}`,
+              '```',
+              '',
+              `_Deployed from commit ${context.sha.substring(0, 8)}_`,
+            ].join('\n');
 
             // Find existing preview comment to update
             const { data: comments } = await github.rest.issues.listComments({
