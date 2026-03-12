@@ -15,7 +15,8 @@ import bandoneonRightClosing from "../../assets/bandoneon-right-closing.svg";
 import bandoneonRightOpening from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
-const HIGHLIGHT_RADIUS = 16;
+const RIGHT_HAND_HIGHLIGHT_RADIUS = 16;
+const LEFT_HAND_HIGHLIGHT_RADIUS = 8;
 
 type Props = {
   readonly instrument: Instrument;
@@ -53,6 +54,7 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
             alt={`Bandoneon left hand ${spec.direction.toLowerCase()} keyboard`}
             active={spec.activeHand === "left"}
             viewBox={spec.overlayViewBox}
+            highlightRadius={spec.highlightRadius}
             target={target}
             played={played}
           />
@@ -62,6 +64,7 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
             alt={`Bandoneon right hand ${spec.direction.toLowerCase()} keyboard`}
             active={spec.activeHand === "right"}
             viewBox={spec.overlayViewBox}
+            highlightRadius={spec.highlightRadius}
             target={target}
             played={played}
           />
@@ -77,6 +80,7 @@ function BandoneonPanel({
   alt,
   active,
   viewBox,
+  highlightRadius,
   target,
   played,
 }: {
@@ -85,6 +89,7 @@ function BandoneonPanel({
   readonly alt: string;
   readonly active: boolean;
   readonly viewBox: string;
+  readonly highlightRadius: number;
   readonly target: { readonly x: number; readonly y: number } | null;
   readonly played: { readonly x: number; readonly y: number } | null;
 }): ReactNode {
@@ -103,7 +108,7 @@ function BandoneonPanel({
               <circle
                 cx={target.x}
                 cy={target.y}
-                r={HIGHLIGHT_RADIUS}
+                r={highlightRadius}
                 className={styles.bandoneon_target}
                 data-testid="bandoneon-target-key"
               />
@@ -112,7 +117,7 @@ function BandoneonPanel({
               <circle
                 cx={played.x}
                 cy={played.y}
-                r={HIGHLIGHT_RADIUS}
+                r={highlightRadius}
                 className={styles.bandoneon_played}
                 data-testid="bandoneon-played-key"
               />
@@ -131,6 +136,7 @@ function getLayoutSpec(layout: string): {
   readonly activeHand: "left" | "right";
   readonly activeKeymap: KeyMap;
   readonly overlayViewBox: string;
+  readonly highlightRadius: number;
   readonly leftImage: string;
   readonly rightImage: string;
 } {
@@ -141,6 +147,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "left",
         activeKeymap: bandoneonLeftOpeningKeyPositions,
         overlayViewBox: LEFT_HAND_VIEWBOX,
+        highlightRadius: LEFT_HAND_HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftOpening,
         rightImage: bandoneonRightOpening,
       };
@@ -150,6 +157,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "right",
         activeKeymap: bandoneonRightClosingKeyPositions,
         overlayViewBox: RIGHT_HAND_VIEWBOX,
+        highlightRadius: RIGHT_HAND_HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftClosing,
         rightImage: bandoneonRightClosing,
       };
@@ -159,6 +167,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "left",
         activeKeymap: bandoneonLeftClosingKeyPositions,
         overlayViewBox: LEFT_HAND_VIEWBOX,
+        highlightRadius: LEFT_HAND_HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftClosing,
         rightImage: bandoneonRightClosing,
       };
@@ -169,6 +178,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "right",
         activeKeymap: bandoneonRightOpeningKeyPositions,
         overlayViewBox: RIGHT_HAND_VIEWBOX,
+        highlightRadius: RIGHT_HAND_HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftOpening,
         rightImage: bandoneonRightOpening,
       };

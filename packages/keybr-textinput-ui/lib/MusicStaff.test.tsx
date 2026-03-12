@@ -110,11 +110,38 @@ test("snapshot-like structural render for known sequence", () => {
   r.unmount();
 });
 
-function renderTextAreaWithStaff(lines: LineList) {
+test("left-hand layout forces bass clef for high notes", () => {
+  const r = renderTextAreaWithStaff(
+    toSingleLine([
+      { codePoint: 64, attrs: Attr.Hit, cls: null },
+      { codePoint: 66, attrs: Attr.Cursor, cls: null },
+      { codePoint: 68, attrs: Attr.Normal, cls: null },
+    ]),
+    {
+      ...textDisplaySettings,
+      musicLayout: "left-opening",
+    },
+  );
+
+  const staff = r.container.querySelector<HTMLElement>(
+    "[data-testid='music-staff']",
+  );
+  if (staff == null) {
+    throw new Error("Expected rendered staff root");
+  }
+  equal(staff.dataset.clef, "bass");
+
+  r.unmount();
+});
+
+function renderTextAreaWithStaff(
+  lines: LineList,
+  settings = textDisplaySettings,
+) {
   return render(
     <IntlProvider locale="en">
       <TextArea
-        settings={textDisplaySettings}
+        settings={settings}
         lines={lines}
         displayMode="staff"
         demo={true}

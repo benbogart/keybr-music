@@ -4,6 +4,7 @@ import {
   Lesson,
   type LessonKeys,
   lessonProps,
+  MusicLesson,
 } from "@keybr/lesson";
 import {
   type KeyStatsMap,
@@ -58,6 +59,10 @@ export class LessonState {
     this.textDisplaySettings = {
       ...toTextDisplaySettings(this.settings),
       codePointLabels: makeCodePointLabelMap(this.lesson.letters),
+      musicLayout:
+        this.lesson instanceof MusicLesson
+          ? this.lesson.instrument.layout
+          : undefined,
     };
     this.keyStatsMap = progress.keyStatsMap.copy();
     this.summaryStats = progress.summaryStats.copy();

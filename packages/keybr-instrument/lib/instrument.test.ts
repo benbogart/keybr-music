@@ -92,6 +92,15 @@ test("bandoneon note frequencies start with requested initial sequence", () => {
   deepEqual(ordered, [68, 69, 71, 72, 74, 76]);
 });
 
+test("left-hand layouts start one octave lower", () => {
+  const instrument = bandoneonLeftOpening();
+  const ordered = Letter.frequencyOrder(instrument.letters)
+    .slice(0, 6)
+    .map(({ codePoint }) => codePoint);
+
+  deepEqual(ordered, [56, 57, 59, 60, 62, 64]);
+});
+
 test("bandoneon exposes expected weighted MIDI code points", () => {
   const instrument = bandoneonLeftClosing();
   const expected = [...instrument.keymap.keys()].sort((a, b) => a - b);

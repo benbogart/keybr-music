@@ -57,10 +57,14 @@ export const MusicStaff = memo(function MusicStaff({
   const rootRef = useRef<HTMLDivElement>(null);
   const staffRef = useRef<HTMLDivElement>(null);
   const notes = useMemo(
-    () => toMusicStaffNotes(lines, settings.codePointLabels),
-    [lines, settings.codePointLabels],
+    () =>
+      toMusicStaffNotes(lines, settings.codePointLabels, settings.musicLayout),
+    [lines, settings.codePointLabels, settings.musicLayout],
   );
-  const clef = useMemo(() => chooseClef(notes), [notes]);
+  const clef = useMemo(
+    () => chooseClef(notes, settings.musicLayout),
+    [notes, settings.musicLayout],
+  );
 
   useEffect(() => {
     const el = rootRef.current;
@@ -167,19 +171,25 @@ export const MusicStaff = memo(function MusicStaff({
 function toMusicStaffNotes(
   lines: LineList,
   codePointLabels: ReadonlyMap<number, string> | undefined,
+  musicLayout: string | undefined,
 ): MusicStaffNote[] {
   const notes: MusicStaffNote[] = [];
+  const displayMidiOffset = layoutDisplayMidiOffset(musicLayout);
   for (const line of lines.lines) {
     for (const char of line.chars) {
       if (char.codePoint <= 0x0020) {
         continue;
       }
+      const midiNote = char.codePoint + displayMidiOffset;
       const note = toVexNote(
-        char.codePoint,
-        codePointLabels?.get(char.codePoint),
+        midiNote,
+        shiftLabelOctave(
+          codePointLabels?.get(char.codePoint),
+          displayMidiOffset,
+        ),
       );
       notes.push({
-        midiNote: char.codePoint,
+        midiNote,
         key: note.key,
         accidental: note.accidental,
         state: toNoteState(char.attrs),
@@ -243,13 +253,45 @@ function chunkNotes(
   return rows.length > 0 ? rows : [[]];
 }
 
-function chooseClef(notes: readonly MusicStaffNote[]): "treble" | "bass" {
+function chooseClef(
+  notes: readonly MusicStaffNote[],
+  musicLayout: string | undefined,
+): "treble" | "bass" {
+  if (musicLayout?.startsWith("left-")) {
+    return "bass";
+  }
+  if (musicLayout?.startsWith("right-")) {
+    return "treble";
+  }
   if (notes.length === 0) {
     return "treble";
   }
   const avg =
     notes.reduce((acc, note) => acc + note.midiNote, 0) / notes.length;
   return avg < 60 ? "bass" : "treble";
+}
+
+function layoutDisplayMidiOffset(musicLayout: string | undefined): number {
+  // Left-hand bandoneon notation is displayed one octave lower in bass clef.
+  if (musicLayout?.startsWith("left-")) {
+    return -12;
+  }
+  return 0;
+}
+
+function shiftLabelOctave(
+  label: string | undefined,
+  midiOffset: number,
+): string | undefined {
+  if (label == null || midiOffset === 0 || midiOffset % 12 !== 0) {
+    return label;
+  }
+  const m = /^([A-Ga-g])([#b]?)(-?\d+)$/.exec(label.trim());
+  if (m == null) {
+    return label;
+  }
+  const [, note, accidental, octave] = m;
+  return `${note}${accidental}${Number(octave) + midiOffset / 12}`;
 }
 
 function styleForState(state: MusicStaffNoteState) {

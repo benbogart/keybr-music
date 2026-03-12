@@ -26,6 +26,8 @@ const NOTE_NAMES = [
 
 const BANDONEON_INITIAL_MIDI_NOTE = 69; // A4
 const BANDONEON_INITIAL_SEQUENCE = [68, 69, 71, 72, 74, 76] as const;
+const BANDONEON_LEFT_HAND_INITIAL_MIDI_NOTE = 57; // A3
+const BANDONEON_LEFT_HAND_INITIAL_SEQUENCE = [56, 57, 59, 60, 62, 64] as const;
 
 export const BANDONEON_INSTRUMENT = "bandoneon";
 
@@ -119,10 +121,20 @@ function createBandoneonInstrument(
 ): Instrument {
   const notes = sortedCodePoints(keymap.keys());
   const range = noteRange(notes);
+  const initialProfile =
+    layout === "left-opening" || layout === "left-closing"
+      ? {
+          sequence: BANDONEON_LEFT_HAND_INITIAL_SEQUENCE,
+          start: BANDONEON_LEFT_HAND_INITIAL_MIDI_NOTE,
+        }
+      : {
+          sequence: BANDONEON_INITIAL_SEQUENCE,
+          start: BANDONEON_INITIAL_MIDI_NOTE,
+        };
   const frequencies = prioritizedNoteFrequencies(
     notes,
-    BANDONEON_INITIAL_SEQUENCE,
-    BANDONEON_INITIAL_MIDI_NOTE,
+    initialProfile.sequence,
+    initialProfile.start,
   );
   const letters = notes.map(
     (midiNote, index) =>
