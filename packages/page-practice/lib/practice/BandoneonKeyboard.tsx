@@ -15,8 +15,9 @@ import bandoneonRightClosing from "../../assets/bandoneon-right-closing.svg";
 import bandoneonRightOpening from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
-const RIGHT_HAND_HIGHLIGHT_RADIUS = 16;
-const LEFT_HAND_HIGHLIGHT_RADIUS = 8;
+const HIGHLIGHT_RADIUS = 16;
+const KEY_CENTER_OFFSET = 14;
+const LEFT_HAND_SVG_WIDTH = 452.0;
 
 type Props = {
   readonly instrument: Instrument;
@@ -33,11 +34,17 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
   const target =
     targetCodePoint == null
       ? null
-      : (spec.activeKeymap.get(targetCodePoint) ?? null);
+      : normalizeOverlayPosition(
+          spec.activeHand,
+          spec.activeKeymap.get(targetCodePoint),
+        );
   const played =
     playedCodePoint == null
       ? null
-      : (spec.activeKeymap.get(playedCodePoint) ?? null);
+      : normalizeOverlayPosition(
+          spec.activeHand,
+          spec.activeKeymap.get(playedCodePoint),
+        );
   return (
     <section
       className={styles.bandoneon}
@@ -131,6 +138,26 @@ function BandoneonPanel({
   );
 }
 
+function normalizeOverlayPosition(
+  activeHand: "left" | "right",
+  position: { readonly x: number; readonly y: number } | undefined,
+): { readonly x: number; readonly y: number } | null {
+  if (position == null) {
+    return null;
+  }
+  if (activeHand === "right") {
+    return {
+      x: position.x,
+      y: position.y + KEY_CENTER_OFFSET,
+    };
+  }
+  // Left-hand maps are stored in a transposed coordinate system.
+  return {
+    x: LEFT_HAND_SVG_WIDTH - position.y,
+    y: position.x + KEY_CENTER_OFFSET,
+  };
+}
+
 function getLayoutSpec(layout: string): {
   readonly direction: "Opening" | "Closing";
   readonly activeHand: "left" | "right";
@@ -147,7 +174,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "left",
         activeKeymap: bandoneonLeftOpeningKeyPositions,
         overlayViewBox: LEFT_HAND_VIEWBOX,
-        highlightRadius: LEFT_HAND_HIGHLIGHT_RADIUS,
+        highlightRadius: HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftOpening,
         rightImage: bandoneonRightOpening,
       };
@@ -157,7 +184,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "right",
         activeKeymap: bandoneonRightClosingKeyPositions,
         overlayViewBox: RIGHT_HAND_VIEWBOX,
-        highlightRadius: RIGHT_HAND_HIGHLIGHT_RADIUS,
+        highlightRadius: HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftClosing,
         rightImage: bandoneonRightClosing,
       };
@@ -167,7 +194,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "left",
         activeKeymap: bandoneonLeftClosingKeyPositions,
         overlayViewBox: LEFT_HAND_VIEWBOX,
-        highlightRadius: LEFT_HAND_HIGHLIGHT_RADIUS,
+        highlightRadius: HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftClosing,
         rightImage: bandoneonRightClosing,
       };
@@ -178,7 +205,7 @@ function getLayoutSpec(layout: string): {
         activeHand: "right",
         activeKeymap: bandoneonRightOpeningKeyPositions,
         overlayViewBox: RIGHT_HAND_VIEWBOX,
-        highlightRadius: RIGHT_HAND_HIGHLIGHT_RADIUS,
+        highlightRadius: HIGHLIGHT_RADIUS,
         leftImage: bandoneonLeftOpening,
         rightImage: bandoneonRightOpening,
       };
