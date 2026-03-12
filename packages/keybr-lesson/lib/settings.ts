@@ -50,6 +50,11 @@ export const lessonProps = {
   numbers: {
     benford: booleanProp("lesson.numbers.benford", true),
   } as const,
+  music: {
+    layout: stringProp("lesson.music.layout", "right-opening", {
+      maxLength: 64,
+    }),
+  } as const,
   code: {
     syntax: itemProp("lesson.code.syntax", Syntax.ALL, Syntax.HTML),
     flags: flagsProp("lesson.code.flags", Syntax.FLAGS),
