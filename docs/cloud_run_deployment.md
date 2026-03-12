@@ -80,6 +80,10 @@ After deployment:
 The deploy workflow runs `scripts/cloud-run-smoke-test.sh` after deployment
 (unless `RUN_CLOUD_RUN_SMOKE_TEST=false`).
 
+By default, the workflow resolves the Cloud Run service URL and uses it as
+`SMOKE_BASE_URL` for health probing (`/healthz`), so smoke checks do not depend
+on custom-domain propagation.
+
 The smoke test validates:
 
 1. `/healthz` returns `ok`

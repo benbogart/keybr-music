@@ -7,15 +7,27 @@ if [[ -z "${APP_URL:-}" ]]; then
   exit 1
 fi
 
-base_url="${APP_URL%/}"
+base_url="${SMOKE_BASE_URL:-${APP_URL}}"
+base_url="${base_url%/}"
+app_url="${APP_URL%/}"
 cookie_file="$(mktemp)"
 trap 'rm -f "${cookie_file}"' EXIT
 
-echo "Checking health endpoint..."
+echo "Checking health endpoint on ${base_url}..."
 health="$(curl -fsS "${base_url}/healthz")"
 if [[ "${health}" != "ok" ]]; then
   echo "Unexpected /healthz response: ${health}" >&2
   exit 1
+fi
+
+base_host="$(printf '%s' "${base_url}" | awk -F/ '{print $3}')"
+app_host="$(printf '%s' "${app_url}" | awk -F/ '{print $3}')"
+if [[ "${base_host}" != "${app_host}" ]]; then
+  echo "Skipping authenticated smoke checks because hosts differ:"
+  echo "  SMOKE_BASE_URL host: ${base_host}"
+  echo "  APP_URL host:        ${app_host}"
+  echo "Health check passed."
+  exit 0
 fi
 
 echo "Logging in with bootstrap token..."

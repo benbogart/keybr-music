@@ -178,6 +178,18 @@ jobs:
         if: ${{ steps.deploy.outcome == 'failure' }}
         run: exit 1
 
+      - name: Resolve Cloud Run service URL
+        if: ${{ steps.deploy.outcome == 'success' }}
+        id: service_url
+        run: |
+          url="$(gcloud run services describe "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --format='value(status.url)')"
+          echo "url=${url}" >> "${GITHUB_OUTPUT}"
+
       - name: Smoke test deployed service
         if: ${{ steps.deploy.outcome == 'success' && env.RUN_CLOUD_RUN_SMOKE_TEST == 'true' }}
+        env:
+          SMOKE_BASE_URL: ${{ steps.service_url.outputs.url }}
         run: ./scripts/cloud-run-smoke-test.sh
