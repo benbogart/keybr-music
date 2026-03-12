@@ -23,8 +23,9 @@ Set these variables in `Settings -> Secrets and variables -> Actions -> Variable
 - `GCP_REGION` (e.g. `us-central1`)
 - `GAR_REPOSITORY` (repository name only, e.g. `docker-registry`)
 - `CLOUD_RUN_SERVICE` (Cloud Run service name)
-- `APP_URL` (public app URL, e.g. `https://keybr.example.com/`)
-- `COOKIE_DOMAIN` (cookie domain only, no scheme; usually `keybr.example.com`)
+- `APP_URL` (plain public app URL string, e.g. `https://keybr.example.com/`)
+- `COOKIE_DOMAIN` (plain cookie domain only, no scheme/markdown; usually
+  `keybr.example.com`)
 - `LITESTREAM_REPLICA_URI` (e.g. `gs://my-keybr-backups/database`)
 
 Optional:

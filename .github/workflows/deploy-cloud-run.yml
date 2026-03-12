@@ -85,6 +85,44 @@ jobs:
             exit 1
           fi
 
+          node -e '
+            const appUrl = process.env.APP_URL ?? "";
+            const cookieDomain = process.env.COOKIE_DOMAIN ?? "";
+
+            let parsed;
+            try {
+              parsed = new URL(appUrl);
+            } catch {
+              console.error("APP_URL must be a valid absolute URL, e.g. https://keys.example.com/");
+              process.exit(1);
+            }
+
+            if (!["http:", "https:"].includes(parsed.protocol)) {
+              console.error("APP_URL protocol must be http or https.");
+              process.exit(1);
+            }
+
+            if (/[<>\[\]\(\)\s]/.test(appUrl)) {
+              console.error("APP_URL appears malformed (contains markdown/special characters). Use a plain URL string.");
+              process.exit(1);
+            }
+
+            if (/[<>\[\]\(\)\s]/.test(cookieDomain) || cookieDomain.includes("://")) {
+              console.error("COOKIE_DOMAIN must be a plain domain, e.g. keys.example.com");
+              process.exit(1);
+            }
+
+            const appHost = parsed.hostname.toLowerCase();
+            const cookieHost = cookieDomain.toLowerCase();
+            const cookieMatches =
+              appHost === cookieHost || appHost.endsWith(`.${cookieHost}`);
+
+            if (!cookieMatches) {
+              console.error(`COOKIE_DOMAIN (${cookieDomain}) should match APP_URL host (${parsed.hostname}) or be its parent domain.`);
+              process.exit(1);
+            }
+          '
+
       - name: Configure Docker authentication
         run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
 
