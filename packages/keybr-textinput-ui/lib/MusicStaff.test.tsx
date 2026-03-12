@@ -3,6 +3,7 @@ import {
   Attr,
   type Char,
   type LineList,
+  type TextDisplaySettings,
   textDisplaySettings,
 } from "@keybr/textinput";
 import { render } from "@testing-library/react";
@@ -138,7 +139,7 @@ test("left-hand layout forces bass clef for high notes", () => {
 
 function renderTextAreaWithStaff(
   lines: LineList,
-  settings = textDisplaySettings,
+  settings: TextDisplaySettings = textDisplaySettings,
 ) {
   return render(
     <IntlProvider locale="en">
