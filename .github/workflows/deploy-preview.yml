@@ -69,7 +69,7 @@ jobs:
           bucket_base="$(echo "${LITESTREAM_REPLICA_URI}" | sed -E 's|^gs://([^/]+).*|gs://\1|')"
           pr_replica_uri="${bucket_base}/pr-${PR_NUMBER}/database"
 
-          env_vars="NODE_ENV=production,SERVER_PORT=3000,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true,COOKIE_SECURE=false"
+          env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=*,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true,COOKIE_SECURE=false"
           # Restore from prod, replicate to PR-specific path
           env_vars="${env_vars},LITESTREAM_RESTORE_URI=${LITESTREAM_REPLICA_URI}"
           env_vars="${env_vars},LITESTREAM_REPLICA_URI=${pr_replica_uri}"
@@ -104,26 +104,35 @@ jobs:
           echo "url=${url}" >> "${GITHUB_OUTPUT}"
           echo "service_name=${service_name}" >> "${GITHUB_OUTPUT}"
 
+      - name: Smoke test preview
+        env:
+          SMOKE_BASE_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          echo "Waiting for preview to become ready at ${SMOKE_BASE_URL}..."
+          for attempt in $(seq 1 12); do
+            http_code="$(curl -sS -o /dev/null -w '%{http_code}' "${SMOKE_BASE_URL}/" 2>&1)" || true
+            if [[ "${http_code}" == "200" ]]; then
+              echo "Preview smoke test passed (attempt ${attempt})."
+              exit 0
+            fi
+            echo "Attempt ${attempt}/12: HTTP ${http_code}, retrying in 10s..."
+            sleep 10
+          done
+          echo "Smoke test failed at ${SMOKE_BASE_URL} after 12 attempts" >&2
+          curl -vvv "${SMOKE_BASE_URL}/" 2>&1 || true
+          exit 1
+
       - name: Comment preview URL on PR
         if: ${{ steps.deploy.outcome == 'success' }}
         uses: actions/github-script@v7
         with:
           script: |
-            const serviceName = '${{ steps.deploy.outputs.service_name }}';
             const url = '${{ steps.deploy.outputs.url }}';
-            const project = '${{ env.GCP_PROJECT_ID }}';
-            const region = '${{ env.GCP_REGION }}';
             const sha = context.sha.substring(0, 8);
             const body = [
               '### Preview deployment ready',
               '',
-              'Access the preview via:',
-              '```',
-              `gcloud run services proxy ${serviceName} --project=${project} --region=${region}`,
-              '```',
-              `Then open http://localhost:8080`,
-              '',
-              `Direct URL (requires IAM invoker permission): ${url}`,
+              `**URL:** ${url}`,
               '',
               `_Deployed from commit ${sha}_`,
             ].join('\n');
