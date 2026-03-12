@@ -1,0 +1,245 @@
+name: Deploy Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cloud-run-main
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      GAR_REPOSITORY: ${{ vars.GAR_REPOSITORY }}
+      CLOUD_RUN_SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+      APP_URL: ${{ vars.APP_URL }}
+      COOKIE_DOMAIN: ${{ vars.COOKIE_DOMAIN }}
+      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI }}
+      LITESTREAM_RETENTION: ${{ vars.LITESTREAM_RETENTION }}
+      CLOUD_RUN_EXTRA_ENV_VARS: ${{ vars.CLOUD_RUN_EXTRA_ENV_VARS }}
+      CLOUD_RUN_SECRETS: ${{ vars.CLOUD_RUN_SECRETS }}
+      CLOUD_RUN_MEMORY: ${{ vars.CLOUD_RUN_MEMORY || '1Gi' }}
+      RUN_CLOUD_RUN_SMOKE_TEST: ${{ vars.RUN_CLOUD_RUN_SMOKE_TEST || 'true' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate auth configuration
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          if [[ -z "${GCP_SA_KEY}" ]]; then
+            echo "Missing required GitHub secret: GCP_SA_KEY" >&2
+            echo "Set this in Settings -> Secrets and variables -> Actions -> Secrets." >&2
+            exit 1
+          fi
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Validate deploy configuration
+        run: |
+          required_vars=(
+            GCP_PROJECT_ID
+            GCP_REGION
+            GAR_REPOSITORY
+            CLOUD_RUN_SERVICE
+            APP_URL
+            COOKIE_DOMAIN
+            LITESTREAM_REPLICA_URI
+          )
+
+          for variable in "${required_vars[@]}"; do
+            if [[ -z "${!variable}" ]]; then
+              echo "Missing required GitHub repository variable: ${variable}" >&2
+              exit 1
+            fi
+          done
+
+          if [[ "${LITESTREAM_REPLICA_URI}" != gs://* ]]; then
+            echo "LITESTREAM_REPLICA_URI must start with gs:// for Litestream v0.5.9." >&2
+            echo "Example: gs://my-keybr-backups/database" >&2
+            exit 1
+          fi
+          if [[ "${GAR_REPOSITORY}" == *"/"* ]]; then
+            echo "GAR_REPOSITORY must be a repository name only (for example: docker-registry)." >&2
+            echo "Do not use a full Artifact Registry path." >&2
+            exit 1
+          fi
+
+          node -e '
+            const appUrl = process.env.APP_URL ?? "";
+            const cookieDomain = process.env.COOKIE_DOMAIN ?? "";
+
+            let parsed;
+            try {
+              parsed = new URL(appUrl);
+            } catch {
+              console.error("APP_URL must be a valid absolute URL, e.g. https://keys.example.com/");
+              process.exit(1);
+            }
+
+            if (!["http:", "https:"].includes(parsed.protocol)) {
+              console.error("APP_URL protocol must be http or https.");
+              process.exit(1);
+            }
+
+            if (/[<>\[\]\(\)\s]/.test(appUrl)) {
+              console.error("APP_URL appears malformed (contains markdown/special characters). Use a plain URL string.");
+              process.exit(1);
+            }
+
+            if (/[<>\[\]\(\)\s]/.test(cookieDomain) || cookieDomain.includes("://")) {
+              console.error("COOKIE_DOMAIN must be a plain domain, e.g. keys.example.com");
+              process.exit(1);
+            }
+
+            const appHost = parsed.hostname.toLowerCase();
+            const cookieHost = cookieDomain.toLowerCase();
+            const cookieMatches =
+              appHost === cookieHost || appHost.endsWith(`.${cookieHost}`);
+
+            if (!cookieMatches) {
+              console.error(`COOKIE_DOMAIN (${cookieDomain}) should match APP_URL host (${parsed.hostname}) or be its parent domain.`);
+              process.exit(1);
+            }
+          '
+
+      - name: Configure Docker authentication
+        run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
+
+      - name: Validate Artifact Registry repository exists
+        run: |
+          if ! gcloud artifacts repositories describe "${GAR_REPOSITORY}" \
+            --project="${GCP_PROJECT_ID}" \
+            --location="${GCP_REGION}" >/dev/null 2>&1; then
+            echo "Artifact Registry repository not found." >&2
+            echo "Expected repository name: ${GAR_REPOSITORY}" >&2
+            echo "Project: ${GCP_PROJECT_ID}" >&2
+            echo "Location: ${GCP_REGION}" >&2
+            echo "Available repositories in this location:" >&2
+            gcloud artifacts repositories list \
+              --project="${GCP_PROJECT_ID}" \
+              --location="${GCP_REGION}" >&2 || true
+            exit 1
+          fi
+
+      - name: Build and push image
+        id: image
+        run: |
+          image_name="${IMAGE_NAME:-keybr-com}"
+          image_uri="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/${image_name}:${GITHUB_SHA}"
+          echo "Using image URI: ${image_uri}"
+          docker build --tag "${image_uri}" .
+          docker push "${image_uri}"
+          echo "image_uri=${image_uri}" >> "${GITHUB_OUTPUT}"
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        continue-on-error: true
+        run: |
+          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI},SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true"
+          if [[ -n "${LITESTREAM_RETENTION}" ]]; then
+            base_env_vars="${base_env_vars},LITESTREAM_RETENTION=${LITESTREAM_RETENTION}"
+          fi
+
+          args=(
+            "${CLOUD_RUN_SERVICE}"
+            "--project=${GCP_PROJECT_ID}"
+            "--region=${GCP_REGION}"
+            "--platform=managed"
+            "--port=3000"
+            "--memory=${CLOUD_RUN_MEMORY}"
+            "--max-instances=1"
+            "--image=${{ steps.image.outputs.image_uri }}"
+            "--set-env-vars=${base_env_vars}"
+          )
+
+          if [[ -n "${CLOUD_RUN_EXTRA_ENV_VARS}" ]]; then
+            args+=("--update-env-vars=${CLOUD_RUN_EXTRA_ENV_VARS}")
+          fi
+
+          if [[ -n "${CLOUD_RUN_SECRETS}" ]]; then
+            args+=("--set-secrets=${CLOUD_RUN_SECRETS}")
+          fi
+
+          gcloud run deploy "${args[@]}"
+
+      - name: Print Cloud Run logs on deploy failure
+        if: ${{ steps.deploy.outcome == 'failure' }}
+        run: |
+          echo "Deploy failed. Recent Cloud Run logs:"
+          sleep 10
+
+          revision="$(gcloud run revisions list \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --service="${CLOUD_RUN_SERVICE}" \
+            --limit=1 \
+            --format='value(metadata.name)' || true)"
+
+          if [[ -n "${revision}" ]]; then
+            echo "Latest revision: ${revision}"
+            gcloud logging read \
+              --project="${GCP_PROJECT_ID}" \
+              --limit=200 \
+              --format='value(textPayload)' \
+              "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${CLOUD_RUN_SERVICE}\" AND resource.labels.revision_name=\"${revision}\"" || true
+          fi
+
+          gcloud run services logs read "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --limit=200 || true
+
+      - name: Fail workflow if deploy failed
+        if: ${{ steps.deploy.outcome == 'failure' }}
+        run: exit 1
+
+      - name: Resolve Cloud Run service URL
+        if: ${{ steps.deploy.outcome == 'success' }}
+        id: service_url
+        run: |
+          url="$(gcloud run services describe "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --format='value(status.url)')"
+          echo "url=${url}" >> "${GITHUB_OUTPUT}"
+
+      - name: Smoke test deployed service
+        id: smoke
+        continue-on-error: true
+        if: ${{ steps.deploy.outcome == 'success' && env.RUN_CLOUD_RUN_SMOKE_TEST == 'true' }}
+        env:
+          SMOKE_BASE_URL: ${{ steps.service_url.outputs.url }}
+        run: ./scripts/cloud-run-smoke-test.sh
+
+      - name: Print Cloud Run logs on smoke failure
+        if: ${{ steps.smoke.outcome == 'failure' }}
+        run: |
+          echo "Smoke test failed. Recent Cloud Run logs:"
+          gcloud run services logs read "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --limit=200 || true
+
+      - name: Fail workflow if smoke test failed
+        if: ${{ steps.smoke.outcome == 'failure' }}
+        run: exit 1

@@ -22,11 +22,13 @@ if (cluster.isPrimary) {
     canonicalUrl: container.get("canonicalUrl"),
   });
   process.title = "keybr master process";
-  fork({ args: ["http"] });
-  fork({ args: ["http"] });
-  fork({ args: ["http"] });
-  fork({ args: ["http"] });
-  fork({ args: ["ws"] });
+  const httpWorkers = Math.max(1, Env.getInteger("SERVER_HTTP_WORKERS", 4));
+  for (let i = 0; i < httpWorkers; i++) {
+    fork({ args: ["http"] });
+  }
+  if (Env.getBoolean("SERVER_ENABLE_WS", true)) {
+    fork({ args: ["ws"] });
+  }
 } else {
   const container = makeContainer();
   const service = container.get(Service);

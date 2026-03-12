@@ -57,9 +57,7 @@ export class NoteSequenceModel {
     const codePoints =
       filter.codePoints == null
         ? this.codePoints
-        : [...filter.codePoints].filter((codePoint) =>
-            this.codePointSet.has(codePoint),
-          );
+        : this.codePoints.filter((codePoint) => filter.includes(codePoint));
     return sortCodePoints(codePoints);
   }
 

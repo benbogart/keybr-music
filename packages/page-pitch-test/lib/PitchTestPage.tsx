@@ -1,5 +1,5 @@
-import { createPitchDetector, rms } from "@keybr/pitch-detection";
 import type { PitchDetector, PitchEvent } from "@keybr/pitch-detection";
+import { createPitchDetector, rms } from "@keybr/pitch-detection";
 import { Article } from "@keybr/widget";
 import { useCallback, useEffect, useRef, useState } from "react";
 

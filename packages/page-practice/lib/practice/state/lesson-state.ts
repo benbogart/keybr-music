@@ -92,7 +92,6 @@ export class LessonState {
       this.textInput.at(this.textInput.pos).codePoint === 0x0020
     ) {
       this.textInput.onInput({
-        type: "input",
         timeStamp,
         inputType: "appendChar",
         codePoint: 0x0020,

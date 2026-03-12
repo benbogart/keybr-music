@@ -89,6 +89,8 @@ function useLessonState(
   onResultRef.current = onResult;
 
   const handlers = useMemo(() => {
+    // Force a new LessonState instance when `key` is incremented.
+    void key;
     let state!: LessonState;
     state = new LessonState(progress, (result, textInput) => {
       lastLessonRef.current = makeLastLesson(result, textInput.steps);
