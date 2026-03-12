@@ -39,6 +39,7 @@ export function SettingsScreen({
     >
       <KeyboardProvider>
         <Content
+          mode={mode}
           onSubmit={() => {
             updateSettings(newSettings);
             setView(mode);
@@ -49,7 +50,13 @@ export function SettingsScreen({
   );
 }
 
-function Content({ onSubmit }: { readonly onSubmit: () => void }) {
+function Content({
+  mode,
+  onSubmit,
+}: {
+  readonly mode: "practice" | "music";
+  readonly onSubmit: () => void;
+}) {
   const { formatMessage } = useIntl();
   const { settings, updateSettings } = useSettings();
   return (
@@ -60,7 +67,7 @@ function Content({ onSubmit }: { readonly onSubmit: () => void }) {
         <Header level={1}>
           <FormattedMessage id="t_Lessons" defaultMessage="Lessons" />
         </Header>
-        <LessonSettings />
+        <LessonSettings mode={mode} />
 
         <Spacer size={5} />
 

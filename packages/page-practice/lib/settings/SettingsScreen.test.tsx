@@ -48,3 +48,30 @@ test("render", async () => {
 
   r.unmount();
 });
+
+test("render music settings with layout picker", async () => {
+  const r = render(
+    <FakeIntlProvider>
+      <FakeSettingsContext>
+        <FakeResultContext initialResults={faker.nextResultList(20)}>
+          <SettingsScreen mode="music" />
+        </FakeResultContext>
+      </FakeSettingsContext>
+    </FakeIntlProvider>,
+  );
+
+  isNotNull(await r.findByText("Lessons"));
+  fireEvent.click(r.getByText("Lessons"));
+
+  isNotNull(r.queryByText("Instrument options"));
+  isNotNull(r.queryByText("Bandoneon layout"));
+  isNotNull(r.queryByText("Right hand opening"));
+
+  fireEvent.click(r.getByText("Right hand opening"));
+
+  isNotNull(r.queryByText("Left hand opening"));
+  isNotNull(r.queryByText("Right hand closing"));
+  isNotNull(r.queryByText("Left hand closing"));
+
+  r.unmount();
+});
