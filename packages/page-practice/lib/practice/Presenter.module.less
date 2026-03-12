@@ -92,10 +92,13 @@
 .bandoneon_canvas {
   position: relative;
   inline-size: 100%;
+  isolation: isolate;
 }
 
 .bandoneon_svg {
   display: block;
+  position: relative;
+  z-index: 1;
   inline-size: 100%;
   block-size: auto;
 }
@@ -111,15 +114,16 @@
 .bandoneon_overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
   inline-size: 100%;
   block-size: 100%;
   pointer-events: none;
 }
 
 .bandoneon_target {
-  fill: none;
-  stroke: #2563eb;
-  stroke-width: 3.5;
+  fill: rgb(37 99 235 / 22%);
+  stroke: #1d4ed8;
+  stroke-width: 4.5;
 }
 
 .bandoneon_played {
