@@ -107,24 +107,29 @@ jobs:
           echo "service_name=${service_name}" >> "${GITHUB_OUTPUT}"
 
       - name: Smoke test preview
-        env:
-          SMOKE_BASE_URL: ${{ steps.deploy.outputs.url }}
         run: |
-          # Service requires IAM auth — use the SA's identity token
-          auth_header="Authorization: Bearer $(gcloud auth print-identity-token)"
+          service_name="${{ steps.deploy.outputs.service_name }}"
 
-          echo "Waiting for preview to become ready at ${SMOKE_BASE_URL}..."
-          for attempt in $(seq 1 12); do
-            http_code="$(curl -sS -o /dev/null -w '%{http_code}' -H "${auth_header}" "${SMOKE_BASE_URL}/healthz" 2>&1)" || true
+          # Use gcloud proxy to bypass URL routing and IAM auth issues
+          gcloud run services proxy "${service_name}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --port=8888 &
+          proxy_pid=$!
+          trap "kill ${proxy_pid} 2>/dev/null || true" EXIT
+
+          echo "Waiting for proxy and service to become ready..."
+          for attempt in $(seq 1 18); do
+            http_code="$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:8888/healthz" 2>&1)" || true
             if [[ "${http_code}" == "200" ]]; then
               echo "Preview health check passed (attempt ${attempt})."
               exit 0
             fi
-            echo "Attempt ${attempt}/12: HTTP ${http_code}, retrying in 10s..."
+            echo "Attempt ${attempt}/18: HTTP ${http_code}, retrying in 10s..."
             sleep 10
           done
-          echo "Health check failed for preview at ${SMOKE_BASE_URL} after 12 attempts" >&2
-          curl -vvv -H "${auth_header}" "${SMOKE_BASE_URL}/healthz" 2>&1 || true
+          echo "Health check failed after 18 attempts" >&2
+          curl -vvv "http://localhost:8888/healthz" 2>&1 || true
           exit 1
 
       - name: Comment preview URL on PR
