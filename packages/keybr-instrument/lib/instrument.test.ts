@@ -35,18 +35,22 @@ test("bandoneon layout factories expose matching keymaps and ranges", () => {
 
   equal(rightOpening.layout, "right-opening");
   equal(rightOpening.keymap, bandoneonRightOpeningKeyPositions);
+  deepEqual(rightOpening.notation, { clef: "treble", octaveShift: 0 });
   deepEqual(rightOpening.range, { minMidiNote: 57, maxMidiNote: 95 });
 
   equal(rightClosing.layout, "right-closing");
   equal(rightClosing.keymap, bandoneonRightClosingKeyPositions);
+  deepEqual(rightClosing.notation, { clef: "treble", octaveShift: 0 });
   deepEqual(rightClosing.range, { minMidiNote: 57, maxMidiNote: 93 });
 
   equal(leftOpening.layout, "left-opening");
   equal(leftOpening.keymap, bandoneonLeftOpeningKeyPositions);
+  deepEqual(leftOpening.notation, { clef: "bass", octaveShift: -12 });
   deepEqual(leftOpening.range, { minMidiNote: 36, maxMidiNote: 69 });
 
   equal(leftClosing.layout, "left-closing");
   equal(leftClosing.keymap, bandoneonLeftClosingKeyPositions);
+  deepEqual(leftClosing.notation, { clef: "bass", octaveShift: -12 });
   deepEqual(leftClosing.range, { minMidiNote: 37, maxMidiNote: 71 });
 
   deepEqual(

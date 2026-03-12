@@ -119,7 +119,10 @@ test("left-hand layout forces bass clef for high notes", () => {
     ]),
     {
       ...textDisplaySettings,
-      musicLayout: "left-opening",
+      musicNotation: {
+        clef: "bass",
+        octaveShift: -12,
+      },
     },
   );
 

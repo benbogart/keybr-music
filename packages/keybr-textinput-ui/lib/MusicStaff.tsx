@@ -58,12 +58,16 @@ export const MusicStaff = memo(function MusicStaff({
   const staffRef = useRef<HTMLDivElement>(null);
   const notes = useMemo(
     () =>
-      toMusicStaffNotes(lines, settings.codePointLabels, settings.musicLayout),
-    [lines, settings.codePointLabels, settings.musicLayout],
+      toMusicStaffNotes(
+        lines,
+        settings.codePointLabels,
+        settings.musicNotation,
+      ),
+    [lines, settings.codePointLabels, settings.musicNotation],
   );
   const clef = useMemo(
-    () => chooseClef(notes, settings.musicLayout),
-    [notes, settings.musicLayout],
+    () => chooseClef(notes, settings.musicNotation?.clef),
+    [notes, settings.musicNotation?.clef],
   );
 
   useEffect(() => {
@@ -171,10 +175,15 @@ export const MusicStaff = memo(function MusicStaff({
 function toMusicStaffNotes(
   lines: LineList,
   codePointLabels: ReadonlyMap<number, string> | undefined,
-  musicLayout: string | undefined,
+  musicNotation:
+    | {
+        readonly clef: "treble" | "bass" | "grand";
+        readonly octaveShift: number;
+      }
+    | undefined,
 ): MusicStaffNote[] {
   const notes: MusicStaffNote[] = [];
-  const displayMidiOffset = layoutDisplayMidiOffset(musicLayout);
+  const displayMidiOffset = musicNotation?.octaveShift ?? 0;
   for (const line of lines.lines) {
     for (const char of line.chars) {
       if (char.codePoint <= 0x0020) {
@@ -255,12 +264,12 @@ function chunkNotes(
 
 function chooseClef(
   notes: readonly MusicStaffNote[],
-  musicLayout: string | undefined,
+  notationClef: "treble" | "bass" | "grand" | undefined,
 ): "treble" | "bass" {
-  if (musicLayout?.startsWith("left-")) {
+  if (notationClef === "bass") {
     return "bass";
   }
-  if (musicLayout?.startsWith("right-")) {
+  if (notationClef === "treble") {
     return "treble";
   }
   if (notes.length === 0) {
@@ -269,14 +278,6 @@ function chooseClef(
   const avg =
     notes.reduce((acc, note) => acc + note.midiNote, 0) / notes.length;
   return avg < 60 ? "bass" : "treble";
-}
-
-function layoutDisplayMidiOffset(musicLayout: string | undefined): number {
-  // Left-hand bandoneon notation is displayed one octave lower in bass clef.
-  if (musicLayout?.startsWith("left-")) {
-    return -12;
-  }
-  return 0;
 }
 
 function shiftLabelOctave(

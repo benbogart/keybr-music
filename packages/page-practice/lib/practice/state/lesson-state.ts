@@ -59,9 +59,9 @@ export class LessonState {
     this.textDisplaySettings = {
       ...toTextDisplaySettings(this.settings),
       codePointLabels: makeCodePointLabelMap(this.lesson.letters),
-      musicLayout:
+      musicNotation:
         this.lesson instanceof MusicLesson
-          ? this.lesson.instrument.layout
+          ? this.lesson.instrument.notation
           : undefined,
     };
     this.keyStatsMap = progress.keyStatsMap.copy();
