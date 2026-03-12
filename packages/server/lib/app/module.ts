@@ -10,6 +10,7 @@ import { compress } from "@fastr/middleware-compress";
 import { conditional } from "@fastr/middleware-conditional";
 import { SessionHandler } from "@fastr/middleware-session";
 import { staticFiles } from "@fastr/middleware-static-files";
+import { Env } from "@keybr/config";
 import { ManifestModule } from "./assets.ts";
 import { AuthModule, loadUser } from "./auth/index.ts";
 import { cacheControl } from "./cachecontrol.ts";
@@ -34,7 +35,9 @@ export class ApplicationModule implements Module {
     container: Container,
     @inject("publicDir") publicDir: string,
   ): Application {
-    return new Application(container, { behindProxy: true })
+    return new Application(container, {
+      behindProxy: Env.getBoolean("SERVER_BEHIND_PROXY", true),
+    })
       .use(ErrorHandler)
       .use(conditional())
       .use(compress())
@@ -46,7 +49,9 @@ export class ApplicationModule implements Module {
 
   @provides({ id: Application, name: kGame, singleton: true })
   provideGame(container: Container): Application {
-    return new Application(container, { behindProxy: true })
+    return new Application(container, {
+      behindProxy: Env.getBoolean("SERVER_BEHIND_PROXY", true),
+    })
       .use(ErrorHandler)
       .use(SessionHandler)
       .use(loadUser())

@@ -51,6 +51,8 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
   SQLite.
 - The deployment sets `SERVER_HTTP_WORKERS=1` and `SERVER_ENABLE_WS=false` to
   keep memory usage within Cloud Run limits.
+- The deployment sets `SERVER_BEHIND_PROXY=false` to avoid strict forwarded-host
+  parsing issues on Cloud Run ingress.
 - Health endpoint: `GET /healthz` returns `200 OK` with `ok`.
 - `LITESTREAM_REPLICA_URI` is a private GCS URI (`gs://...`) and does not need
   public access; the Cloud Run runtime identity needs bucket permissions.

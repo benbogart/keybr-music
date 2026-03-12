@@ -156,7 +156,7 @@ jobs:
         id: deploy
         continue-on-error: true
         run: |
-          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI},SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false"
+          base_env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=${APP_URL},COOKIE_DOMAIN=${COOKIE_DOMAIN},COOKIE_SECURE=true,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,LITESTREAM_REPLICA_URI=${LITESTREAM_REPLICA_URI},SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=false"
           if [[ -n "${LITESTREAM_RETENTION}" ]]; then
             base_env_vars="${base_env_vars},LITESTREAM_RETENTION=${LITESTREAM_RETENTION}"
           fi
