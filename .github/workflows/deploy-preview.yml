@@ -69,7 +69,7 @@ jobs:
           bucket_base="$(echo "${LITESTREAM_REPLICA_URI}" | sed -E 's|^gs://([^/]+).*|gs://\1|')"
           pr_replica_uri="${bucket_base}/pr-${PR_NUMBER}/database"
 
-          env_vars="NODE_ENV=production,SERVER_PORT=3000,APP_URL=*,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true,COOKIE_SECURE=false"
+          env_vars="NODE_ENV=production,SERVER_PORT=3000,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true,COOKIE_SECURE=false"
           # Restore from prod, replicate to PR-specific path
           env_vars="${env_vars},LITESTREAM_RESTORE_URI=${LITESTREAM_REPLICA_URI}"
           env_vars="${env_vars},LITESTREAM_REPLICA_URI=${pr_replica_uri}"
@@ -101,6 +101,15 @@ jobs:
             exit 1
           fi
           echo "Preview URL: ${url}"
+
+          # Update APP_URL to the actual service URL so the canonical
+          # middleware doesn't redirect to the default keybr.com
+          gcloud run services update "${service_name}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --update-env-vars="APP_URL=${url}/" \
+            --quiet
+
           echo "url=${url}" >> "${GITHUB_OUTPUT}"
           echo "service_name=${service_name}" >> "${GITHUB_OUTPUT}"
 
