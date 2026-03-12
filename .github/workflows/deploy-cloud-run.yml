@@ -72,6 +72,16 @@ jobs:
               exit 1
             fi
           done
+
+          if [[ "${LITESTREAM_REPLICA_URI}" == gs://* ]]; then
+            echo "LITESTREAM_REPLICA_URI uses gs:// but Litestream expects gcs://." >&2
+            echo "Example: gcs://my-keybr-backups/database" >&2
+            exit 1
+          fi
+          if [[ "${LITESTREAM_REPLICA_URI}" != gcs://* ]]; then
+            echo "LITESTREAM_REPLICA_URI must start with gcs://." >&2
+            exit 1
+          fi
           if [[ "${GAR_REPOSITORY}" == *"/"* ]]; then
             echo "GAR_REPOSITORY must be a repository name only (for example: docker-registry)." >&2
             echo "Do not use a full Artifact Registry path." >&2
