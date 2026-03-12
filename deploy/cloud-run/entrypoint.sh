@@ -29,9 +29,9 @@ fi
 cat >"${LITESTREAM_CONFIG_PATH}" <<EOF
 dbs:
   - path: ${DATABASE_FILENAME}
-    replicas:
-      - url: ${LITESTREAM_REPLICA_URI}
-        retention: ${LITESTREAM_RETENTION}
+    replica:
+      url: ${LITESTREAM_REPLICA_URI}
+      retention: ${LITESTREAM_RETENTION}
 EOF
 
 echo "Preparing SQLite restore from '${LITESTREAM_REPLICA_URI}'..." >&2

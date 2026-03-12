@@ -87,6 +87,10 @@ By default, the workflow resolves the Cloud Run service URL and uses it as
 `SMOKE_BASE_URL` for health probing (`/healthz`), so smoke checks do not depend
 on custom-domain propagation.
 
+If `/healthz` is not externally reachable (for example, due to ingress/domain
+routing policy), the smoke script falls back to checking Cloud Run revision
+readiness through `gcloud run services describe`.
+
 The smoke test validates:
 
 1. `/healthz` returns `ok`

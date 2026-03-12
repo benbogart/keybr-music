@@ -187,7 +187,22 @@ jobs:
           echo "url=${url}" >> "${GITHUB_OUTPUT}"
 
       - name: Smoke test deployed service
+        id: smoke
+        continue-on-error: true
         if: ${{ steps.deploy.outcome == 'success' && env.RUN_CLOUD_RUN_SMOKE_TEST == 'true' }}
         env:
           SMOKE_BASE_URL: ${{ steps.service_url.outputs.url }}
         run: ./scripts/cloud-run-smoke-test.sh
+
+      - name: Print Cloud Run logs on smoke failure
+        if: ${{ steps.smoke.outcome == 'failure' }}
+        run: |
+          echo "Smoke test failed. Recent Cloud Run logs:"
+          gcloud run services logs read "${CLOUD_RUN_SERVICE}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --limit=200 || true
+
+      - name: Fail workflow if smoke test failed
+        if: ${{ steps.smoke.outcome == 'failure' }}
+        run: exit 1
