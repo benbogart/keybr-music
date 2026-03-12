@@ -23,7 +23,19 @@ export class Service {
 
   start({ app, port }: { app: Application; port: number }) {
     const callback = app.callback();
-    this.#server.on("request", callback);
+    this.#server.on("request", (req, res) => {
+      // Cloud Run sends X-Forwarded-Proto but not X-Forwarded-Host.
+      // The @fastr/core framework requires both when behindProxy is true,
+      // so derive X-Forwarded-Host from the Host header when missing.
+      if (
+        req.headers["x-forwarded-proto"] &&
+        !req.headers["x-forwarded-host"]
+      ) {
+        req.headers["x-forwarded-host"] =
+          req.headers["host"] ?? req.headers[":authority"];
+      }
+      callback(req, res);
+    });
     this.#server.on("upgrade", (req, socket, head) => {
       if (head.length > 0) {
         // Unread head back to the request stream.
