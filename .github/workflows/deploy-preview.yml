@@ -92,12 +92,17 @@ jobs:
             args+=("--set-secrets=${CLOUD_RUN_SECRETS}")
           fi
 
-          gcloud run deploy "${args[@]}"
+          deploy_output="$(gcloud run deploy "${args[@]}" 2>&1)"
+          echo "${deploy_output}"
 
-          url="$(gcloud run services describe "${service_name}" \
-            --project="${GCP_PROJECT_ID}" \
-            --region="${GCP_REGION}" \
-            --format='value(status.url)')"
+          # Parse service URL from deploy output (gcloud run services describe
+          # may return a stale/legacy URL format that doesn't route correctly)
+          url="$(echo "${deploy_output}" | grep -oP 'Service URL: \K\S+')"
+          if [[ -z "${url}" ]]; then
+            echo "Failed to parse service URL from deploy output" >&2
+            exit 1
+          fi
+          echo "Preview URL: ${url}"
           echo "url=${url}" >> "${GITHUB_OUTPUT}"
           echo "service_name=${service_name}" >> "${GITHUB_OUTPUT}"
 
