@@ -30,9 +30,13 @@ export const BandoneonKeyboard = memo(function BandoneonKeyboard({
 }: Props): ReactNode {
   const spec = getLayoutSpec(instrument.layout);
   const target =
-    targetCodePoint == null ? null : spec.activeKeymap.get(targetCodePoint);
+    targetCodePoint == null
+      ? null
+      : (spec.activeKeymap.get(targetCodePoint) ?? null);
   const played =
-    playedCodePoint == null ? null : spec.activeKeymap.get(playedCodePoint);
+    playedCodePoint == null
+      ? null
+      : (spec.activeKeymap.get(playedCodePoint) ?? null);
   return (
     <section
       className={styles.bandoneon}
