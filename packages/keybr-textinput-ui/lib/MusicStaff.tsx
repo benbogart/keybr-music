@@ -178,25 +178,18 @@ function toMusicStaffNotes(
   musicNotation:
     | {
         readonly clef: "treble" | "bass" | "grand";
-        readonly octaveShift: number;
       }
     | undefined,
 ): MusicStaffNote[] {
   const notes: MusicStaffNote[] = [];
-  const displayMidiOffset = musicNotation?.octaveShift ?? 0;
+  void musicNotation;
   for (const line of lines.lines) {
     for (const char of line.chars) {
       if (char.codePoint <= 0x0020) {
         continue;
       }
-      const midiNote = char.codePoint + displayMidiOffset;
-      const note = toVexNote(
-        midiNote,
-        shiftLabelOctave(
-          codePointLabels?.get(char.codePoint),
-          displayMidiOffset,
-        ),
-      );
+      const midiNote = char.codePoint;
+      const note = toVexNote(midiNote, codePointLabels?.get(char.codePoint));
       notes.push({
         midiNote,
         key: note.key,
@@ -278,21 +271,6 @@ function chooseClef(
   const avg =
     notes.reduce((acc, note) => acc + note.midiNote, 0) / notes.length;
   return avg < 60 ? "bass" : "treble";
-}
-
-function shiftLabelOctave(
-  label: string | undefined,
-  midiOffset: number,
-): string | undefined {
-  if (label == null || midiOffset === 0 || midiOffset % 12 !== 0) {
-    return label;
-  }
-  const m = /^([A-Ga-g])([#b]?)(-?\d+)$/.exec(label.trim());
-  if (m == null) {
-    return label;
-  }
-  const [, note, accidental, octave] = m;
-  return `${note}${accidental}${Number(octave) + midiOffset / 12}`;
 }
 
 function styleForState(state: MusicStaffNoteState) {

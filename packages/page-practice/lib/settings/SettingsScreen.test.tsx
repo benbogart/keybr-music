@@ -28,23 +28,15 @@ test("render", async () => {
   isNotNull(await r.findByText("Keyboard"));
   isNotNull(await r.findByText("Miscellaneous"));
 
-  fireEvent.click(r.getByText("Lessons"));
+  isNotNull(await r.findByText("Lesson options"));
+  isNotNull(await r.findByText("Lesson preview"));
 
-  isNotNull(r.queryByText("Lesson options"));
-  isNotNull(r.queryByText("Lesson preview"));
+  isNotNull(await r.findByText("Typing options"));
 
-  fireEvent.click(r.getByText("Typing"));
+  isNotNull(await r.findByText("Options"));
+  isNotNull(await r.findByText("Preview"));
 
-  isNotNull(r.queryByText("Typing options"));
-
-  fireEvent.click(r.getByText("Keyboard"));
-
-  isNotNull(r.queryByText("Options"));
-  isNotNull(r.queryByText("Preview"));
-
-  fireEvent.click(r.getByText("Miscellaneous"));
-
-  isNotNull(r.queryByText("Interface options"));
+  isNotNull(await r.findByText("Interface options"));
 
   r.unmount();
 });
@@ -61,17 +53,15 @@ test("render music settings with layout picker", async () => {
   );
 
   isNotNull(await r.findByText("Lessons"));
-  fireEvent.click(r.getByText("Keyboard"));
-
-  isNotNull(r.queryByText("Instrument options"));
-  isNotNull(r.queryByText("Bandoneon layout"));
-  isNotNull(r.queryByText("Right hand opening"));
+  isNotNull(await r.findByText("Instrument options"));
+  isNotNull(await r.findByText("Bandoneon layout"));
+  isNotNull(await r.findByText("Right hand opening"));
 
   fireEvent.click(r.getByText("Right hand opening"));
 
-  isNotNull(r.queryByText("Left hand opening"));
-  isNotNull(r.queryByText("Right hand closing"));
-  isNotNull(r.queryByText("Left hand closing"));
+  isNotNull(await r.findByText("Left hand opening"));
+  isNotNull(await r.findByText("Right hand closing"));
+  isNotNull(await r.findByText("Left hand closing"));
 
   r.unmount();
 });

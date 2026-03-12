@@ -60,7 +60,6 @@ export type TextDisplaySettings = {
   readonly codePointLabels?: ReadonlyMap<CodePoint, string>;
   readonly musicNotation?: {
     readonly clef: "treble" | "bass" | "grand";
-    readonly octaveShift: number;
   };
 };
 

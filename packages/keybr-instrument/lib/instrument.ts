@@ -49,7 +49,6 @@ export type KeyMap = ReadonlyMap<CodePoint, KeyPosition>;
 
 export type MusicNotation = {
   readonly clef: "treble" | "bass" | "grand";
-  readonly octaveShift: number;
 };
 
 export type Instrument = {
@@ -153,8 +152,8 @@ function createBandoneonInstrument(
     layout,
     notation:
       layout === "left-opening" || layout === "left-closing"
-        ? { clef: "bass", octaveShift: -12 }
-        : { clef: "treble", octaveShift: 0 },
+        ? { clef: "bass" }
+        : { clef: "treble" },
     range,
     keymap,
     letters,
