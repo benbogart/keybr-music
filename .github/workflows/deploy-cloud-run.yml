@@ -151,6 +151,24 @@ jobs:
         if: ${{ steps.deploy.outcome == 'failure' }}
         run: |
           echo "Deploy failed. Recent Cloud Run logs:"
+          sleep 10
+
+          revision="$(gcloud run revisions list \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --service="${CLOUD_RUN_SERVICE}" \
+            --limit=1 \
+            --format='value(metadata.name)' || true)"
+
+          if [[ -n "${revision}" ]]; then
+            echo "Latest revision: ${revision}"
+            gcloud logging read \
+              --project="${GCP_PROJECT_ID}" \
+              --limit=200 \
+              --format='value(textPayload)' \
+              "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${CLOUD_RUN_SERVICE}\" AND resource.labels.revision_name=\"${revision}\"" || true
+          fi
+
           gcloud run services logs read "${CLOUD_RUN_SERVICE}" \
             --project="${GCP_PROJECT_ID}" \
             --region="${GCP_REGION}" \

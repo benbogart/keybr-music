@@ -34,6 +34,7 @@ dbs:
         retention: ${LITESTREAM_RETENTION}
 EOF
 
+echo "Preparing SQLite restore from '${LITESTREAM_REPLICA_URI}'..." >&2
 litestream restore \
   -if-db-not-exists \
   -if-replica-exists \
@@ -42,6 +43,10 @@ litestream restore \
   echo "Litestream restore failed; continuing startup." >&2
 }
 
-exec litestream replicate \
+echo "Starting Litestream replication..." >&2
+litestream replicate \
   -config "${LITESTREAM_CONFIG_PATH}" \
-  -exec "npm run start-docker"
+  -exec "npm run start-docker" || {
+  echo "Litestream replicate failed; starting app without replication." >&2
+  exec npm run start-docker
+}
