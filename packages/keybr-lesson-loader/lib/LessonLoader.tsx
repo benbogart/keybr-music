@@ -1,7 +1,7 @@
 import { loadContent } from "@keybr/content-books";
 import { loadWordList } from "@keybr/content-words";
 import { catchError } from "@keybr/debug";
-import { bandoneon, NoteSequenceModel } from "@keybr/instrument";
+import { bandoneonByLayout, NoteSequenceModel } from "@keybr/instrument";
 import { KeyboardOptions, useKeyboard } from "@keybr/keyboard";
 import {
   BooksLesson,
@@ -162,7 +162,9 @@ function useMusicLoader(): Lesson | null {
   useEffect(() => {
     let didCancel = false;
     const load = async (): Promise<void> => {
-      const instrument = bandoneon();
+      const instrument = bandoneonByLayout(
+        settings.get(lessonProps.music.layout),
+      );
       const model = new NoteSequenceModel(instrument.codePoints);
       if (!didCancel) {
         setResult(new MusicLesson(settings, instrument, model));

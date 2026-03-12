@@ -8,7 +8,7 @@ export type KeyPosition = {
 // Right-hand viewBox (shared by opening and closing; same physical buttons)
 export const RIGHT_HAND_VIEWBOX = "0 0 460.38 243.55";
 // Left-hand viewBox (shared by opening and closing; same physical buttons)
-export const LEFT_HAND_VIEWBOX = "0 0 225.99 452.0";
+export const LEFT_HAND_VIEWBOX = "0 0 452.0 225.99";
 
 /** @deprecated Use RIGHT_HAND_VIEWBOX */
 export const SVG_VIEWBOX = RIGHT_HAND_VIEWBOX;

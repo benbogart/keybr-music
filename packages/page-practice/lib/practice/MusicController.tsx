@@ -1,4 +1,5 @@
-import { Target } from "@keybr/lesson";
+import { bandoneonRightOpening } from "@keybr/instrument";
+import { MusicLesson, Target } from "@keybr/lesson";
 import { PitchEvents } from "@keybr/pitch-input";
 import { type Result } from "@keybr/result";
 import { type LineList, type Step } from "@keybr/textinput";
@@ -30,6 +31,10 @@ export const MusicController = memo(function MusicController({
   readonly progress: Progress;
   readonly onResult: (result: Result) => void;
 }): ReactNode {
+  const musicInstrument =
+    progress.lesson instanceof MusicLesson
+      ? progress.lesson.instrument
+      : bandoneonRightOpening();
   const {
     state,
     lastCorrectCodePoint,
@@ -55,6 +60,7 @@ export const MusicController = memo(function MusicController({
       lines={state.lines}
       depressedKeys={state.depressedKeys}
       musicMode={true}
+      musicInstrument={musicInstrument}
       musicLastCorrectCodePoint={lastCorrectCodePoint}
       musicLessonSummary={lessonSummary}
       musicTargetSpeed={musicTargetSpeed}

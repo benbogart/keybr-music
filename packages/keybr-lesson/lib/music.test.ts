@@ -1,5 +1,9 @@
 import { test } from "node:test";
-import { bandoneon, NoteSequenceModel } from "@keybr/instrument";
+import {
+  bandoneon,
+  bandoneonLeftOpening,
+  NoteSequenceModel,
+} from "@keybr/instrument";
 import { type KeyStats, type KeyStatsMap } from "@keybr/result";
 import { Settings } from "@keybr/settings";
 import { deepEqual, equal } from "rich-assert";
@@ -49,6 +53,24 @@ test("starts with the requested initial note pool", () => {
     .map(({ letter }) => letter.codePoint);
 
   deepEqual(includedCodePoints, [68, 69, 71, 72, 74, 76]);
+});
+
+test("left-hand layout starts with an octave-lower note pool", () => {
+  const instrument = bandoneonLeftOpening();
+  const settings = new Settings().set(lessonProps.guided.alphabetSize, 0);
+  const lesson = new MusicLesson(
+    settings,
+    instrument,
+    new NoteSequenceModel(instrument.codePoints),
+  );
+  const lessonKeys = lesson.update(
+    makeKeyStatsMapWithTimes(lesson.letters, []),
+  );
+  const includedCodePoints = lessonKeys
+    .findIncludedKeys()
+    .map(({ letter }) => letter.codePoint);
+
+  deepEqual(includedCodePoints, [56, 57, 59, 60, 62, 64]);
 });
 
 function makeKeyStatsMapWithTimes(

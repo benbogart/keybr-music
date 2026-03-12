@@ -58,6 +58,9 @@ export type TextDisplaySettings = {
   readonly whitespaceStyle: WhitespaceStyle;
   readonly language: Language;
   readonly codePointLabels?: ReadonlyMap<CodePoint, string>;
+  readonly musicNotation?: {
+    readonly clef: "treble" | "bass" | "grand";
+  };
 };
 
 export enum CaretShapeStyle {
@@ -119,5 +122,6 @@ export function toTextDisplaySettings(settings: Settings): TextDisplaySettings {
     whitespaceStyle,
     language,
     codePointLabels: undefined,
+    musicNotation: undefined,
   };
 }

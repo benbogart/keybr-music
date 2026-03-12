@@ -1,6 +1,13 @@
 import { type WeightedCodePointSet } from "@keybr/keyboard";
 import { Letter } from "@keybr/phonetic-model";
 import { type CodePoint } from "@keybr/unicode";
+import {
+  bandoneonLeftClosingKeyPositions,
+  bandoneonLeftOpeningKeyPositions,
+  bandoneonRightClosingKeyPositions,
+  bandoneonRightOpeningKeyPositions,
+  type KeyPosition,
+} from "./bandoneon-layout.ts";
 
 const NOTE_NAMES = [
   "C",
@@ -17,55 +24,157 @@ const NOTE_NAMES = [
   "B",
 ] as const;
 
-const BANDONEON_MIN_MIDI_NOTE = 45; // A2
-const BANDONEON_MAX_MIDI_NOTE = 93; // A6
-const BANDONEON_POC_MIN_MIDI_NOTE = 60; // C4
-const BANDONEON_POC_MAX_MIDI_NOTE = 76; // E5
 const BANDONEON_INITIAL_MIDI_NOTE = 69; // A4
 const BANDONEON_INITIAL_SEQUENCE = [68, 69, 71, 72, 74, 76] as const;
+const BANDONEON_LEFT_HAND_INITIAL_MIDI_NOTE = 57; // A3
+const BANDONEON_LEFT_HAND_INITIAL_SEQUENCE = [56, 57, 59, 60, 62, 64] as const;
+
+export const BANDONEON_INSTRUMENT = "bandoneon";
+
+export const BANDONEON_LAYOUTS = [
+  "right-opening",
+  "right-closing",
+  "left-opening",
+  "left-closing",
+] as const;
+
+export type BandoneonLayout = (typeof BANDONEON_LAYOUTS)[number];
+
+export type NoteRange = {
+  readonly minMidiNote: CodePoint;
+  readonly maxMidiNote: CodePoint;
+};
+
+export type KeyMap = ReadonlyMap<CodePoint, KeyPosition>;
+
+export type MusicNotation = {
+  readonly clef: "treble" | "bass" | "grand";
+};
 
 export type Instrument = {
   readonly id: string;
   readonly name: string;
+  readonly instrument: string;
+  readonly layout: string;
+  readonly notation: MusicNotation;
+  readonly range: NoteRange;
+  readonly keymap: KeyMap;
   readonly letters: readonly Letter[];
   readonly codePoints: WeightedCodePointSet;
 };
 
-export function bandoneon(): Instrument {
-  const notes = midiRange(
-    BANDONEON_POC_MIN_MIDI_NOTE,
-    BANDONEON_POC_MAX_MIDI_NOTE,
+export function bandoneonRightOpening(): Instrument {
+  return createBandoneonInstrument(
+    "right-opening",
+    "Bandoneon - Right Hand Opening",
+    bandoneonRightOpeningKeyPositions,
   );
+}
+
+export function bandoneonRightClosing(): Instrument {
+  return createBandoneonInstrument(
+    "right-closing",
+    "Bandoneon - Right Hand Closing",
+    bandoneonRightClosingKeyPositions,
+  );
+}
+
+export function bandoneonLeftOpening(): Instrument {
+  return createBandoneonInstrument(
+    "left-opening",
+    "Bandoneon - Left Hand Opening",
+    bandoneonLeftOpeningKeyPositions,
+  );
+}
+
+export function bandoneonLeftClosing(): Instrument {
+  return createBandoneonInstrument(
+    "left-closing",
+    "Bandoneon - Left Hand Closing",
+    bandoneonLeftClosingKeyPositions,
+  );
+}
+
+export function bandoneonByLayout(layout: string): Instrument {
+  switch (layout) {
+    case "right-opening":
+      return bandoneonRightOpening();
+    case "right-closing":
+      return bandoneonRightClosing();
+    case "left-opening":
+      return bandoneonLeftOpening();
+    case "left-closing":
+      return bandoneonLeftClosing();
+    default:
+      return bandoneonRightOpening();
+  }
+}
+
+export function bandoneon(): Instrument {
+  return bandoneonRightOpening();
+}
+
+export const BandoneonRange = {
+  minMidiNote: 36,
+  maxMidiNote: 95,
+} as const;
+
+function createBandoneonInstrument(
+  layout: BandoneonLayout,
+  name: string,
+  keymap: KeyMap,
+): Instrument {
+  const notes = sortedCodePoints(keymap.keys());
+  const range = noteRange(notes);
+  const initialProfile =
+    layout === "left-opening" || layout === "left-closing"
+      ? {
+          sequence: BANDONEON_LEFT_HAND_INITIAL_SEQUENCE,
+          start: BANDONEON_LEFT_HAND_INITIAL_MIDI_NOTE,
+        }
+      : {
+          sequence: BANDONEON_INITIAL_SEQUENCE,
+          start: BANDONEON_INITIAL_MIDI_NOTE,
+        };
   const frequencies = prioritizedNoteFrequencies(
     notes,
-    BANDONEON_INITIAL_SEQUENCE,
-    BANDONEON_INITIAL_MIDI_NOTE,
+    initialProfile.sequence,
+    initialProfile.start,
   );
   const letters = notes.map(
     (midiNote, index) =>
       new Letter(midiNote, frequencies[index] ?? 0, midiNoteToLabel(midiNote)),
   );
   return {
-    id: "bandoneon",
-    name: "Bandoneon",
+    id: `${BANDONEON_INSTRUMENT}-${layout}`,
+    name,
+    instrument: BANDONEON_INSTRUMENT,
+    layout,
+    notation:
+      layout === "left-opening" || layout === "left-closing"
+        ? { clef: "bass" }
+        : { clef: "treble" },
+    range,
+    keymap,
     letters,
     codePoints: uniformWeightedCodePointSet(notes),
   };
 }
 
-export const BandoneonRange = {
-  minMidiNote: BANDONEON_MIN_MIDI_NOTE,
-  maxMidiNote: BANDONEON_MAX_MIDI_NOTE,
-  pocMinMidiNote: BANDONEON_POC_MIN_MIDI_NOTE,
-  pocMaxMidiNote: BANDONEON_POC_MAX_MIDI_NOTE,
-} as const;
+function sortedCodePoints(codePoints: Iterable<CodePoint>): CodePoint[] {
+  return [...new Set(codePoints)].sort((a, b) => a - b);
+}
 
-function midiRange(begin: number, end: number): CodePoint[] {
-  const notes: CodePoint[] = [];
-  for (let note = begin; note <= end; note++) {
-    notes.push(note);
+function noteRange(notes: readonly CodePoint[]): NoteRange {
+  const minMidiNote = notes[0];
+  const maxMidiNote = notes[notes.length - 1];
+  if (minMidiNote == null || maxMidiNote == null) {
+    throw new Error("Bandoneon keymap must include at least one note");
   }
-  return notes;
+  return {
+    minMidiNote,
+    maxMidiNote,
+  };
 }
 
 function prioritizedNoteFrequencies(

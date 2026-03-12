@@ -1,3 +1,4 @@
+import { type Instrument } from "@keybr/instrument";
 import { type KeyId } from "@keybr/keyboard";
 import { names } from "@keybr/lesson-ui";
 import { Screen } from "@keybr/pages-shared";
@@ -25,6 +26,7 @@ type Props = {
   readonly lines: LineList;
   readonly depressedKeys: readonly KeyId[];
   readonly musicMode?: boolean;
+  readonly musicInstrument?: Instrument | null;
   readonly musicLastCorrectCodePoint?: number | null;
   readonly musicLessonSummary?: MusicLessonSummary | null;
   readonly musicTargetSpeed?: number;
@@ -92,6 +94,7 @@ export class Presenter extends PureComponent<Props, State> {
         depressedKeys,
         eventsComponent,
         musicMode = false,
+        musicInstrument = null,
         musicLastCorrectCodePoint = null,
         musicLessonSummary = null,
         musicTargetSpeed = 0,
@@ -111,12 +114,14 @@ export class Presenter extends PureComponent<Props, State> {
     const nextMusicCodePoint = musicMode
       ? findNextMusicCodePoint(state.suffix)
       : null;
-    const musicKeyboard = musicMode ? (
-      <BandoneonKeyboard
-        targetCodePoint={nextMusicCodePoint}
-        playedCodePoint={musicLastCorrectCodePoint}
-      />
-    ) : null;
+    const musicKeyboard =
+      musicMode && musicInstrument != null ? (
+        <BandoneonKeyboard
+          instrument={musicInstrument}
+          targetCodePoint={nextMusicCodePoint}
+          playedCodePoint={musicLastCorrectCodePoint}
+        />
+      ) : null;
     const activeView = musicMode && view === View.Normal ? View.Compact : view;
     switch (activeView) {
       case View.Normal:

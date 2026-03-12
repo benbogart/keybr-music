@@ -57,10 +57,18 @@ export const MusicStaff = memo(function MusicStaff({
   const rootRef = useRef<HTMLDivElement>(null);
   const staffRef = useRef<HTMLDivElement>(null);
   const notes = useMemo(
-    () => toMusicStaffNotes(lines, settings.codePointLabels),
-    [lines, settings.codePointLabels],
+    () =>
+      toMusicStaffNotes(
+        lines,
+        settings.codePointLabels,
+        settings.musicNotation,
+      ),
+    [lines, settings.codePointLabels, settings.musicNotation],
   );
-  const clef = useMemo(() => chooseClef(notes), [notes]);
+  const clef = useMemo(
+    () => chooseClef(notes, settings.musicNotation?.clef),
+    [notes, settings.musicNotation?.clef],
+  );
 
   useEffect(() => {
     const el = rootRef.current;
@@ -167,19 +175,23 @@ export const MusicStaff = memo(function MusicStaff({
 function toMusicStaffNotes(
   lines: LineList,
   codePointLabels: ReadonlyMap<number, string> | undefined,
+  musicNotation:
+    | {
+        readonly clef: "treble" | "bass" | "grand";
+      }
+    | undefined,
 ): MusicStaffNote[] {
   const notes: MusicStaffNote[] = [];
+  void musicNotation;
   for (const line of lines.lines) {
     for (const char of line.chars) {
       if (char.codePoint <= 0x0020) {
         continue;
       }
-      const note = toVexNote(
-        char.codePoint,
-        codePointLabels?.get(char.codePoint),
-      );
+      const midiNote = char.codePoint;
+      const note = toVexNote(midiNote, codePointLabels?.get(char.codePoint));
       notes.push({
-        midiNote: char.codePoint,
+        midiNote,
         key: note.key,
         accidental: note.accidental,
         state: toNoteState(char.attrs),
@@ -243,7 +255,16 @@ function chunkNotes(
   return rows.length > 0 ? rows : [[]];
 }
 
-function chooseClef(notes: readonly MusicStaffNote[]): "treble" | "bass" {
+function chooseClef(
+  notes: readonly MusicStaffNote[],
+  notationClef: "treble" | "bass" | "grand" | undefined,
+): "treble" | "bass" {
+  if (notationClef === "bass") {
+    return "bass";
+  }
+  if (notationClef === "treble") {
+    return "treble";
+  }
   if (notes.length === 0) {
     return "treble";
   }

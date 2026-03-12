@@ -1,56 +1,94 @@
 import { test } from "node:test";
 import { Letter } from "@keybr/phonetic-model";
 import { deepEqual, equal } from "rich-assert";
-import { bandoneon, BandoneonRange } from "./instrument.ts";
+import {
+  bandoneonLeftClosingKeyPositions,
+  bandoneonLeftOpeningKeyPositions,
+  bandoneonRightClosingKeyPositions,
+  bandoneonRightOpeningKeyPositions,
+} from "./bandoneon-layout.ts";
+import {
+  bandoneon,
+  bandoneonLeftClosing,
+  bandoneonLeftOpening,
+  BandoneonRange,
+  bandoneonRightClosing,
+  bandoneonRightOpening,
+} from "./instrument.ts";
 
-test("bandoneon creates note letters in C4-E5 range with expected labels", () => {
+test("bandoneon defaults to right-opening layout", () => {
   const instrument = bandoneon();
+  const expected = bandoneonRightOpening();
 
-  equal(instrument.id, "bandoneon");
-  equal(instrument.name, "Bandoneon");
-  equal(instrument.letters.length, 17);
-  equal(
-    instrument.letters.find(({ codePoint }) => codePoint === 68)?.f,
-    17 / 153,
-  );
-  equal(
-    instrument.letters.find(({ codePoint }) => codePoint === 76)?.f,
-    12 / 153,
-  );
+  equal(instrument.layout, "right-opening");
+  equal(instrument.instrument, "bandoneon");
+  equal(instrument.id, expected.id);
+  equal(instrument.name, expected.name);
+  deepEqual([...instrument.codePoints], [...expected.codePoints]);
+});
+
+test("bandoneon layout factories expose matching keymaps and ranges", () => {
+  const rightOpening = bandoneonRightOpening();
+  const rightClosing = bandoneonRightClosing();
+  const leftOpening = bandoneonLeftOpening();
+  const leftClosing = bandoneonLeftClosing();
+
+  equal(rightOpening.layout, "right-opening");
+  equal(rightOpening.keymap, bandoneonRightOpeningKeyPositions);
+  deepEqual(rightOpening.notation, { clef: "treble" });
+  deepEqual(rightOpening.range, { minMidiNote: 57, maxMidiNote: 95 });
+
+  equal(rightClosing.layout, "right-closing");
+  equal(rightClosing.keymap, bandoneonRightClosingKeyPositions);
+  deepEqual(rightClosing.notation, { clef: "treble" });
+  deepEqual(rightClosing.range, { minMidiNote: 57, maxMidiNote: 93 });
+
+  equal(leftOpening.layout, "left-opening");
+  equal(leftOpening.keymap, bandoneonLeftOpeningKeyPositions);
+  deepEqual(leftOpening.notation, { clef: "bass" });
+  deepEqual(leftOpening.range, { minMidiNote: 36, maxMidiNote: 69 });
+
+  equal(leftClosing.layout, "left-closing");
+  equal(leftClosing.keymap, bandoneonLeftClosingKeyPositions);
+  deepEqual(leftClosing.notation, { clef: "bass" });
+  deepEqual(leftClosing.range, { minMidiNote: 37, maxMidiNote: 71 });
 
   deepEqual(
-    instrument.letters.map(({ codePoint, label }) => [codePoint, label]),
-    [
-      [60, "C4"],
-      [61, "C#4"],
-      [62, "D4"],
-      [63, "D#4"],
-      [64, "E4"],
-      [65, "F4"],
-      [66, "F#4"],
-      [67, "G4"],
-      [68, "G#4"],
-      [69, "A4"],
-      [70, "A#4"],
-      [71, "B4"],
-      [72, "C5"],
-      [73, "C#5"],
-      [74, "D5"],
-      [75, "D#5"],
-      [76, "E5"],
-    ],
+    [...rightOpening.codePoints],
+    [...rightOpening.keymap.keys()].sort((a, b) => a - b),
+  );
+  deepEqual(
+    [...rightClosing.codePoints],
+    [...rightClosing.keymap.keys()].sort((a, b) => a - b),
+  );
+  deepEqual(
+    [...leftOpening.codePoints],
+    [...leftOpening.keymap.keys()].sort((a, b) => a - b),
+  );
+  deepEqual(
+    [...leftClosing.codePoints],
+    [...leftClosing.keymap.keys()].sort((a, b) => a - b),
   );
 
   deepEqual(BandoneonRange, {
-    minMidiNote: 45,
-    maxMidiNote: 93,
-    pocMinMidiNote: 60,
-    pocMaxMidiNote: 76,
+    minMidiNote: 36,
+    maxMidiNote: 95,
+  });
+});
+
+test("bandoneon creates note letters with expected labels", () => {
+  const instrument = bandoneonRightOpening();
+  equal(instrument.letters.length, 38);
+  equal(instrument.letters[0]?.label, "A3");
+  equal(instrument.letters[instrument.letters.length - 1]?.label, "B6");
+  deepEqual(BandoneonRange, {
+    minMidiNote: 36,
+    maxMidiNote: 95,
   });
 });
 
 test("bandoneon note frequencies start with requested initial sequence", () => {
-  const instrument = bandoneon();
+  const instrument = bandoneonRightOpening();
   const ordered = Letter.frequencyOrder(instrument.letters)
     .slice(0, 6)
     .map(({ codePoint }) => codePoint);
@@ -58,11 +96,18 @@ test("bandoneon note frequencies start with requested initial sequence", () => {
   deepEqual(ordered, [68, 69, 71, 72, 74, 76]);
 });
 
+test("left-hand layouts start one octave lower", () => {
+  const instrument = bandoneonLeftOpening();
+  const ordered = Letter.frequencyOrder(instrument.letters)
+    .slice(0, 6)
+    .map(({ codePoint }) => codePoint);
+
+  deepEqual(ordered, [56, 57, 59, 60, 62, 64]);
+});
+
 test("bandoneon exposes expected weighted MIDI code points", () => {
-  const instrument = bandoneon();
-  const expected = [
-    60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
-  ];
+  const instrument = bandoneonLeftClosing();
+  const expected = [...instrument.keymap.keys()].sort((a, b) => a - b);
 
   deepEqual([...instrument.codePoints], expected);
   equal(instrument.codePoints.size, expected.length);
@@ -71,12 +116,12 @@ test("bandoneon exposes expected weighted MIDI code points", () => {
     equal(instrument.codePoints.has(midiNote), true);
     equal(instrument.codePoints.weight(midiNote), 1);
   }
-  equal(instrument.codePoints.has(77), false);
-  equal(instrument.codePoints.weight(77), 1000);
+  equal(instrument.codePoints.has(36), false);
+  equal(instrument.codePoints.weight(36), 1000);
 });
 
 test("Letter helpers work with note letters", () => {
-  const instrument = bandoneon();
+  const instrument = bandoneonRightOpening();
 
   deepEqual(
     Letter.frequencyOrder([
@@ -92,7 +137,7 @@ test("Letter helpers work with note letters", () => {
   );
 
   const restricted = Letter.restrict(
-    [...instrument.letters, new Letter(77, 1 / 17, "F5")],
+    [...instrument.letters, new Letter(94, 1 / 38, "A#6")],
     instrument.codePoints,
   );
   deepEqual(restricted, instrument.letters);

@@ -28,23 +28,40 @@ test("render", async () => {
   isNotNull(await r.findByText("Keyboard"));
   isNotNull(await r.findByText("Miscellaneous"));
 
-  fireEvent.click(r.getByText("Lessons"));
+  isNotNull(await r.findByText("Lesson options"));
+  isNotNull(await r.findByText("Lesson preview"));
 
-  isNotNull(r.queryByText("Lesson options"));
-  isNotNull(r.queryByText("Lesson preview"));
+  isNotNull(await r.findByText("Typing options"));
 
-  fireEvent.click(r.getByText("Typing"));
+  isNotNull(await r.findByText("Options"));
+  isNotNull(await r.findByText("Preview"));
 
-  isNotNull(r.queryByText("Typing options"));
+  isNotNull(await r.findByText("Interface options"));
 
-  fireEvent.click(r.getByText("Keyboard"));
+  r.unmount();
+});
 
-  isNotNull(r.queryByText("Options"));
-  isNotNull(r.queryByText("Preview"));
+test("render music settings with layout picker", async () => {
+  const r = render(
+    <FakeIntlProvider>
+      <FakeSettingsContext>
+        <FakeResultContext initialResults={faker.nextResultList(20)}>
+          <SettingsScreen mode="music" />
+        </FakeResultContext>
+      </FakeSettingsContext>
+    </FakeIntlProvider>,
+  );
 
-  fireEvent.click(r.getByText("Miscellaneous"));
+  isNotNull(await r.findByText("Lessons"));
+  isNotNull(await r.findByText("Instrument options"));
+  isNotNull(await r.findByText("Bandoneon layout"));
+  isNotNull(await r.findByText("Right hand opening"));
 
-  isNotNull(r.queryByText("Interface options"));
+  fireEvent.click(r.getByText("Right hand opening"));
+
+  isNotNull(await r.findByText("Left hand opening"));
+  isNotNull(await r.findByText("Right hand closing"));
+  isNotNull(await r.findByText("Left hand closing"));
 
   r.unmount();
 });
