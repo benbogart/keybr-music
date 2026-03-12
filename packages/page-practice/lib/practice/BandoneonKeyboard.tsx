@@ -15,7 +15,7 @@ import bandoneonRightClosing from "../../assets/bandoneon-right-closing.svg";
 import bandoneonRightOpening from "../../assets/bandoneon-right-opening.svg";
 import * as styles from "./Presenter.module.less";
 
-const HIGHLIGHT_RADIUS = 16;
+const HIGHLIGHT_RADIUS = 14;
 const KEY_CENTER_OFFSET = 14;
 const LEFT_HAND_SVG_WIDTH = 452.0;
 

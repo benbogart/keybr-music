@@ -28,7 +28,7 @@ test("renders opening pair with right-hand overlay", () => {
   equal(r.container.querySelectorAll("svg").length, 1);
   equal(r.getByTestId("bandoneon-target-key").getAttribute("cx"), "75.69");
   equal(r.getByTestId("bandoneon-target-key").getAttribute("cy"), "109.66");
-  equal(r.getByTestId("bandoneon-target-key").getAttribute("r"), "16");
+  equal(r.getByTestId("bandoneon-target-key").getAttribute("r"), "14");
 
   r.unmount();
 });
@@ -52,7 +52,7 @@ test("renders closing pair with left-hand overlay", () => {
   equal(target.getAttribute("cx"), "213.88");
   equal(played.getAttribute("cx"), "213.88");
   equal(target.getAttribute("cy"), "134.45");
-  equal(target.getAttribute("r"), "16");
+  equal(target.getAttribute("r"), "14");
   equal(r.container.querySelectorAll("svg").length, 1);
 
   r.unmount();
