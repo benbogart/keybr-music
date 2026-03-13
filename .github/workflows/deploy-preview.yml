@@ -1,0 +1,181 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: deploy-preview-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      GAR_REPOSITORY: ${{ vars.GAR_REPOSITORY }}
+      LITESTREAM_REPLICA_URI: ${{ vars.LITESTREAM_REPLICA_URI }}
+      CLOUD_RUN_MEMORY: ${{ vars.CLOUD_RUN_MEMORY || '1Gi' }}
+      CLOUD_RUN_SECRETS: ${{ vars.CLOUD_RUN_SECRETS }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate auth configuration
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          if [[ -z "${GCP_SA_KEY}" ]]; then
+            echo "Missing required GitHub secret: GCP_SA_KEY" >&2
+            exit 1
+          fi
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker authentication
+        run: gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
+
+      - name: Build and push image
+        id: image
+        run: |
+          image_name="${{ vars.IMAGE_NAME || 'keybr-com' }}"
+          image_uri="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/${image_name}:pr-${PR_NUMBER}-${GITHUB_SHA::8}"
+          echo "Using image URI: ${image_uri}"
+          docker build --tag "${image_uri}" .
+          docker push "${image_uri}"
+          echo "image_uri=${image_uri}" >> "${GITHUB_OUTPUT}"
+
+      - name: Deploy preview to Cloud Run
+        id: deploy
+        run: |
+          service_name="keybr-pr-${PR_NUMBER}"
+
+          # Derive bucket base from prod URI: gs://bucket/prod/database -> gs://bucket
+          # Then build PR-specific path: gs://bucket/pr-{number}/database
+          bucket_base="$(echo "${LITESTREAM_REPLICA_URI}" | sed -E 's|^gs://([^/]+).*|gs://\1|')"
+          pr_replica_uri="${bucket_base}/pr-${PR_NUMBER}/database"
+
+          env_vars="NODE_ENV=production,SERVER_PORT=3000,DATABASE_CLIENT=sqlite,DATA_DIR=/var/lib/keybr,DATABASE_FILENAME=/var/lib/keybr/database.sqlite,SERVER_HTTP_WORKERS=1,SERVER_ENABLE_WS=false,SERVER_BEHIND_PROXY=true,COOKIE_SECURE=false"
+          # Restore from prod, replicate to PR-specific path
+          env_vars="${env_vars},LITESTREAM_RESTORE_URI=${LITESTREAM_REPLICA_URI}"
+          env_vars="${env_vars},LITESTREAM_REPLICA_URI=${pr_replica_uri}"
+
+          args=(
+            "${service_name}"
+            "--project=${GCP_PROJECT_ID}"
+            "--region=${GCP_REGION}"
+            "--platform=managed"
+            "--port=3000"
+            "--memory=${CLOUD_RUN_MEMORY}"
+            "--max-instances=1"
+            "--allow-unauthenticated"
+            "--image=${{ steps.image.outputs.image_uri }}"
+            "--set-env-vars=${env_vars}"
+          )
+
+          if [[ -n "${CLOUD_RUN_SECRETS}" ]]; then
+            args+=("--set-secrets=${CLOUD_RUN_SECRETS}")
+          fi
+
+          deploy_output="$(gcloud run deploy "${args[@]}" 2>&1)"
+          echo "${deploy_output}"
+
+          # Parse service URL from deploy output
+          url="$(echo "${deploy_output}" | grep -oP 'Service URL: \K\S+')"
+          if [[ -z "${url}" ]]; then
+            echo "Failed to parse service URL from deploy output" >&2
+            exit 1
+          fi
+          echo "Preview URL: ${url}"
+
+          # Update APP_URL to the actual service URL so the canonical
+          # middleware doesn't redirect to the default keybr.com
+          gcloud run services update "${service_name}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --update-env-vars="APP_URL=${url}/" \
+            --quiet
+
+          echo "url=${url}" >> "${GITHUB_OUTPUT}"
+          echo "service_name=${service_name}" >> "${GITHUB_OUTPUT}"
+
+      - name: Smoke test preview
+        env:
+          SMOKE_BASE_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          echo "Waiting for preview to become ready at ${SMOKE_BASE_URL}..."
+          for attempt in $(seq 1 12); do
+            http_code="$(curl -sS -o /dev/null -w '%{http_code}' "${SMOKE_BASE_URL}/" 2>&1)" || true
+            if [[ "${http_code}" == "200" ]]; then
+              echo "Preview smoke test passed (attempt ${attempt})."
+              exit 0
+            fi
+            echo "Attempt ${attempt}/12: HTTP ${http_code}, retrying in 10s..."
+            sleep 10
+          done
+          echo "Smoke test failed at ${SMOKE_BASE_URL} after 12 attempts" >&2
+          curl -vvv "${SMOKE_BASE_URL}/" 2>&1 || true
+          exit 1
+
+      - name: Comment preview URL on PR
+        if: ${{ steps.deploy.outcome == 'success' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.deploy.outputs.url }}';
+            const sha = context.sha.substring(0, 8);
+            const body = [
+              '### Preview deployment ready',
+              '',
+              `**URL:** ${url}`,
+              '',
+              `_Deployed from commit ${sha}_`,
+            ].join('\n');
+
+            // Find existing preview comment to update
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ env.PR_NUMBER }},
+            });
+            const existing = comments.find(c =>
+              c.body.includes('Preview deployment ready')
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: ${{ env.PR_NUMBER }},
+                body,
+              });
+            }
+
+      - name: Print Cloud Run logs on failure
+        if: failure()
+        run: |
+          gcloud run services logs read "keybr-pr-${PR_NUMBER}" \
+            --project="${GCP_PROJECT_ID}" \
+            --region="${GCP_REGION}" \
+            --limit=200 || true
