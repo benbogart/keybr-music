@@ -10,6 +10,7 @@ type RequiredPitchDetectorOptions = {
   readonly maxFrequency: number;
   readonly minConfidence: number;
   readonly stableFrames: number;
+  readonly validMidiNotes?: Iterable<number>;
   readonly yinThreshold: number;
   readonly noiseFloor: number;
 };
@@ -43,12 +44,14 @@ export class WebAudioPitchDetector implements PitchDetector {
       maxFrequency: options.maxFrequency ?? 2000,
       minConfidence: options.minConfidence ?? 0.7,
       stableFrames: Math.max(1, options.stableFrames ?? 2),
+      validMidiNotes: options.validMidiNotes,
       yinThreshold: options.yinThreshold ?? 0.12,
       noiseFloor: options.noiseFloor ?? 0.01,
     };
     this.#processor = new StablePitchProcessor({
       minConfidence: this.#options.minConfidence,
       stableFrames: this.#options.stableFrames,
+      validMidiNotes: this.#options.validMidiNotes,
     });
   }
 

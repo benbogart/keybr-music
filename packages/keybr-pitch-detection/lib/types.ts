@@ -18,6 +18,7 @@ export type PitchDetectorOptions = {
   readonly maxFrequency?: number;
   readonly minConfidence?: number;
   readonly stableFrames?: number;
+  readonly validMidiNotes?: Iterable<number>;
   readonly yinThreshold?: number;
   readonly noiseFloor?: number;
 };
