@@ -1,13 +1,19 @@
+import {
+  BANDONEON_LAYOUTS,
+  bandoneonByLayout,
+  type BandoneonLayout,
+} from "@keybr/instrument";
 import type { PitchDetector, PitchEvent } from "@keybr/pitch-detection";
-import { createPitchDetector, rms } from "@keybr/pitch-detection";
+import { createPitchDetector } from "@keybr/pitch-detection";
 import { Article } from "@keybr/widget";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type LogEntry = {
   readonly timeStamp: number;
   readonly midiNote: number;
   readonly noteName: string;
   readonly frequency: number;
+  readonly cents: number;
   readonly confidence: number;
   readonly delta: number | null;
 };
@@ -27,11 +33,31 @@ const NOTE_NAMES = [
   "B",
 ] as const;
 
+const LAYOUT_LABELS: Readonly<Record<BandoneonLayout, string>> = {
+  "right-opening": "Right Hand Opening",
+  "right-closing": "Right Hand Closing",
+  "left-opening": "Left Hand Opening",
+  "left-closing": "Left Hand Closing",
+};
+
 function midiToNoteName(midi: number): string {
   return `${NOTE_NAMES[midi % 12]}${Math.floor(midi / 12) - 1}`;
 }
 
+function midiToReferenceFrequency(midi: number): number {
+  return 440 * 2 ** ((midi - 69) / 12);
+}
+
+function centsDeviation(detectedFrequency: number, referenceFrequency: number) {
+  return 1200 * Math.log2(detectedFrequency / referenceFrequency);
+}
+
+function formatSignedCents(cents: number) {
+  return `${cents >= 0 ? "+" : ""}${cents.toFixed(1)}c`;
+}
+
 export function PitchTestPage() {
+  const [layout, setLayout] = useState<BandoneonLayout>("left-opening");
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [log, setLog] = useState<readonly LogEntry[]>([]);
@@ -42,6 +68,11 @@ export function PitchTestPage() {
   const lastTimeRef = useRef<number | null>(null);
   const lastMidiRef = useRef<number | null>(null);
   const levelFrameRef = useRef(0);
+  const activeInstrument = useMemo(() => bandoneonByLayout(layout), [layout]);
+  const validMidiNotes = useMemo(
+    () => new Set(activeInstrument.keymap.keys()),
+    [activeInstrument],
+  );
 
   const handleLevel = useCallback((rmsLevel: number) => {
     // Throttle level updates to every 3rd frame to avoid excessive renders.
@@ -65,6 +96,7 @@ export function PitchTestPage() {
     lastMidiRef.current = midiNote;
 
     const noteName = midiToNoteName(midiNote);
+    const referenceFrequency = midiToReferenceFrequency(midiNote);
     setCurrentNote(noteName);
 
     setLog((prev) => {
@@ -73,6 +105,7 @@ export function PitchTestPage() {
         midiNote,
         noteName,
         frequency,
+        cents: centsDeviation(frequency, referenceFrequency),
         confidence,
         delta,
       };
@@ -96,6 +129,7 @@ export function PitchTestPage() {
         bufferSize: 2048,
         minConfidence: 0.7,
         stableFrames: 2,
+        validMidiNotes,
         noiseFloor: noiseFloorRef.current,
       });
       detector.onPitch = handlePitch;
@@ -109,7 +143,7 @@ export function PitchTestPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
-  }, [handlePitch, handleLevel]);
+  }, [handlePitch, handleLevel, validMidiNotes]);
 
   const stop = useCallback(() => {
     detectorRef.current?.stop();
@@ -142,6 +176,25 @@ export function PitchTestPage() {
         <button disabled={log.length === 0} onClick={clear}>
           Clear Log
         </button>
+      </div>
+
+      <div style={{ marginBottom: "16px" }}>
+        <label style={{ fontFamily: "monospace", fontSize: "14px" }}>
+          Active layout:{" "}
+          <select
+            value={layout}
+            disabled={running}
+            onChange={(event) =>
+              setLayout(event.target.value as BandoneonLayout)
+            }
+          >
+            {BANDONEON_LAYOUTS.map((nextLayout) => (
+              <option key={nextLayout} value={nextLayout}>
+                {LAYOUT_LABELS[nextLayout]}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <div style={{ marginBottom: "16px" }}>
@@ -243,20 +296,25 @@ export function PitchTestPage() {
         >
           <thead>
             <tr>
-              {["Note", "MIDI", "Frequency", "Confidence", "Delta (ms)"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    style={{
-                      textAlign: "left",
-                      padding: "4px 8px",
-                      borderBottom: "2px solid #ccc",
-                    }}
-                  >
-                    {h}
-                  </th>
-                ),
-              )}
+              {[
+                "Note",
+                "MIDI",
+                "Frequency",
+                "Cents",
+                "Confidence",
+                "Delta (ms)",
+              ].map((h) => (
+                <th
+                  key={h}
+                  style={{
+                    textAlign: "left",
+                    padding: "4px 8px",
+                    borderBottom: "2px solid #ccc",
+                  }}
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -268,6 +326,9 @@ export function PitchTestPage() {
                 <td style={{ padding: "4px 8px" }}>{entry.midiNote}</td>
                 <td style={{ padding: "4px 8px" }}>
                   {entry.frequency.toFixed(1)} Hz
+                </td>
+                <td style={{ padding: "4px 8px" }}>
+                  {formatSignedCents(entry.cents)}
                 </td>
                 <td style={{ padding: "4px 8px" }}>
                   {entry.confidence.toFixed(2)}
