@@ -15,48 +15,6 @@ import {
 } from "./inputhandler.ts";
 import { type Callbacks } from "./types.ts";
 
-function agentDebugLog(
-  hypothesisId: string,
-  location: string,
-  message: string,
-  data: Record<string, unknown>,
-) {
-  const runtime = globalThis as {
-    process?: { versions?: { node?: string } };
-  };
-  if (runtime.process?.versions?.node == null) {
-    return;
-  }
-  void import("node:fs")
-    .then(({ appendFileSync }) => {
-      appendFileSync(
-        "/opt/cursor/logs/debug.log",
-        JSON.stringify({
-          hypothesisId,
-          location,
-          message,
-          data,
-          timestamp: Date.now(),
-        }) + "\n",
-      );
-    })
-    .catch(() => {});
-}
-
-function countIterable(
-  values: Iterable<unknown> | null | undefined,
-): number | null {
-  if (values == null) {
-    return null;
-  }
-  let count = 0;
-  for (const _ of values) {
-    void _;
-    count += 1;
-  }
-  return count;
-}
-
 export const PitchEvents = memo(function PitchEvents({
   onFocus,
   onBlur,
@@ -118,38 +76,6 @@ function usePitchInputHandler(options: PitchInputHandlerOptions = {}) {
     const nextHandler = new PitchInputHandler(options);
     const previousHandler = previousRef.current;
     previousRef.current = nextHandler;
-    // #region agent log
-    agentDebugLog("A", "PitchEvents.tsx:106", "created pitch handler", {
-      adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
-      detectorValidMidiNotesCount: countIterable(
-        options.detectorOptions?.validMidiNotes,
-      ),
-    });
-    // #endregion
-    if (previousHandler != null) {
-      // #region agent log
-      agentDebugLog("A", "PitchEvents.tsx:115", "replaced pitch handler", {
-        adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
-        detectorValidMidiNotesCount: countIterable(
-          options.detectorOptions?.validMidiNotes,
-        ),
-      });
-      // #endregion
-    } else {
-      // #region agent log
-      agentDebugLog(
-        "A",
-        "PitchEvents.tsx:124",
-        "first pitch handler instance",
-        {
-          adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
-          detectorValidMidiNotesCount: countIterable(
-            options.detectorOptions?.validMidiNotes,
-          ),
-        },
-      );
-      // #endregion
-    }
     previousHandler?.stop();
     return nextHandler;
   }, [options]);

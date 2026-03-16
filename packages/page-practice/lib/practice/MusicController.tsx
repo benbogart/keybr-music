@@ -25,34 +25,6 @@ import {
 
 const LESSON_SUMMARY_MIN_DURATION = 1000;
 
-function agentDebugLog(
-  hypothesisId: string,
-  location: string,
-  message: string,
-  data: Record<string, unknown>,
-) {
-  const runtime = globalThis as {
-    process?: { versions?: { node?: string } };
-  };
-  if (runtime.process?.versions?.node == null) {
-    return;
-  }
-  void import("node:fs")
-    .then(({ appendFileSync }) => {
-      appendFileSync(
-        "/opt/cursor/logs/debug.log",
-        JSON.stringify({
-          hypothesisId,
-          location,
-          message,
-          data,
-          timestamp: Date.now(),
-        }) + "\n",
-      );
-    })
-    .catch(() => {});
-}
-
 export const MusicController = memo(function MusicController({
   progress,
   onResult,
@@ -77,15 +49,6 @@ export const MusicController = memo(function MusicController({
   } = useLessonState(progress, onResult);
   const pitchInputHandlerOptions = useMemo<PitchInputHandlerOptions>(() => {
     const validMidiNotes = new Set(musicInstrument.keymap.keys());
-    // #region agent log
-    agentDebugLog("A", "MusicController.tsx:69", "pitch-input options built", {
-      instrumentId: musicInstrument.id,
-      layout: musicInstrument.layout,
-      validMidiNotesCount: validMidiNotes.size,
-      validMidiNotesMin: Math.min(...validMidiNotes),
-      validMidiNotesMax: Math.max(...validMidiNotes),
-    });
-    // #endregion
     return {
       // Defense-in-depth: gate both in detector and in adapter.
       validMidiNotes,
