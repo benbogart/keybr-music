@@ -14,7 +14,7 @@ import {
 } from "@keybr/result";
 import { type Settings } from "@keybr/settings";
 import {
-  type Feedback,
+  Feedback,
   type LineList,
   makeStats,
   type StyledText,
