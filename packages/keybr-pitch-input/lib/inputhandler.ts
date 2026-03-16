@@ -9,6 +9,48 @@ import { type Callbacks } from "./types.ts";
 
 type CreatePitchDetector = (options: PitchDetectorOptions) => PitchDetector;
 
+function agentDebugLog(
+  hypothesisId: string,
+  location: string,
+  message: string,
+  data: Record<string, unknown>,
+) {
+  const runtime = globalThis as {
+    process?: { versions?: { node?: string } };
+  };
+  if (runtime.process?.versions?.node == null) {
+    return;
+  }
+  void import("node:fs")
+    .then(({ appendFileSync }) => {
+      appendFileSync(
+        "/opt/cursor/logs/debug.log",
+        JSON.stringify({
+          hypothesisId,
+          location,
+          message,
+          data,
+          timestamp: Date.now(),
+        }) + "\n",
+      );
+    })
+    .catch(() => {});
+}
+
+function countIterable(
+  values: Iterable<unknown> | null | undefined,
+): number | null {
+  if (values == null) {
+    return null;
+  }
+  let count = 0;
+  for (const _ of values) {
+    void _;
+    count += 1;
+  }
+  return count;
+}
+
 export type PitchInputHandlerOptions = PitchInputAdapterOptions & {
   readonly detectorOptions?: PitchDetectorOptions;
   readonly createDetector?: CreatePitchDetector;
@@ -32,6 +74,14 @@ export class PitchInputHandler implements Focusable {
     }, options);
     this.#detectorOptions = options.detectorOptions ?? {};
     this.#createDetector = options.createDetector ?? createPitchDetector;
+    // #region agent log
+    agentDebugLog("D", "inputhandler.ts:65", "pitch handler constructed", {
+      adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
+      detectorValidMidiNotesCount: countIterable(
+        options.detectorOptions?.validMidiNotes,
+      ),
+    });
+    // #endregion
   }
 
   setCallbacks(callbacks: Callbacks) {
@@ -47,6 +97,13 @@ export class PitchInputHandler implements Focusable {
     this.#callbacks.onFocus?.();
 
     const detector = this.#createDetector(this.#detectorOptions);
+    // #region agent log
+    agentDebugLog("D", "inputhandler.ts:91", "detector created on start", {
+      detectorValidMidiNotesCount: countIterable(
+        this.#detectorOptions.validMidiNotes,
+      ),
+    });
+    // #endregion
     detector.onPitch = this.#adapter.onPitch;
     detector.onLevel = NOOP_LEVEL_HANDLER;
     this.#detector = detector;

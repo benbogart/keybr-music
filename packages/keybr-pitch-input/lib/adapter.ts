@@ -10,6 +10,34 @@ type PendingPitch = {
   readonly midiNote: number;
 };
 
+function agentDebugLog(
+  hypothesisId: string,
+  location: string,
+  message: string,
+  data: Record<string, unknown>,
+) {
+  const runtime = globalThis as {
+    process?: { versions?: { node?: string } };
+  };
+  if (runtime.process?.versions?.node == null) {
+    return;
+  }
+  void import("node:fs")
+    .then(({ appendFileSync }) => {
+      appendFileSync(
+        "/opt/cursor/logs/debug.log",
+        JSON.stringify({
+          hypothesisId,
+          location,
+          message,
+          data,
+          timestamp: Date.now(),
+        }) + "\n",
+      );
+    })
+    .catch(() => {});
+}
+
 export type PitchInputAdapterOptions = {
   readonly octaveCorrectionWindowMs?: number;
   readonly sustainGapMs?: number;
@@ -44,6 +72,16 @@ export class PitchInputAdapter {
       this.#validMidiNotes != null &&
       !this.#validMidiNotes.has(event.midiNote)
     ) {
+      // #region agent log
+      agentDebugLog("C", "adapter.ts:67", "dropped invalid pitch", {
+        midiNote: event.midiNote,
+        pendingMidiNote: this.#pending?.midiNote ?? null,
+        pendingAgeMs:
+          this.#pending == null
+            ? null
+            : event.timeStamp - this.#pending.timeStamp,
+      });
+      // #endregion
       return;
     }
 
@@ -111,6 +149,13 @@ export class PitchInputAdapter {
           ? 0
           : pending.timeStamp - this.#lastInputTimeStamp,
     };
+    // #region agent log
+    agentDebugLog("C", "adapter.ts:144", "emit pending input", {
+      codePoint: event.codePoint,
+      timeStamp: event.timeStamp,
+      timeToType: event.timeToType,
+    });
+    // #endregion
     this.#onInput(event);
     this.#lastInputTimeStamp = pending.timeStamp;
     this.#pending = null;

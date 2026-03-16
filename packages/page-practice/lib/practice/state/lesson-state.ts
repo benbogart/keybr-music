@@ -29,6 +29,34 @@ import { type CodePoint } from "@keybr/unicode";
 import { type LastLesson } from "./last-lesson.ts";
 import { type Progress } from "./progress.ts";
 
+function agentDebugLog(
+  hypothesisId: string,
+  location: string,
+  message: string,
+  data: Record<string, unknown>,
+) {
+  const runtime = globalThis as {
+    process?: { versions?: { node?: string } };
+  };
+  if (runtime.process?.versions?.node == null) {
+    return;
+  }
+  void import("node:fs")
+    .then(({ appendFileSync }) => {
+      appendFileSync(
+        "/opt/cursor/logs/debug.log",
+        JSON.stringify({
+          hypothesisId,
+          location,
+          message,
+          data,
+          timestamp: Date.now(),
+        }) + "\n",
+      );
+    })
+    .catch(() => {});
+}
+
 export class LessonState {
   readonly #onResult: (result: Result, textInput: TextInput) => void;
   readonly settings: Settings;
@@ -81,6 +109,14 @@ export class LessonState {
   }
 
   onInput(event: IInputEvent): Feedback {
+    // #region agent log
+    agentDebugLog("B", "lesson-state.ts:104", "lesson received input", {
+      codePoint: event.codePoint,
+      expectedNextCodePoint: this.suffix[0] ?? null,
+      lessonHasCodePoint: this.lesson.codePoints.has(event.codePoint),
+      inputType: event.inputType,
+    });
+    // #endregion
     const feedback = this.textInput.onInput(event);
     this.#skipSpaces(event.timeStamp);
     this.lines = this.textInput.lines;
