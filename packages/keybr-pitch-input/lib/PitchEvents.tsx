@@ -6,6 +6,7 @@ import {
   type RefObject,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
 } from "react";
 import {
@@ -112,10 +113,11 @@ export const PitchEvents = memo(function PitchEvents({
 });
 
 function usePitchInputHandler(options: PitchInputHandlerOptions = {}) {
-  const handlerRef = useRef<PitchInputHandler | null>(null);
-  let handler = handlerRef.current;
-  if (handler == null) {
-    handlerRef.current = handler = new PitchInputHandler(options);
+  const previousRef = useRef<PitchInputHandler | null>(null);
+  const handler = useMemo(() => {
+    const nextHandler = new PitchInputHandler(options);
+    const previousHandler = previousRef.current;
+    previousRef.current = nextHandler;
     // #region agent log
     agentDebugLog("A", "PitchEvents.tsx:106", "created pitch handler", {
       adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
@@ -124,16 +126,39 @@ function usePitchInputHandler(options: PitchInputHandlerOptions = {}) {
       ),
     });
     // #endregion
-  } else {
-    // #region agent log
-    agentDebugLog("A", "PitchEvents.tsx:115", "reused pitch handler", {
-      adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
-      detectorValidMidiNotesCount: countIterable(
-        options.detectorOptions?.validMidiNotes,
-      ),
-    });
-    // #endregion
-  }
+    if (previousHandler != null) {
+      // #region agent log
+      agentDebugLog("A", "PitchEvents.tsx:115", "replaced pitch handler", {
+        adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
+        detectorValidMidiNotesCount: countIterable(
+          options.detectorOptions?.validMidiNotes,
+        ),
+      });
+      // #endregion
+    } else {
+      // #region agent log
+      agentDebugLog(
+        "A",
+        "PitchEvents.tsx:124",
+        "first pitch handler instance",
+        {
+          adapterValidMidiNotesCount: countIterable(options.validMidiNotes),
+          detectorValidMidiNotesCount: countIterable(
+            options.detectorOptions?.validMidiNotes,
+          ),
+        },
+      );
+      // #endregion
+    }
+    previousHandler?.stop();
+    return nextHandler;
+  }, [options]);
+  useEffect(() => {
+    return () => {
+      previousRef.current?.stop();
+      previousRef.current = null;
+    };
+  }, []);
   return handler;
 }
 

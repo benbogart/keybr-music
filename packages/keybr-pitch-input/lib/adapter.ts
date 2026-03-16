@@ -67,7 +67,6 @@ export class PitchInputAdapter {
   }
 
   onPitch = (event: PitchEvent) => {
-    this.#flushExpired(event.timeStamp);
     if (
       this.#validMidiNotes != null &&
       !this.#validMidiNotes.has(event.midiNote)
@@ -84,6 +83,7 @@ export class PitchInputAdapter {
       // #endregion
       return;
     }
+    this.#flushExpired(event.timeStamp);
 
     const previous = this.#lastSeen;
     this.#lastSeen = toPendingPitch(event);

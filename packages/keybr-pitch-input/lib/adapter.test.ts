@@ -193,3 +193,36 @@ test("out-of-range notes are ignored before input emission", () => {
 
   deepEqual(trace, [{ timeStamp: 40, codePoint: 60, timeToType: 0 }]);
 });
+
+test("out-of-range note must not flush pending valid note", () => {
+  const trace: Array<{
+    readonly timeStamp: number;
+    readonly codePoint: number;
+    readonly timeToType: number;
+  }> = [];
+  const adapter = new PitchInputAdapter(
+    (event) => {
+      trace.push({
+        timeStamp: event.timeStamp,
+        codePoint: event.codePoint,
+        timeToType: event.timeToType,
+      });
+    },
+    { validMidiNotes: [60] },
+  );
+
+  adapter.onPitch({
+    timeStamp: 10,
+    midiNote: 60,
+    frequency: 261.63,
+    confidence: 1,
+  });
+  adapter.onPitch({
+    timeStamp: 100,
+    midiNote: 59,
+    frequency: 246.94,
+    confidence: 1,
+  });
+
+  deepEqual(trace, []);
+});
