@@ -2,7 +2,6 @@ import { KeyLegendList, names } from "@keybr/lesson-ui";
 import { Slide, Tour } from "@keybr/widget";
 import { memo } from "react";
 import { FormattedMessage } from "react-intl";
-import { KeyDetailsChartDemo } from "./KeyDetailsChartDemo.tsx";
 
 export const PracticeTour = memo(function PracticeTour({
   onClose,
@@ -15,110 +14,63 @@ export const PracticeTour = memo(function PracticeTour({
         <FormattedMessage
           id="m_tour01"
           defaultMessage={
-            "<h1>Learn to Type Faster</h1>" +
-            "<p>This web application will help you to learn <em>touch typing</em> which means typing through muscle memory without using your eyesight to find the keys. It can improve your typing speed and accuracy dramatically. The opposite is <em>hunt and peck typing</em>, a method of typing in which you look at the keyboard instead of the screen, and use only the index fingers.</p>" +
-            "<p>This is a short tutorial that will explain how this application works.</p>" +
-            "<p>You can use the left and right arrow keys to navigate through these slides.</p>"
+            "<h1>Practice Bandoneon</h1>" +
+            "<p>This tool applies the same methodology used by <a>keybr</a> — a proven touch-typing trainer — to the bandoneon. The hypothesis: the progressive, spaced-repetition approach that builds muscle memory for keyboard layouts can do the same for bandoneon button positions.</p>" +
+            "<p>This is an experiment. The software was built by autonomous AI agents. Whether this methodology actually improves bandoneon accuracy and speed is genuinely untested. You're helping us find out.</p>" +
+            "<p>Use the left and right arrow keys to navigate through these slides.</p>"
           }
+          values={{
+            a: (chunks) => <a href="https://www.keybr.com">{chunks}</a>,
+          }}
         />
       </Slide>
       <Slide size="large">
         <FormattedMessage
           id="m_tour02"
           defaultMessage={
-            "<p>Our teaching method is based on these principles:</p>" +
-            "<p>No boring repetitive exercises. Unlike most other typing tutors, this application does not force you to repeat the same lessons like ‘<em>jjf jjk jjf jjk</em>’ over and over again. This is very annoying and contributes very little to your overall learning.</p>" +
-            "<p>This application uses a sophisticated computer algorithm to generate typing lessons that match your skill level. These lessons consist of random words generated using a subset of the full alphabet of letters. The size of the subset and individual letter frequency is controlled by the algorithm, which provides you with the best learning experience.</p>"
-          }
-        />
-      </Slide>
-      <Slide size="large">
-        <FormattedMessage
-          id="m_tour03"
-          defaultMessage={
-            "<p>Initially it starts generating words from a small subset of the most frequent letters in the alphabet.</p>" +
-            "<p>When you are typing these words, the application measures the time-to-type metric for every letter in that subset. This time is used to measure your learning progress. The more familiar you become with a letter, the less time it takes for you to type it.</p>" +
-            "<p>Once you familiarize yourself with the entire current subset of letters, the algorithm expands it by adding more and more letters to the subset.</p>"
-          }
-        />
-      </Slide>
-      <Slide size="large">
-        <FormattedMessage
-          id="m_tour04"
-          defaultMessage={
-            "<p>When the algorithm includes a new letter to the current subset, the frequency of this letter is artificially increased so that it will be included in every generated word of a lesson.</p>" +
-            "<p>The algorithm can also artificially rearrange letter frequencies, placing an emphasis on the letters with the worst time-to-type metric.</p>" +
-            "<p>This means you will always be typing the letters that you are least familiar with.</p>"
+            "<p>The system starts you with a small set of notes and tracks how quickly and accurately you play each one.</p>" +
+            "<p>Notes you're slow on get more practice. As your weakest notes improve, new notes are added to your set. Over time, this evens out your ability across the full keyboard and should enable greater overall speed.</p>" +
+            "<p>This does <em>not</em> train rhythm. For that, practice with a metronome. This tool focuses purely on pitch accuracy and note-finding speed.</p>"
           }
         />
       </Slide>
       <Slide size="small" anchor={`#${names.textInput}`} position="block-end">
         <FormattedMessage
-          id="m_tour05"
-          defaultMessage="<p>This is the text board. It displays the text to type out. The text changes for each new lesson. The text is generated automatically from the current subset of letters. Most of the words are not real, but are generated using the phonetic rules of your language so they sound natural and should be easy to pronounce. Besides being funny, this gives us the flexibility to use more words than actually exist.</p>"
+          id="m_tour03"
+          defaultMessage="<p>This is the staff display. It shows the notes you need to play. Play each note into your microphone — the system listens for pitch, not rhythm. The notes change with each new lesson and are generated from your current note set.</p>"
         />
       </Slide>
       <Slide size="small" anchor={`#${names.keyboard}`} position="block-start">
         <FormattedMessage
-          id="m_tour06"
-          defaultMessage="<p>This is the virtual keyboard. It helps you memorize key positions. Use it to find the keys and try not to look at your physical keyboard. There are small bumps on the <em>F</em> and <em>J</em> keys of your keyboard. Use these to correctly position your index fingers without having to look at the keys. Once your index fingers are in the right position you will be able to locate the remainder of the keys.</p>"
+          id="m_tour04"
+          defaultMessage="<p>This is the bandoneon keyboard. It shows both hands and highlights the note you need to play. Use it as a visual reference to find button positions — the goal is to eventually find them without looking.</p>"
         />
       </Slide>
       <Slide size="small" anchor={`#${names.speed}`} position="block-end">
         <FormattedMessage
-          id="m_tour07"
-          defaultMessage={
-            "<p>This is the typing speed indicator and the difference from the average value. Your goal is to increase this metric, meaning higher values are better.</p>" +
-            "<p>Typing speed is measured in either <em>Words per Minute (WPM)</em> or <em>Characters per Minute (CPM)</em>. The definition of a word is standardized to be five characters, so <em>10WPM</em> is equal to <em>50CPM</em>.</p>" +
-            "<p>You can switch between the <em>WPM</em> and the <em>CPM</em> display modes on the Settings page.</p>"
-          }
-        />
-      </Slide>
-      <Slide size="small" anchor={`#${names.accuracy}`} position="block-end">
-        <FormattedMessage
-          id="m_tour08"
-          defaultMessage={
-            "<p>This is the accuracy indicator and the difference from the average value. Your goal is to increase this metric, meaning higher values are better.</p>" +
-            "<p>Accuracy is computed as the percentage of characters typed without errors. Many typos in the same position count as one error.</p>"
-          }
-        />
-      </Slide>
-      <Slide size="small" anchor={`#${names.score}`} position="block-end">
-        <FormattedMessage
-          id="m_tour09"
-          defaultMessage={
-            "<p>This is the typing score indicator in abstract points and the difference from the average value.</p>" +
-            "<p>The score is calculated from your typing speed, error count, and the current size of the letter set. The formula is designed to reward for typing speed, and punish for error count. You cannot obtain a high score by typing fast while also making many errors.</p>" +
-            "<p>Users who score the highest points are recorded in the high score table.</p>"
-          }
+          id="m_tour05"
+          defaultMessage="<p>These gauges show your performance for the current lesson. <em>Speed</em> is measured in notes per minute. <em>Accuracy</em> is the percentage of notes you played correctly on the first attempt. <em>Score</em> combines both — you can't get a high score by playing fast with lots of mistakes.</p>"
         />
       </Slide>
       <Slide size="small" anchor={`#${names.keySet}`} position="block-end">
         <FormattedMessage
-          id="m_tour10"
-          defaultMessage="<p>This indicator shows the current subset of letters used to generate the lessons, and your confidence level for every letter in the subset:</p>"
+          id="m_tour06"
+          defaultMessage="<p>This shows your current set of practice notes and your confidence level for each one. As your confidence grows on existing notes, new ones are added. The colors indicate how well you know each note:</p>"
         />
         <KeyLegendList />
       </Slide>
-      <Slide size="small" anchor={`#${names.keySet}`} position="block-end">
-        <FormattedMessage
-          id="m_tour11"
-          defaultMessage="<p>This indicator can also be used to predict the remaining number of lessons that are needed to fully unlock a letter, like in the example chart below. Visit it regularly to get more insight on how your learning is going, to see if you are making a progress.</p>"
-        />
-        <KeyDetailsChartDemo />
-      </Slide>
       <Slide size="small" anchor={`#${names.currentKey}`} position="block-end">
         <FormattedMessage
-          id="m_tour12"
+          id="m_tour07"
           defaultMessage={
-            "<p>This indicator shows details about the letter with increased frequency, which is currently included in every generated word:</p>" +
+            "<p>This shows details about the note currently getting extra focus — it appears more frequently in your lessons until your confidence with it improves:</p>" +
             "<dl>" +
-            "<dt>Best typing speed</dt>" +
-            "<dd>Your best typing speed for this individual letter.</dd>" +
+            "<dt>Best speed</dt>" +
+            "<dd>Your fastest recorded speed for this individual note.</dd>" +
             "<dt>Confidence level</dt>" +
-            "<dd>A number in range from zero to one which is computed using your typing speed, and indicates your familiarity with this letter. A letter is considered fully learned when it’s confidence level reaches one.</dd>" +
+            "<dd>A value from zero to one based on your speed with this note. The note is considered learned when confidence reaches one.</dd>" +
             "<dt>Learning rate</dt>" +
-            "<dd>How your typing speed is changing with each lesson.</dd>" +
+            "<dd>How your speed on this note is changing across lessons.</dd>" +
             "</dl>"
           }
         />
