@@ -17,6 +17,7 @@ export function SubMenu({ currentPath }: { readonly currentPath: string }) {
       <MailLink />
       <DiscordLink />
       <GithubLink />
+      <AttributionSection />
       <RouterLink to={Pages.termsOfService.path}>
         {formatMessage(Pages.termsOfService.link.label)}
       </RouterLink>
@@ -75,6 +76,47 @@ function GithubLink() {
     >
       Github
     </StaticLink>
+  );
+}
+
+function AttributionSection() {
+  const { formatMessage } = useIntl();
+  return (
+    <div className={styles.attribution}>
+      <span>
+        {formatMessage({
+          id: "footer.attribution.prefix",
+          defaultMessage: "Built on",
+        })}{" "}
+        <StaticLink
+          href="https://keybr.com"
+          target="keybr"
+          title={formatMessage({
+            id: "footer.attribution.keybr.description",
+            defaultMessage: "Visit keybr.com.",
+          })}
+        >
+          keybr
+        </StaticLink>{" "}
+        {formatMessage({
+          id: "footer.attribution.suffix",
+          defaultMessage: "- an open source typing practice tool",
+        })}
+      </span>
+      <StaticLink
+        href="https://github.com/aradzie/keybr.com"
+        target="github"
+        title={formatMessage({
+          id: "footer.attribution.source.description",
+          defaultMessage: "Browse the source repository.",
+        })}
+      >
+        {formatMessage({
+          id: "footer.attribution.source.label",
+          defaultMessage: "Source repo",
+        })}
+      </StaticLink>
+    </div>
   );
 }
 
