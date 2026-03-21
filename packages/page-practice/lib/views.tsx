@@ -6,3 +6,9 @@ export const views = {
   music: () => <PracticeScreen mode="music" />,
   settings: SettingsScreen,
 } as const;
+
+export const musicFirstViews = {
+  music: views.music,
+  practice: views.practice,
+  settings: views.settings,
+} as const;

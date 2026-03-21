@@ -53,6 +53,19 @@ export class Controller {
     return this.renderPage(ctx, Pages.practice, intl);
   }
 
+  @http.GET("/typing")
+  async ["typing"](ctx: Context<RouterState & AuthState>) {
+    return this.renderPage(ctx, Pages.practice);
+  }
+
+  @http.GET(`/{locale:${localePattern}}/typing`)
+  async ["typing-i18n"](
+    ctx: Context<RouterState & AuthState>,
+    @pathParam("locale", pIntl) intl: IntlShape,
+  ) {
+    return this.renderPage(ctx, Pages.practice, intl);
+  }
+
   @http.GET(`${Pages.account.path}`)
   async ["account"](ctx: Context<RouterState & AuthState>) {
     return this.renderPage(ctx, Pages.account);

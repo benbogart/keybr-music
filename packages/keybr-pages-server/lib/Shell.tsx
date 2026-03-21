@@ -110,7 +110,6 @@ function Content({ page }: { readonly page: PageInfo }) {
           {[
             Pages.practice,
             Pages.profile,
-            Pages.typingTest,
             Pages.multiplayer,
             Pages.layouts,
             Pages.help,

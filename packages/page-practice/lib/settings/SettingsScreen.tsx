@@ -59,39 +59,53 @@ function Content({
 }) {
   const { formatMessage } = useIntl();
   const { settings, updateSettings } = useSettings();
+  const musicMode = mode === "music";
   return (
     <Screen>
       <ExplainerBoundary>
         <ExplainSettings />
+        {musicMode ? (
+          <>
+            <Header level={1}>
+              <FormattedMessage
+                id="settings.music.instrument"
+                defaultMessage="Instrument"
+              />
+            </Header>
+            <KeyboardSettings mode="music" />
+          </>
+        ) : (
+          <>
+            <Header level={1}>
+              <FormattedMessage id="t_Lessons" defaultMessage="Lessons" />
+            </Header>
+            <LessonSettings />
 
-        <Header level={1}>
-          <FormattedMessage id="t_Lessons" defaultMessage="Lessons" />
-        </Header>
-        <LessonSettings />
+            <Spacer size={5} />
 
-        <Spacer size={5} />
+            <Header level={1}>
+              <FormattedMessage id="t_Typing" defaultMessage="Typing" />
+            </Header>
+            <TypingSettings />
 
-        <Header level={1}>
-          <FormattedMessage id="t_Typing" defaultMessage="Typing" />
-        </Header>
-        <TypingSettings />
+            <Spacer size={5} />
 
-        <Spacer size={5} />
+            <Header level={1}>
+              <FormattedMessage id="t_Keyboard" defaultMessage="Keyboard" />
+            </Header>
+            <KeyboardSettings mode={mode} />
 
-        <Header level={1}>
-          <FormattedMessage id="t_Keyboard" defaultMessage="Keyboard" />
-        </Header>
-        <KeyboardSettings mode={mode} />
+            <Spacer size={5} />
 
-        <Spacer size={5} />
-
-        <Header level={1}>
-          <FormattedMessage
-            id="t_Miscellaneous"
-            defaultMessage="Miscellaneous"
-          />
-        </Header>
-        <MiscSettings />
+            <Header level={1}>
+              <FormattedMessage
+                id="t_Miscellaneous"
+                defaultMessage="Miscellaneous"
+              />
+            </Header>
+            <MiscSettings />
+          </>
+        )}
 
         <div className={styles.footer}>
           <FieldList>

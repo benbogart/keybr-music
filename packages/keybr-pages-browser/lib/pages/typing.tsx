@@ -4,7 +4,7 @@ import { ResultLoader } from "@keybr/result-loader";
 export default function Page() {
   return (
     <ResultLoader>
-      <PracticePage defaultMode="music" />
+      <PracticePage defaultMode="typing" />
     </ResultLoader>
   );
 }

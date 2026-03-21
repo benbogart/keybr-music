@@ -6,7 +6,6 @@ import {
   mdiAspectRatio,
   mdiCog,
   mdiHelpCircleOutline,
-  mdiMusicNote,
   mdiRedo,
   mdiUndo,
 } from "@mdi/js";
@@ -75,13 +74,6 @@ export const Controls = memo(function Controls({
           onClick={onChangeView}
         />
       )}
-      <IconButton
-        icon={<Icon shape={mdiMusicNote} />}
-        title={musicMode ? "Switch to typing mode." : "Switch to music mode."}
-        onClick={() => {
-          setView(musicMode ? "practice" : "music");
-        }}
-      />
       {settings.isNew ? (
         <Button
           icon={<Icon shape={mdiCog} />}

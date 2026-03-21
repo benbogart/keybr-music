@@ -74,9 +74,9 @@ export namespace Pages {
         defaultMessage: "Practice",
       }),
       title: defineMessage({
-        id: "page.practice.description",
+        id: "page.practice.bandoneon.description",
         defaultMessage:
-          "Typing practice lessons to improve your speed and accuracy.",
+          "Bandoneon practice lessons to improve your speed and accuracy.",
       }),
       icon: mdiKeyboard,
     },
@@ -85,9 +85,9 @@ export namespace Pages {
       {
         name: "description",
         content: defineMessage({
-          id: "page.practice.description",
+          id: "page.practice.bandoneon.description",
           defaultMessage:
-            "Typing practice lessons to improve your speed and accuracy.",
+            "Bandoneon practice lessons to improve your speed and accuracy.",
         }),
       },
     ],
