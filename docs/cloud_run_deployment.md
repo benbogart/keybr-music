@@ -51,7 +51,7 @@ Set this in `Settings -> Secrets and variables -> Actions -> Secrets`:
   SQLite.
 - The deployment sets `SERVER_HTTP_WORKERS=1` and `SERVER_ENABLE_WS=false` to
   keep memory usage within Cloud Run limits.
-- The deployment sets `SERVER_BEHIND_PROXY=false` to avoid strict forwarded-host
+- The deployment sets `SERVER_BEHIND_PROXY=true` to avoid strict forwarded-host
   parsing issues on Cloud Run ingress.
 - Health endpoint: `GET /healthz` returns `200 OK` with `ok`.
 - `LITESTREAM_REPLICA_URI` is a private GCS URI (`gs://...`) and does not need
@@ -73,13 +73,61 @@ Deployment configuration values are expected from Actions Variables. Only
 - `GAR_REPOSITORY`:
   `gcloud artifacts repositories list --location <REGION>`
 
+## Public domain configuration (BEN-17)
+
+Choose a single production subdomain and use it consistently in:
+
+- `APP_URL` (for example, `https://bandoneon.benbogart.com/`)
+- `COOKIE_DOMAIN` (for example, `bandoneon.benbogart.com`)
+
+Create a Cloud Run domain mapping:
+
+```bash
+gcloud beta run domain-mappings create \
+  --project="${GCP_PROJECT_ID}" \
+  --region="${GCP_REGION}" \
+  --service="${CLOUD_RUN_SERVICE}" \
+  --domain="bandoneon.benbogart.com"
+```
+
+Get DNS records that must be added at your DNS provider:
+
+```bash
+gcloud beta run domain-mappings describe "bandoneon.benbogart.com" \
+  --project="${GCP_PROJECT_ID}" \
+  --region="${GCP_REGION}" \
+  --format="yaml(status.resourceRecords)"
+```
+
+After DNS records are in place, verify certificate provisioning and mapping
+readiness:
+
+```bash
+gcloud beta run domain-mappings describe "bandoneon.benbogart.com" \
+  --project="${GCP_PROJECT_ID}" \
+  --region="${GCP_REGION}" \
+  --format="yaml(status.conditions)"
+```
+
+Expected result: the mapping reports `Ready=True` and HTTPS requests to your
+domain succeed with a valid TLS certificate.
+
 ## Persistence verification
 
 After deployment:
 
 1. Create or update data in the app.
-2. Trigger another deployment (push to `main`).
-3. Verify the record still exists after rollout.
+2. Close the browser session and open the app again.
+3. Trigger another deployment (push to `main`).
+4. Verify the record still exists after rollout.
+
+## Go-live verification checklist
+
+- App is reachable at the production domain over HTTPS.
+- Domain mapping is `Ready=True` and DNS records match Cloud Run output.
+- User progress persists across browser sessions and after a new deployment.
+- Landing page defaults to the bandoneon experience (after BEN-49 merges).
+- Onboarding copy reflects music practice wording (after BEN-28 merges).
 
 ## Automated smoke test
 
