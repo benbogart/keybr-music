@@ -2,16 +2,19 @@
   display: grid;
   grid-template-areas:
     "topbar topbar topbar"
-    "sidebar main nav";
-  grid-template-rows: auto 1fr;
+    "sidebar main nav"
+    "sidebar footer nav";
+  grid-template-rows: auto 1fr auto;
   grid-template-columns: auto 1fr auto;
   min-block-size: 100vb;
 }
 
 .bodyAlt {
   display: grid;
-  grid-template-areas: ". main nav";
-  grid-template-rows: 1fr;
+  grid-template-areas:
+    ". main nav"
+    ". footerAlt nav";
+  grid-template-rows: 1fr auto;
   grid-template-columns: 12rem 1fr auto;
   min-block-size: 100vb;
 }
@@ -38,6 +41,33 @@
   margin: 0;
   padding-inline: 1rem;
   padding-block: 1rem;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.footerAlt {
+  grid-area: footerAlt;
+}
+
+.footer,
+.footerAlt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  margin: 0;
+  padding-inline: 0.75rem;
+  padding-block: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.footer a,
+.footerAlt a {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .topbar {

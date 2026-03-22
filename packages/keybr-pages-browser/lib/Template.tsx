@@ -1,6 +1,6 @@
 import { isPremiumUser, Pages, usePageData } from "@keybr/pages-shared";
 import { AdBanner } from "@keybr/thirdparties";
-import { PortalContainer, Toaster } from "@keybr/widget";
+import { Link as StaticLink, PortalContainer, Toaster } from "@keybr/widget";
 import { type ReactNode } from "react";
 import { NavMenu } from "./NavMenu.tsx";
 import * as styles from "./Template.module.less";
@@ -24,6 +24,7 @@ export function Template({
       <nav className={styles.navAlt}>
         <NavMenu currentPath={path} />
       </nav>
+      <AttributionFooter className={styles.footerAlt} />
       <EnvName />
     </div>
   ) : (
@@ -36,6 +37,7 @@ export function Template({
       <nav className={styles.nav}>
         <NavMenu currentPath={path} />
       </nav>
+      <AttributionFooter className={styles.footer} />
       {showAds && (
         <>
           <div className={styles.topbar}>
@@ -48,6 +50,31 @@ export function Template({
       )}
       <EnvName />
     </div>
+  );
+}
+
+function AttributionFooter({ className }: { readonly className: string }) {
+  return (
+    <footer className={className}>
+      <span>
+        Built on{" "}
+        <StaticLink
+          href="https://keybr.com"
+          target="keybr"
+          title="Visit keybr.com."
+        >
+          keybr
+        </StaticLink>{" "}
+        - an open source typing practice tool
+      </span>
+      <StaticLink
+        href="https://github.com/aradzie/keybr.com"
+        target="github"
+        title="Browse the source repository."
+      >
+        Source repo
+      </StaticLink>
+    </footer>
   );
 }
 
