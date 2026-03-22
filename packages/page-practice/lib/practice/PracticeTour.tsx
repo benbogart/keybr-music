@@ -15,7 +15,7 @@ export const PracticeTour = memo(function PracticeTour({
           id="m_tour01"
           defaultMessage={
             "<h1>Practice Bandoneon</h1>" +
-            "<p>This tool applies the same methodology used by <a>keybr</a> — a proven touch-typing trainer — to the bandoneon. The hypothesis: the progressive, spaced-repetition approach that builds muscle memory for keyboard layouts can do the same for bandoneon button positions.</p>" +
+            "<p>This tool applies the same methodology used by <a>keybr</a> — a proven touch-typing trainer — to the bandoneon. The hypothesis: the progressive, spaced-repetition approach that builds muscle memory for keyboard layouts can do the same for bandoneon key positions.</p>" +
             "<p>This is an experiment. The software was built by autonomous AI agents. Whether this methodology actually improves bandoneon accuracy and speed is genuinely untested. You’re helping us find out.</p>" +
             "<p>Use the left and right arrow keys to navigate through these slides.</p>"
           }
@@ -43,7 +43,7 @@ export const PracticeTour = memo(function PracticeTour({
       <Slide size="small" anchor={`#${names.keyboard}`} position="block-start">
         <FormattedMessage
           id="m_tour04"
-          defaultMessage="<p>This is the bandoneon keyboard. It shows both hands and highlights the note you need to play. Use it as a visual reference to find button positions — the goal is to eventually find them without looking.</p>"
+          defaultMessage="<p>This is the bandoneon keyboard. It shows both hands and highlights the note you need to play. Use it as a visual reference to find key positions — the goal is to eventually find them without looking.</p>"
         />
       </Slide>
       <Slide size="small" anchor={`#${names.speed}`} position="block-end">
