@@ -74,9 +74,8 @@ export namespace Pages {
         defaultMessage: "Practice",
       }),
       title: defineMessage({
-        id: "page.practice.bandoneon.description",
-        defaultMessage:
-          "Bandoneon practice lessons to improve your speed and accuracy.",
+        id: "page.pitchTest.description",
+        defaultMessage: "Test pitch detection with your instrument.",
       }),
       icon: mdiKeyboard,
     },
@@ -85,9 +84,8 @@ export namespace Pages {
       {
         name: "description",
         content: defineMessage({
-          id: "page.practice.bandoneon.description",
-          defaultMessage:
-            "Bandoneon practice lessons to improve your speed and accuracy.",
+          id: "page.pitchTest.description",
+          defaultMessage: "Test pitch detection with your instrument.",
         }),
       },
     ],
