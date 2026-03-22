@@ -20,4 +20,13 @@ When an original English string changes it becomes [fuzzy](https://poeditor.com/
 
 The number of translated and untranslated messages and words can be seen in the [Translations Report](./translations_report.md)
 
+## Rules for adding new user-facing text
+
+When adding new copy in code, use these rules to prevent broken output in translated locales:
+
+- Do **not** put Markdown links (`[text](url)` or `<https://...>`) into translatable messages.
+- Keep links in JSX/HTML markup, and keep translation strings to plain text only.
+- For sentence fragments around a link, translate only the plain text fragments and render the link element separately.
+- Before merging, verify the new text in at least one non-English locale to ensure no placeholder or markdown artifacts appear in the UI.
+
 Thank you for your contributions!
