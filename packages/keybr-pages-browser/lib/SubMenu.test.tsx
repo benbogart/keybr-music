@@ -34,8 +34,6 @@ test("render", () => {
 
   isNotNull(r.queryByText("Polski"));
   isNotNull(r.queryByText("English"));
-  isNotNull(r.queryByText(/Built on/i));
-  isNotNull(r.queryByText("Source repo"));
 
   r.unmount();
 });

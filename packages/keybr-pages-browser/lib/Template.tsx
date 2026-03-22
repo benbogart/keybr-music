@@ -1,7 +1,8 @@
 import { isPremiumUser, Pages, usePageData } from "@keybr/pages-shared";
 import { AdBanner } from "@keybr/thirdparties";
-import { PortalContainer, Toaster } from "@keybr/widget";
+import { Link as StaticLink, PortalContainer, Toaster } from "@keybr/widget";
 import { type ReactNode } from "react";
+import { useIntl } from "react-intl";
 import { NavMenu } from "./NavMenu.tsx";
 import * as styles from "./Template.module.less";
 
@@ -24,6 +25,7 @@ export function Template({
       <nav className={styles.navAlt}>
         <NavMenu currentPath={path} />
       </nav>
+      <AttributionFooter className={styles.footerAlt} />
       <EnvName />
     </div>
   ) : (
@@ -36,6 +38,7 @@ export function Template({
       <nav className={styles.nav}>
         <NavMenu currentPath={path} />
       </nav>
+      <AttributionFooter className={styles.footer} />
       {showAds && (
         <>
           <div className={styles.topbar}>
@@ -48,6 +51,47 @@ export function Template({
       )}
       <EnvName />
     </div>
+  );
+}
+
+function AttributionFooter({ className }: { readonly className: string }) {
+  const { formatMessage } = useIntl();
+  return (
+    <footer className={className}>
+      <span>
+        {formatMessage({
+          id: "footer.attribution.prefix",
+          defaultMessage: "Built on",
+        })}{" "}
+        <StaticLink
+          href="https://keybr.com"
+          target="keybr"
+          title={formatMessage({
+            id: "footer.attribution.keybr.description",
+            defaultMessage: "Visit keybr.com.",
+          })}
+        >
+          keybr
+        </StaticLink>{" "}
+        {formatMessage({
+          id: "footer.attribution.suffix",
+          defaultMessage: "- an open source typing practice tool",
+        })}
+      </span>
+      <StaticLink
+        href="https://github.com/aradzie/keybr.com"
+        target="github"
+        title={formatMessage({
+          id: "footer.attribution.source.description",
+          defaultMessage: "Browse the source repository.",
+        })}
+      >
+        {formatMessage({
+          id: "footer.attribution.source.label",
+          defaultMessage: "Source repo",
+        })}
+      </StaticLink>
+    </footer>
   );
 }
 

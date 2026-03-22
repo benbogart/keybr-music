@@ -34,6 +34,8 @@ test("render", () => {
   isNotNull(r.queryByText("hello"));
   isNotNull(r.container.querySelector("#keybr_728x90_970x90_ATF"));
   isNotNull(r.container.querySelector("#keybr_160x600_Left"));
+  isNotNull(r.queryByText(/Built on/i));
+  isNotNull(r.queryByText("Source repo"));
 
   r.unmount();
 });
@@ -65,6 +67,8 @@ test("render alt", () => {
   );
 
   isNotNull(r.queryByText("hello"));
+  isNotNull(r.queryByText(/Built on/i));
+  isNotNull(r.queryByText("Source repo"));
 
   r.unmount();
 });
