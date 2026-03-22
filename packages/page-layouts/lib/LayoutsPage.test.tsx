@@ -15,6 +15,14 @@ test("render bandoneon layouts", async () => {
   isNotNull(await r.findByText("Right hand closing"));
   isNotNull(await r.findByText("Left hand opening"));
   isNotNull(await r.findByText("Left hand closing"));
+  const leftImages = await r.findAllByAltText(
+    "Bandoneon left hand opening keyboard",
+  );
+  const rightImages = await r.findAllByAltText(
+    "Bandoneon right hand opening keyboard",
+  );
+  isNotNull(leftImages[0]);
+  isNotNull(rightImages[0]);
 
   r.unmount();
 });
