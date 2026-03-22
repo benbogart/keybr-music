@@ -231,17 +231,18 @@ export namespace Pages {
   export const layouts = {
     path: "/layouts",
     title: defineMessage({
-      id: "t_Layouts",
-      defaultMessage: "Layouts",
+      id: "settings.music.layout.label",
+      defaultMessage: "Bandoneon layout",
     }),
     link: {
       label: defineMessage({
-        id: "t_Layouts",
-        defaultMessage: "Layouts",
+        id: "settings.music.layout.label",
+        defaultMessage: "Bandoneon layout",
       }),
       title: defineMessage({
-        id: "page.layouts.description",
-        defaultMessage: "Comparison charts of keyboard layouts.",
+        id: "settings.music.layout.description",
+        defaultMessage:
+          "Choose which hand and bellows direction to practice. Notes and highlights are limited to the selected keyboard layout.",
       }),
       icon: mdiKeyboardOutline,
     },
@@ -250,8 +251,9 @@ export namespace Pages {
       {
         name: "description",
         content: defineMessage({
-          id: "page.layouts.description",
-          defaultMessage: "Comparison charts of keyboard layouts.",
+          id: "settings.music.layout.description",
+          defaultMessage:
+            "Choose which hand and bellows direction to practice. Notes and highlights are limited to the selected keyboard layout.",
         }),
       },
     ],
