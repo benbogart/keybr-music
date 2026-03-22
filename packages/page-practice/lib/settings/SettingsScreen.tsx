@@ -66,12 +66,6 @@ function Content({
         <ExplainSettings />
         {musicMode ? (
           <>
-            <Header level={1}>
-              <FormattedMessage
-                id="settings.music.instrument"
-                defaultMessage="Instrument"
-              />
-            </Header>
             <KeyboardSettings mode="music" />
           </>
         ) : (

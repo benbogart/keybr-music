@@ -52,7 +52,6 @@ test("render music settings with layout picker", async () => {
     </FakeIntlProvider>,
   );
 
-  isNotNull(await r.findByText("Instrument"));
   isNotNull(await r.findByText("Instrument options"));
   isNotNull(await r.findByText("Bandoneon layout"));
   isNotNull(await r.findByText("Right hand opening"));
