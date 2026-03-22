@@ -73,12 +73,17 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   override componentDidMount() {
+    const isNew = this.props.state.settings.isNew;
     if (this.props.musicMode) {
-      const view = this.state.view;
-      if (view === View.Normal) {
-        this.setState({ view: View.Compact });
+      const view = isNew
+        ? View.Compact
+        : this.state.view === View.Normal
+          ? View.Compact
+          : this.state.view;
+      if (view !== this.state.view || isNew) {
+        this.setState({ view, tour: isNew });
       }
-    } else if (this.props.state.settings.isNew) {
+    } else if (isNew) {
       this.setState({
         view: View.Normal,
         tour: true,
@@ -116,11 +121,13 @@ export class Presenter extends PureComponent<Props, State> {
       : null;
     const musicKeyboard =
       musicMode && musicInstrument != null ? (
-        <BandoneonKeyboard
-          instrument={musicInstrument}
-          targetCodePoint={nextMusicCodePoint}
-          playedCodePoint={musicLastCorrectCodePoint}
-        />
+        <div id={names.keyboard}>
+          <BandoneonKeyboard
+            instrument={musicInstrument}
+            targetCodePoint={nextMusicCodePoint}
+            playedCodePoint={musicLastCorrectCodePoint}
+          />
+        </div>
       ) : null;
     const activeView = musicMode && view === View.Normal ? View.Compact : view;
     switch (activeView) {
@@ -134,7 +141,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -175,7 +182,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -201,6 +208,7 @@ export class Presenter extends PureComponent<Props, State> {
                 />
               </Zoomer>
             }
+            tour={tour && <PracticeTour onClose={handleTourClose} />}
           />
         );
       case View.Bare:
@@ -216,7 +224,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -312,12 +320,9 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   handleHelp = () => {
-    if (this.props.musicMode) {
-      return;
-    }
     this.setState(
       {
-        view: View.Normal,
+        view: this.props.musicMode ? View.Compact : View.Normal,
         tour: true,
       },
       () => {
@@ -330,7 +335,7 @@ export class Presenter extends PureComponent<Props, State> {
   handleTourClose = () => {
     this.setState(
       {
-        view: View.Normal,
+        view: this.props.musicMode ? View.Compact : View.Normal,
         tour: false,
       },
       () => {
@@ -388,6 +393,7 @@ function CompactLayout({
   musicTargetSpeed,
   controls,
   textInput,
+  tour,
 }: {
   readonly state: LessonState;
   readonly focus: boolean;
@@ -397,6 +403,7 @@ function CompactLayout({
   readonly musicTargetSpeed: number;
   readonly controls: ReactNode;
   readonly textInput: ReactNode;
+  readonly tour: ReactNode;
 }) {
   return (
     <Screen>
@@ -412,6 +419,7 @@ function CompactLayout({
         />
       )}
       {controls}
+      {tour}
     </Screen>
   );
 }

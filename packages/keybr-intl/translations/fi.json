@@ -56,7 +56,6 @@
   "lesson.indicator.notIncluded": "Näppäin, jota ei vielä ole sisällytetty harjoituksiin.",
   "lessonType.customText.description": "Luo kirjoitusharjoituksia itse mukauttamastasi tekstistä. Kaikki näppäimet sisällytetään automaattisesti.",
   "lessonType.numbers.description": "Harjoittele vain numeroita.",
-  "m_tour01": "<h1>Opi kirjoittamaan nopeammin</h1><p>Tämä ohjelma auttaa sinua oppimaan <em>kymmensormijärjestelmän</em>, joka tarkoittaa kirjoittamista lihasmuistilla ilman näppäinten löytämistä niitä katsomatta. Se voi parantaa kirjoitusnopeutta ja -tarkkuutta huomattavasti. Sen vastakohta on <em>hunt and peck typing</em>, kirjoitustyyli, jossa katsotaan näppäimistöä näytön sijaan ja käytetään pelkästään etusormia.</p><p>Tämä lyhyt opastus selittää miten kymmensormijärjestelmä toimii.</p><p>Voit käyttää vasenta ja oikeaa nuolta selataksesi näitä dioja.</p>",
   "metric.speed.description": "Kirjoitusnopeus edellisessä harjoituksessa.",
   "multiplayer.ticker.waitingMorePlayers": "Odotetaan lisää pelaajia...",
   "multiplayer.ticker.waitingNextRace": "Zzz... Odota seuraavaa kilpailua",

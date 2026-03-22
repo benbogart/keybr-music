@@ -1,14 +1,14 @@
 # English
 
-Translated: 363 messages, 4935 words
+Translated: 358 messages, 4488 words
 
 Untranslated: 0 messages, 0 words
 
 # Afrikaans
 
-Translated: 339 messages, 4744 words
+Translated: 327 messages, 3909 words
 
-Untranslated: 22 messages, 167 words
+Untranslated: 29 messages, 555 words
 
 * *Letters*
 * *Volume:*
@@ -34,9 +34,9 @@ Untranslated: 22 messages, 167 words
 
 # Arabic
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -58,12 +58,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Bulgarian
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -85,12 +86,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Bangla
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -112,12 +114,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Catalan
 
 Translated: 310 messages, 3556 words
 
-Untranslated: 49 messages, 1333 words
+Untranslated: 44 messages, 886 words
 
 * *Errors*
 * *Zones:*
@@ -143,9 +146,9 @@ Untranslated: 49 messages, 1333 words
 
 # Czech
 
-Translated: 336 messages, 4740 words
+Translated: 324 messages, 3905 words
 
-Untranslated: 25 messages, 171 words
+Untranslated: 32 messages, 559 words
 
 * *Font:*
 * *Reset*
@@ -171,9 +174,9 @@ Untranslated: 25 messages, 171 words
 
 # Danish
 
-Translated: 331 messages, 4689 words
+Translated: 319 messages, 3854 words
 
-Untranslated: 28 messages, 200 words
+Untranslated: 35 messages, 588 words
 
 * *Score*
 * *Layout*
@@ -199,9 +202,9 @@ Untranslated: 28 messages, 200 words
 
 # German
 
-Translated: 339 messages, 4744 words
+Translated: 327 messages, 3909 words
 
-Untranslated: 22 messages, 167 words
+Untranslated: 29 messages, 555 words
 
 * *Position*
 * *Alphabet:*
@@ -227,9 +230,9 @@ Untranslated: 22 messages, 167 words
 
 # Greek
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -251,12 +254,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Esperanto
 
 Translated: 77 messages, 1126 words
 
-Untranslated: 277 messages, 3727 words
+Untranslated: 272 messages, 3280 words
 
 * *GO!*
 * *Copy*
@@ -282,9 +286,9 @@ Untranslated: 277 messages, 3727 words
 
 # Spanish
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -306,12 +310,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Estonian
 
-Translated: 338 messages, 4743 words
+Translated: 326 messages, 3908 words
 
-Untranslated: 23 messages, 168 words
+Untranslated: 30 messages, 556 words
 
 * *GO!*
 * *Font:*
@@ -339,7 +344,7 @@ Untranslated: 23 messages, 168 words
 
 Translated: 287 messages, 2823 words
 
-Untranslated: 72 messages, 2066 words
+Untranslated: 67 messages, 1619 words
 
 * *Books*
 * *Zones:*
@@ -365,9 +370,9 @@ Untranslated: 72 messages, 2066 words
 
 # Finnish
 
-Translated: 208 messages, 2284 words
+Translated: 207 messages, 2191 words
 
-Untranslated: 147 messages, 2571 words
+Untranslated: 143 messages, 2217 words
 
 * *GO!*
 * *Time*
@@ -395,7 +400,7 @@ Untranslated: 147 messages, 2571 words
 
 Translated: 44 messages, 583 words
 
-Untranslated: 309 messages, 4259 words
+Untranslated: 304 messages, 3812 words
 
 * *GO!*
 * *Copy*
@@ -421,9 +426,9 @@ Untranslated: 309 messages, 4259 words
 
 # French
 
-Translated: 333 messages, 4544 words
+Translated: 321 messages, 3709 words
 
-Untranslated: 28 messages, 367 words
+Untranslated: 35 messages, 755 words
 
 * *Zones:*
 * *Options*
@@ -449,9 +454,9 @@ Untranslated: 28 messages, 367 words
 
 # Irish
 
-Translated: 337 messages, 4735 words
+Translated: 325 messages, 3900 words
 
-Untranslated: 24 messages, 176 words
+Untranslated: 31 messages, 564 words
 
 * *Zones:*
 * *Note Speed*
@@ -477,9 +482,9 @@ Untranslated: 24 messages, 176 words
 
 # Hebrew
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -501,12 +506,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Croatian
 
-Translated: 337 messages, 4740 words
+Translated: 325 messages, 3905 words
 
-Untranslated: 24 messages, 171 words
+Untranslated: 31 messages, 559 words
 
 * *Font:*
 * *Reset*
@@ -532,9 +538,9 @@ Untranslated: 24 messages, 171 words
 
 # Hungarian
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -556,12 +562,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Indonesian
 
-Translated: 339 messages, 4744 words
+Translated: 327 messages, 3909 words
 
-Untranslated: 22 messages, 167 words
+Untranslated: 29 messages, 555 words
 
 * *GO!*
 * *Volume:*
@@ -589,7 +596,7 @@ Untranslated: 22 messages, 167 words
 
 Translated: 95 messages, 1742 words
 
-Untranslated: 259 messages, 3111 words
+Untranslated: 254 messages, 2664 words
 
 * *GO!*
 * *Copy*
@@ -615,9 +622,9 @@ Untranslated: 259 messages, 3111 words
 
 # Italian
 
-Translated: 334 messages, 4738 words
+Translated: 322 messages, 3903 words
 
-Untranslated: 26 messages, 171 words
+Untranslated: 33 messages, 559 words
 
 * *Font:*
 * *Layout*
@@ -643,9 +650,9 @@ Untranslated: 26 messages, 171 words
 
 # Japanese
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -667,12 +674,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Korean
 
 Translated: 145 messages, 1297 words
 
-Untranslated: 214 messages, 3592 words
+Untranslated: 209 messages, 3145 words
 
 * *Copy*
 * *Done*
@@ -700,7 +708,7 @@ Untranslated: 214 messages, 3592 words
 
 Translated: 298 messages, 3096 words
 
-Untranslated: 60 messages, 1784 words
+Untranslated: 55 messages, 1337 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -728,7 +736,7 @@ Untranslated: 60 messages, 1784 words
 
 Translated: 16 messages, 378 words
 
-Untranslated: 335 messages, 4435 words
+Untranslated: 330 messages, 3988 words
 
 * *GO!*
 * *Copy*
@@ -754,9 +762,9 @@ Untranslated: 335 messages, 4435 words
 
 # Norwegian Bokmål
 
-Translated: 158 messages, 2338 words
+Translated: 156 messages, 2170 words
 
-Untranslated: 197 messages, 2518 words
+Untranslated: 194 messages, 2239 words
 
 * *Done*
 * *Help*
@@ -782,9 +790,9 @@ Untranslated: 197 messages, 2518 words
 
 # Nepali
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -806,12 +814,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Dutch
 
-Translated: 333 messages, 4736 words
+Translated: 321 messages, 3901 words
 
-Untranslated: 27 messages, 173 words
+Untranslated: 34 messages, 561 words
 
 * *Score*
 * *Zones:*
@@ -837,9 +846,9 @@ Untranslated: 27 messages, 173 words
 
 # Polish
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -861,12 +870,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Brazilian Portuguese
 
-Translated: 338 messages, 4743 words
+Translated: 326 messages, 3908 words
 
-Untranslated: 23 messages, 168 words
+Untranslated: 30 messages, 556 words
 
 * *Layout*
 * *Layout:*
@@ -892,9 +902,9 @@ Untranslated: 23 messages, 168 words
 
 # European Portuguese
 
-Translated: 318 messages, 4597 words
+Translated: 306 messages, 3762 words
 
-Untranslated: 41 messages, 292 words
+Untranslated: 48 messages, 680 words
 
 * *Books*
 * *Layout*
@@ -920,9 +930,9 @@ Untranslated: 41 messages, 292 words
 
 # Romanian
 
-Translated: 298 messages, 3587 words
+Translated: 286 messages, 2752 words
 
-Untranslated: 56 messages, 1280 words
+Untranslated: 63 messages, 1668 words
 
 * *Font:*
 * *Layout*
@@ -948,9 +958,9 @@ Untranslated: 56 messages, 1280 words
 
 # Russian
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -972,12 +982,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Slovak
 
-Translated: 340 messages, 4745 words
+Translated: 328 messages, 3910 words
 
-Untranslated: 21 messages, 166 words
+Untranslated: 28 messages, 554 words
 
 * *Syntax:*
 * *Note Speed*
@@ -1005,7 +1016,7 @@ Untranslated: 21 messages, 166 words
 
 Translated: 192 messages, 3519 words
 
-Untranslated: 168 messages, 1390 words
+Untranslated: 163 messages, 943 words
 
 * *Copy*
 * *Done*
@@ -1033,7 +1044,7 @@ Untranslated: 168 messages, 1390 words
 
 Translated: 43 messages, 684 words
 
-Untranslated: 310 messages, 4158 words
+Untranslated: 305 messages, 3711 words
 
 * *GO!*
 * *Copy*
@@ -1059,9 +1070,9 @@ Untranslated: 310 messages, 4158 words
 
 # Swedish
 
-Translated: 338 messages, 4743 words
+Translated: 326 messages, 3908 words
 
-Untranslated: 23 messages, 168 words
+Untranslated: 30 messages, 556 words
 
 * *Layout*
 * *Layout:*
@@ -1087,9 +1098,9 @@ Untranslated: 23 messages, 168 words
 
 # Thai
 
-Translated: 329 messages, 4635 words
+Translated: 317 messages, 3800 words
 
-Untranslated: 30 messages, 254 words
+Untranslated: 37 messages, 642 words
 
 * *Zones:*
 * *Note Speed*
@@ -1117,7 +1128,7 @@ Untranslated: 30 messages, 254 words
 
 Translated: 227 messages, 2126 words
 
-Untranslated: 129 messages, 2730 words
+Untranslated: 124 messages, 2283 words
 
 * *Books*
 * *Font:*
@@ -1143,9 +1154,9 @@ Untranslated: 129 messages, 2730 words
 
 # Ukrainian
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1167,12 +1178,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Vietnamese
 
 Translated: 275 messages, 2745 words
 
-Untranslated: 83 messages, 2135 words
+Untranslated: 78 messages, 1688 words
 
 * *Visit*
 * *Typing*
@@ -1198,9 +1210,9 @@ Untranslated: 83 messages, 2135 words
 
 # Simplified Chinese
 
-Translated: 340 messages, 4739 words
+Translated: 328 messages, 3904 words
 
-Untranslated: 21 messages, 172 words
+Untranslated: 28 messages, 560 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1226,9 +1238,9 @@ Untranslated: 21 messages, 172 words
 
 # Traditional Chinese
 
-Translated: 341 messages, 4746 words
+Translated: 329 messages, 3911 words
 
-Untranslated: 20 messages, 165 words
+Untranslated: 27 messages, 553 words
 
 * *Note Speed*
 * *Pitch Test*
@@ -1250,12 +1262,13 @@ Untranslated: 20 messages, 165 words
 * *Horizontal axis: lesson number. Vertical axis: speed for eac...*
 * *Choose which hand and bellows direction to practice. Notes a...*
 * *Horizontal axis: lesson number. Vertical axis: {label1} – no...*
+* ...
 
 # Chinese (Taiwan)
 
-Translated: 340 messages, 4745 words
+Translated: 328 messages, 3910 words
 
-Untranslated: 21 messages, 166 words
+Untranslated: 28 messages, 554 words
 
 * *GO!*
 * *Note Speed*

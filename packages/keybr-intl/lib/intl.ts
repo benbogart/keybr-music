@@ -6,6 +6,20 @@ import { loadMessages } from "./messages.ts";
 const cache = new Map<LocaleId, IntlShape>(); // Server loads multiple intls.
 
 export async function loadIntl(locale: LocaleId): Promise<IntlShape> {
+  if (process.env.NODE_ENV !== "production") {
+    return createIntl(
+      {
+        locale,
+        defaultLocale,
+        defaultRichTextElements,
+        messages: await loadMessages(locale),
+        onWarn,
+        onError,
+      },
+      createIntlCache(),
+    );
+  }
+
   let intl = cache.get(locale);
   if (intl == null) {
     const messages = await loadMessages(locale);
