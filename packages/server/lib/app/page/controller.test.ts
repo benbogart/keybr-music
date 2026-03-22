@@ -11,6 +11,7 @@ const context = new TestContext();
 
 for (const path of [
   "/",
+  "/typing",
   "/account",
   "/help",
   "/high-scores",

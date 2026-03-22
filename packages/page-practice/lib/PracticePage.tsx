@@ -1,7 +1,7 @@
 import { KeyboardOptions, Layout } from "@keybr/keyboard";
 import { Settings } from "@keybr/settings";
 import { ViewSwitch } from "@keybr/widget";
-import { views } from "./views.tsx";
+import { musicFirstViews, views } from "./views.tsx";
 
 setDefaultLayout(window.navigator.language);
 
@@ -17,6 +17,12 @@ function setDefaultLayout(localeId: string) {
   }
 }
 
-export function PracticePage() {
-  return <ViewSwitch views={views} />;
+export function PracticePage({
+  defaultMode = "music",
+}: {
+  readonly defaultMode?: "typing" | "music";
+}) {
+  return (
+    <ViewSwitch views={defaultMode === "music" ? musicFirstViews : views} />
+  );
 }

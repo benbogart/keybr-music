@@ -5,7 +5,7 @@ import { PhoneticModelLoader } from "@keybr/phonetic-model-loader";
 import { FakeResultContext, ResultFaker } from "@keybr/result";
 import { FakeSettingsContext } from "@keybr/settings";
 import { fireEvent, render } from "@testing-library/react";
-import { isNotNull } from "rich-assert";
+import { isNotNull, isNull } from "rich-assert";
 import { SettingsScreen } from "./SettingsScreen.tsx";
 
 const faker = new ResultFaker();
@@ -52,10 +52,10 @@ test("render music settings with layout picker", async () => {
     </FakeIntlProvider>,
   );
 
-  isNotNull(await r.findByText("Lessons"));
   isNotNull(await r.findByText("Instrument options"));
   isNotNull(await r.findByText("Bandoneon layout"));
   isNotNull(await r.findByText("Right hand opening"));
+  isNull(r.queryByText("Typing"));
 
   fireEvent.click(r.getByText("Right hand opening"));
 
