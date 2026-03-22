@@ -141,7 +141,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -182,7 +182,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -224,7 +224,7 @@ export class Presenter extends PureComponent<Props, State> {
             controls={
               <Controls
                 musicMode={musicMode}
-                showHelp={!musicMode}
+                showHelp={true}
                 showChangeView={true}
                 onChangeView={handleChangeView}
                 onResetLesson={handleResetLesson}
@@ -320,12 +320,9 @@ export class Presenter extends PureComponent<Props, State> {
   };
 
   handleHelp = () => {
-    if (this.props.musicMode) {
-      return;
-    }
     this.setState(
       {
-        view: View.Normal,
+        view: this.props.musicMode ? View.Compact : View.Normal,
         tour: true,
       },
       () => {

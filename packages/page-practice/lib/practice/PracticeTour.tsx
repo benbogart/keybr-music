@@ -16,7 +16,7 @@ export const PracticeTour = memo(function PracticeTour({
           defaultMessage={
             "<h1>Practice Bandoneon</h1>" +
             "<p>This tool applies the same methodology used by <a>keybr</a> — a proven touch-typing trainer — to the bandoneon. The hypothesis: the progressive, spaced-repetition approach that builds muscle memory for keyboard layouts can do the same for bandoneon button positions.</p>" +
-            "<p>This is an experiment. The software was built by autonomous AI agents. Whether this methodology actually improves bandoneon accuracy and speed is genuinely untested. You're helping us find out.</p>" +
+            "<p>This is an experiment. The software was built by autonomous AI agents. Whether this methodology actually improves bandoneon accuracy and speed is genuinely untested. You’re helping us find out.</p>" +
             "<p>Use the left and right arrow keys to navigate through these slides.</p>"
           }
           values={{
@@ -29,7 +29,7 @@ export const PracticeTour = memo(function PracticeTour({
           id="m_tour02"
           defaultMessage={
             "<p>The system starts you with a small set of notes and tracks how quickly and accurately you play each one.</p>" +
-            "<p>Notes you're slow on get more practice. As your weakest notes improve, new notes are added to your set. Over time, this evens out your ability across the full keyboard and should enable greater overall speed.</p>" +
+            "<p>Notes you’re slow on get more practice. As your weakest notes improve, new notes are added to your set. Over time, this evens out your ability across the full keyboard and should enable greater overall speed.</p>" +
             "<p>This does <em>not</em> train rhythm. For that, practice with a metronome. This tool focuses purely on pitch accuracy and note-finding speed.</p>"
           }
         />
@@ -49,7 +49,7 @@ export const PracticeTour = memo(function PracticeTour({
       <Slide size="small" anchor={`#${names.speed}`} position="block-end">
         <FormattedMessage
           id="m_tour05"
-          defaultMessage="<p>These gauges show your performance for the current lesson. <em>Speed</em> is measured in notes per minute. <em>Accuracy</em> is the percentage of notes you played correctly on the first attempt. <em>Score</em> combines both — you can't get a high score by playing fast with lots of mistakes.</p>"
+          defaultMessage="<p>These gauges show your performance for the current lesson. <em>Speed</em> is measured in notes per minute. <em>Accuracy</em> is the percentage of notes you played correctly on the first attempt. <em>Score</em> combines both — you can’t get a high score by playing fast with lots of mistakes.</p>"
         />
       </Slide>
       <Slide size="small" anchor={`#${names.keySet}`} position="block-end">
