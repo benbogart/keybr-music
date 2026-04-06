@@ -27,6 +27,7 @@ test("music lesson ignores notes outside instrument code points", () => {
   equal(instrument.codePoints.has(35), false);
 
   const invalidFeedback = state.onInput({
+    type: "input",
     timeStamp: 100,
     inputType: "appendChar",
     codePoint: 35,
@@ -37,6 +38,7 @@ test("music lesson ignores notes outside instrument code points", () => {
   equal(state.suffix[0], expectedCodePoint);
 
   const validFeedback = state.onInput({
+    type: "input",
     timeStamp: 200,
     inputType: "appendChar",
     codePoint: expectedCodePoint,
