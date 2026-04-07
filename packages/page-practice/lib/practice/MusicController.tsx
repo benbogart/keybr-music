@@ -1,10 +1,11 @@
 import { bandoneonRightOpening } from "@keybr/instrument";
 import { MusicLesson, Target } from "@keybr/lesson";
-import { PitchEvents } from "@keybr/pitch-input";
+import { PitchEvents, type PitchInputHandlerOptions } from "@keybr/pitch-input";
 import { type Result } from "@keybr/result";
 import { type LineList, type Step } from "@keybr/textinput";
 import { type IKeyboardEvent } from "@keybr/textinput-events";
 import { makeSoundPlayer } from "@keybr/textinput-sounds";
+import { type TextAreaEventsComponent } from "@keybr/textinput-ui";
 import {
   useDocumentEvent,
   useHotkeys,
@@ -46,6 +47,19 @@ export const MusicController = memo(function MusicController({
     handleKeyUp,
     handleInput,
   } = useLessonState(progress, onResult);
+  const pitchInputHandlerOptions = useMemo<PitchInputHandlerOptions>(() => {
+    const validMidiNotes = new Set(musicInstrument.keymap.keys());
+    return {
+      // Defense-in-depth: gate both in detector and in adapter.
+      validMidiNotes,
+      detectorOptions: { validMidiNotes },
+    };
+  }, [musicInstrument.keymap]);
+  const pitchEventsComponent = useMemo<TextAreaEventsComponent>(() => {
+    return function InstrumentPitchEvents(props) {
+      return <PitchEvents {...props} options={pitchInputHandlerOptions} />;
+    };
+  }, [pitchInputHandlerOptions]);
   useHotkeys({
     ["Ctrl+ArrowLeft"]: handleResetLesson,
     ["Ctrl+ArrowRight"]: handleSkipLesson,
@@ -64,7 +78,7 @@ export const MusicController = memo(function MusicController({
       musicLastCorrectCodePoint={lastCorrectCodePoint}
       musicLessonSummary={lessonSummary}
       musicTargetSpeed={musicTargetSpeed}
-      eventsComponent={PitchEvents}
+      eventsComponent={pitchEventsComponent}
       onResetLesson={handleResetLesson}
       onSkipLesson={handleSkipLesson}
       onKeyDown={handleKeyDown}

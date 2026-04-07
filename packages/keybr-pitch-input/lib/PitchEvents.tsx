@@ -6,6 +6,7 @@ import {
   type RefObject,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
 } from "react";
 import {
@@ -70,11 +71,20 @@ export const PitchEvents = memo(function PitchEvents({
 });
 
 function usePitchInputHandler(options: PitchInputHandlerOptions = {}) {
-  const handlerRef = useRef<PitchInputHandler | null>(null);
-  let handler = handlerRef.current;
-  if (handler == null) {
-    handlerRef.current = handler = new PitchInputHandler(options);
-  }
+  const previousRef = useRef<PitchInputHandler | null>(null);
+  const handler = useMemo(() => {
+    const nextHandler = new PitchInputHandler(options);
+    const previousHandler = previousRef.current;
+    previousRef.current = nextHandler;
+    previousHandler?.stop();
+    return nextHandler;
+  }, [options]);
+  useEffect(() => {
+    return () => {
+      previousRef.current?.stop();
+      previousRef.current = null;
+    };
+  }, []);
   return handler;
 }
 

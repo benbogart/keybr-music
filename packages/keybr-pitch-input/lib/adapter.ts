@@ -13,12 +13,14 @@ type PendingPitch = {
 export type PitchInputAdapterOptions = {
   readonly octaveCorrectionWindowMs?: number;
   readonly sustainGapMs?: number;
+  readonly validMidiNotes?: Iterable<number>;
 };
 
 export class PitchInputAdapter {
   readonly #onInput: (event: IInputEvent) => void;
   readonly #octaveCorrectionWindowMs: number;
   readonly #sustainGapMs: number;
+  readonly #validMidiNotes: ReadonlySet<number> | null;
 
   #pending: PendingPitch | null = null;
   #lastSeen: PendingPitch | null = null;
@@ -32,9 +34,17 @@ export class PitchInputAdapter {
     this.#octaveCorrectionWindowMs =
       options.octaveCorrectionWindowMs ?? DEFAULT_OCTAVE_CORRECTION_WINDOW_MS;
     this.#sustainGapMs = options.sustainGapMs ?? DEFAULT_SUSTAIN_GAP_MS;
+    this.#validMidiNotes =
+      options.validMidiNotes != null ? new Set(options.validMidiNotes) : null;
   }
 
   onPitch = (event: PitchEvent) => {
+    if (
+      this.#validMidiNotes != null &&
+      !this.#validMidiNotes.has(event.midiNote)
+    ) {
+      return;
+    }
     this.#flushExpired(event.timeStamp);
 
     const previous = this.#lastSeen;

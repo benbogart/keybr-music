@@ -5,6 +5,7 @@ import { type YinPitch } from "./yin.ts";
 export type StablePitchProcessorOptions = {
   readonly minConfidence?: number;
   readonly stableFrames?: number;
+  readonly validMidiNotes?: Iterable<number>;
 };
 
 const DEFAULT_MIN_CONFIDENCE = 0.7;
@@ -17,6 +18,7 @@ type PitchFrame = {
 export class StablePitchProcessor {
   readonly #minConfidence: number;
   readonly #stableFrames: number;
+  readonly #validMidiNotes: ReadonlySet<number> | null;
   #pendingMidiNote: number | null = null;
   #pendingFrames = 0;
 
@@ -26,6 +28,8 @@ export class StablePitchProcessor {
       1,
       options.stableFrames ?? DEFAULT_STABLE_FRAMES,
     );
+    this.#validMidiNotes =
+      options.validMidiNotes != null ? new Set(options.validMidiNotes) : null;
   }
 
   reset() {
@@ -45,6 +49,11 @@ export class StablePitchProcessor {
     }
 
     const midiNote = frequencyToMidiNote(frame.frequency);
+    if (this.#validMidiNotes != null && !this.#validMidiNotes.has(midiNote)) {
+      this.reset();
+      return null;
+    }
+
     if (this.#pendingMidiNote === midiNote) {
       this.#pendingFrames += 1;
     } else {

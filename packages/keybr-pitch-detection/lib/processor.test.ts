@@ -79,3 +79,48 @@ test("confidence threshold filters noise and silence", () => {
     confidence: 0.9,
   });
 });
+
+test("valid-note hard gate discards impossible notes", () => {
+  const processor = new StablePitchProcessor({
+    minConfidence: 0.6,
+    stableFrames: 2,
+    validMidiNotes: [36, 38],
+  });
+
+  // B1 (MIDI 35) is outside the configured layout set and must be dropped.
+  isNull(
+    processor.next({
+      timeStamp: 10,
+      frequency: 61.74,
+      confidence: 0.95,
+    }),
+  );
+  isNull(
+    processor.next({
+      timeStamp: 20,
+      frequency: 61.74,
+      confidence: 0.95,
+    }),
+  );
+
+  isNull(
+    processor.next({
+      timeStamp: 30,
+      frequency: 65.41,
+      confidence: 0.95,
+    }),
+  );
+  deepEqual(
+    processor.next({
+      timeStamp: 40,
+      frequency: 65.41,
+      confidence: 0.95,
+    }),
+    {
+      timeStamp: 40,
+      midiNote: 36,
+      frequency: 65.41,
+      confidence: 0.95,
+    },
+  );
+});

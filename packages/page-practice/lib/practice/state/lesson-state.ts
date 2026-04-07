@@ -14,7 +14,7 @@ import {
 } from "@keybr/result";
 import { type Settings } from "@keybr/settings";
 import {
-  type Feedback,
+  Feedback,
   type LineList,
   makeStats,
   type StyledText,
@@ -81,6 +81,12 @@ export class LessonState {
   }
 
   onInput(event: IInputEvent): Feedback {
+    if (
+      this.lesson instanceof MusicLesson &&
+      !this.lesson.codePoints.has(event.codePoint)
+    ) {
+      return Feedback.Succeeded;
+    }
     const feedback = this.textInput.onInput(event);
     this.#skipSpaces(event.timeStamp);
     this.lines = this.textInput.lines;
