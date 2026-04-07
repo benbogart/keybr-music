@@ -12,6 +12,14 @@ export type YinPitch = {
 const DEFAULT_MIN_FREQUENCY = 50;
 const DEFAULT_MAX_FREQUENCY = 2000;
 const DEFAULT_THRESHOLD = 0.12;
+/** Only apply harmonic descent when the initial estimate is above this (Hz); reduces false sub-octaves on higher-pitched notes. */
+const HARMONIC_DESCENT_MIN_DETECTED_HZ = 400;
+/**
+ * Require the CMND minimum at the next harmonic period to be at least this fraction lower than the
+ * reference dip before descending. Pure tones have equally deep dips at k×period; without this, descent
+ * would false-trigger.
+ */
+const HARMONIC_DESCENT_MIN_CMND_IMPROVEMENT = 0.15;
 
 export class YinPitchAnalyzer {
   readonly #difference: Float32Array;
@@ -79,7 +87,34 @@ export class YinPitchAnalyzer {
       return null;
     }
 
-    const frequency = sampleRate / betterTau;
+    let frequency = sampleRate / betterTau;
+    if (
+      !Number.isFinite(frequency) ||
+      frequency < this.#minFrequency ||
+      frequency > this.#maxFrequency
+    ) {
+      return null;
+    }
+
+    if (frequency > HARMONIC_DESCENT_MIN_DETECTED_HZ) {
+      let fundamentalTau = betterTau;
+      const primaryTauInt = Math.round(betterTau);
+      let refMinCmnd = this.#minCmndInWindow(primaryTauInt, minTau, maxTau);
+      for (let k = 2; frequency / k >= this.#minFrequency; k += 1) {
+        const harmonicTau = Math.round(fundamentalTau * k);
+        const minCmnd = this.#minCmndInWindow(harmonicTau, minTau, maxTau);
+        const improvedEnough =
+          minCmnd < refMinCmnd * (1 - HARMONIC_DESCENT_MIN_CMND_IMPROVEMENT);
+        if (minCmnd < this.#threshold && improvedEnough) {
+          frequency = sampleRate / (fundamentalTau * k);
+          fundamentalTau = fundamentalTau * k;
+          refMinCmnd = minCmnd;
+        } else {
+          break;
+        }
+      }
+    }
+
     if (
       !Number.isFinite(frequency) ||
       frequency < this.#minFrequency ||
@@ -92,6 +127,19 @@ export class YinPitchAnalyzer {
       frequency,
       confidence: Math.max(0, Math.min(1, 1 - this.#cmnd[tauEstimate])),
     };
+  }
+
+  #minCmndInWindow(centerTau: number, minTau: number, maxTau: number): number {
+    const windowMin = Math.max(minTau, centerTau - 2);
+    const windowMax = Math.min(maxTau, centerTau + 2);
+    let minCmnd = Infinity;
+    for (let t = windowMin; t <= windowMax; t += 1) {
+      const v = this.#cmnd[t];
+      if (v < minCmnd) {
+        minCmnd = v;
+      }
+    }
+    return minCmnd;
   }
 
   #parabolicInterpolation(
