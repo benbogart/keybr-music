@@ -1,5 +1,10 @@
+import { frequencyToMidiNote } from "./midi.ts";
 import { StablePitchProcessor } from "./processor.ts";
-import { type PitchDetector, type PitchDetectorOptions } from "./types.ts";
+import {
+  type PitchDetector,
+  type PitchDetectorOptions,
+  type PitchDiagnosticSnapshot,
+} from "./types.ts";
 import { YinPitchAnalyzer } from "./yin.ts";
 
 const DEFAULT_BUFFER_SIZE = 2048;
@@ -13,6 +18,7 @@ type RequiredPitchDetectorOptions = {
   readonly validMidiNotes?: Iterable<number>;
   readonly yinThreshold: number;
   readonly noiseFloor: number;
+  readonly onPitchDiagnostic?: (snapshot: PitchDiagnosticSnapshot) => void;
 };
 
 export function createPitchDetector(
@@ -47,6 +53,7 @@ export class WebAudioPitchDetector implements PitchDetector {
       validMidiNotes: options.validMidiNotes,
       yinThreshold: options.yinThreshold ?? 0.12,
       noiseFloor: options.noiseFloor ?? 0.01,
+      onPitchDiagnostic: options.onPitchDiagnostic,
     };
     this.#processor = new StablePitchProcessor({
       minConfidence: this.#options.minConfidence,
@@ -132,19 +139,49 @@ export class WebAudioPitchDetector implements PitchDetector {
     analyserNode.getFloatTimeDomainData(this.#buffer);
     const level = rms(this.#buffer);
     this.onLevel(level);
-    const detectedPitch =
-      level >= this.#options.noiseFloor
-        ? analyzer.detect(this.#buffer, audioContext.sampleRate)
-        : null;
-    const event = this.#processor.next(
+    const timeStamp = performance.now();
+    const belowNoise = level < this.#options.noiseFloor;
+    const detectedPitch = belowNoise
+      ? null
+      : analyzer.detect(this.#buffer, audioContext.sampleRate);
+    const frame =
       detectedPitch == null
         ? null
         : {
-            timeStamp: performance.now(),
+            timeStamp,
             frequency: detectedPitch.frequency,
             confidence: detectedPitch.confidence,
-          },
-    );
+          };
+    const { event, processorRejected, stabilizing } =
+      this.#processor.next(frame);
+
+    const diagnostic = this.#options.onPitchDiagnostic;
+    if (diagnostic != null) {
+      let blockedBy: PitchDiagnosticSnapshot["blockedBy"] = null;
+      if (belowNoise) {
+        blockedBy = "rms";
+      } else if (detectedPitch == null) {
+        blockedBy = "yin_null";
+      }
+      const yin =
+        detectedPitch == null
+          ? null
+          : {
+              frequency: detectedPitch.frequency,
+              confidence: detectedPitch.confidence,
+              midiNote: frequencyToMidiNote(detectedPitch.frequency),
+            };
+      diagnostic({
+        timeStamp,
+        rms: level,
+        yin,
+        blockedBy,
+        processorRejected,
+        stabilizing,
+        emitted: event,
+      });
+    }
+
     if (event != null) {
       this.onPitch(event);
     }

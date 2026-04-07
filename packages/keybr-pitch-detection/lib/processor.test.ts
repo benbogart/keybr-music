@@ -13,24 +13,24 @@ test("debouncing suppresses transient pitch jumps", () => {
       timeStamp: 10,
       frequency: 440,
       confidence: 0.95,
-    }),
+    }).event,
   );
   isNull(
     processor.next({
       timeStamp: 20,
       frequency: 466.16,
       confidence: 0.95,
-    }),
+    }).event,
   );
   isNull(
     processor.next({
       timeStamp: 30,
       frequency: 440,
       confidence: 0.95,
-    }),
+    }).event,
   );
 
-  const event = processor.next({
+  const { event } = processor.next({
     timeStamp: 40,
     frequency: 440,
     confidence: 0.95,
@@ -55,18 +55,18 @@ test("confidence threshold filters noise and silence", () => {
       timeStamp: 100,
       frequency: 440,
       confidence: 0.4,
-    }),
+    }).event,
   );
-  isNull(processor.next(null));
+  isNull(processor.next(null).event);
   isNull(
     processor.next({
       timeStamp: 300,
       frequency: 440,
       confidence: 0.9,
-    }),
+    }).event,
   );
 
-  const event = processor.next({
+  const { event } = processor.next({
     timeStamp: 400,
     frequency: 440,
     confidence: 0.9,
@@ -93,14 +93,14 @@ test("valid-note hard gate discards impossible notes", () => {
       timeStamp: 10,
       frequency: 61.74,
       confidence: 0.95,
-    }),
+    }).event,
   );
   isNull(
     processor.next({
       timeStamp: 20,
       frequency: 61.74,
       confidence: 0.95,
-    }),
+    }).event,
   );
 
   isNull(
@@ -108,14 +108,14 @@ test("valid-note hard gate discards impossible notes", () => {
       timeStamp: 30,
       frequency: 65.41,
       confidence: 0.95,
-    }),
+    }).event,
   );
   deepEqual(
     processor.next({
       timeStamp: 40,
       frequency: 65.41,
       confidence: 0.95,
-    }),
+    }).event,
     {
       timeStamp: 40,
       midiNote: 36,

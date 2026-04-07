@@ -2,6 +2,16 @@ import { frequencyToMidiNote } from "./midi.ts";
 import { type PitchEvent } from "./types.ts";
 import { type YinPitch } from "./yin.ts";
 
+export type StablePitchProcessorResult = {
+  readonly event: PitchEvent | null;
+  readonly processorRejected: null | "low_confidence" | "invalid_note";
+  readonly stabilizing: null | {
+    readonly midiNote: number;
+    readonly frames: number;
+    readonly requiredFrames: number;
+  };
+};
+
 export type StablePitchProcessorOptions = {
   readonly minConfidence?: number;
   readonly stableFrames?: number;
@@ -37,21 +47,33 @@ export class StablePitchProcessor {
     this.#pendingFrames = 0;
   }
 
-  next(frame: PitchFrame | null): PitchEvent | null {
+  next(frame: PitchFrame | null): StablePitchProcessorResult {
+    if (frame == null) {
+      this.reset();
+      return { event: null, processorRejected: null, stabilizing: null };
+    }
+
     if (
-      frame == null ||
       frame.confidence < this.#minConfidence ||
       !Number.isFinite(frame.frequency) ||
       frame.frequency <= 0
     ) {
       this.reset();
-      return null;
+      return {
+        event: null,
+        processorRejected: "low_confidence",
+        stabilizing: null,
+      };
     }
 
     const midiNote = frequencyToMidiNote(frame.frequency);
     if (this.#validMidiNotes != null && !this.#validMidiNotes.has(midiNote)) {
       this.reset();
-      return null;
+      return {
+        event: null,
+        processorRejected: "invalid_note",
+        stabilizing: null,
+      };
     }
 
     if (this.#pendingMidiNote === midiNote) {
@@ -62,14 +84,26 @@ export class StablePitchProcessor {
     }
 
     if (this.#pendingFrames < this.#stableFrames) {
-      return null;
+      return {
+        event: null,
+        processorRejected: null,
+        stabilizing: {
+          midiNote,
+          frames: this.#pendingFrames,
+          requiredFrames: this.#stableFrames,
+        },
+      };
     }
 
     return {
-      timeStamp: frame.timeStamp,
-      midiNote,
-      frequency: frame.frequency,
-      confidence: frame.confidence,
+      event: {
+        timeStamp: frame.timeStamp,
+        midiNote,
+        frequency: frame.frequency,
+        confidence: frame.confidence,
+      },
+      processorRejected: null,
+      stabilizing: null,
     };
   }
 }
