@@ -4,9 +4,9 @@ import { fileURLToPath } from "node:url";
 import {
   createPitchPipelineFromOptions,
   DEFAULT_OFFLINE_HOP_SIZE,
-  readWavFilePcm16MonoOrThrow,
   replayOffline,
 } from "@keybr/pitch-detection";
+import { readWavFilePcm16MonoOrThrow } from "@keybr/pitch-detection/lib/wav-mono.ts";
 import { deepEqual } from "rich-assert";
 import { PitchInputAdapter } from "./adapter.ts";
 
