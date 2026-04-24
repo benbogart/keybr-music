@@ -14,4 +14,5 @@ The integration test in `@keybr/pitch-detection` (`sequence-c-scale.test.ts`) lo
 
 From the repo root:
 
-`npm test -w @keybr/pitch-detection`
+- `npm test -w @keybr/pitch-detection` — C octaves + synthetic (detector + processor only).
+- `npm test -w @keybr/pitch-input` — **practice-style** replay: detector + `PitchInputAdapter` on the partial minor `.wav` files (A3 must pass; set `RUN_PARTIAL_MINOR_ALL_ROOTS=1` to run A2/A4/A5, which currently fail until octave detection improves).
