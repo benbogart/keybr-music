@@ -10,9 +10,10 @@ import {
 import { readWavFilePcm16MonoOrThrow } from "./wav-mono.ts";
 
 /**
- * C2, C3, C4, C5, C6, C5, C4, C3, C2 — first three left-hand, rest on right
- * (per user’s bandoneon recording). To run the WAV test, add
- * `test-fixtures/c-scale-cascade-lh-rh.wav` or set `PITCH_TEST_WAV` to a 16-bit PCM path; else skipped.
+ * Ground truth for the C cascade: C2, C3, C4, C5, C6, C5, C4, C3, C2
+ * (first three left hand, the rest on the right). The test replays
+ * `test-fixtures/c-scale-cascade-lh-rh.wav` and asserts the **detected** sequence
+ * matches; without that file, the test **fails** (see `resolveCScaleRecordingPath`).
  */
 const C_SCALE_CASCADE_MIDI = [36, 48, 60, 72, 84, 72, 60, 48, 36] as const;
 
@@ -27,14 +28,31 @@ const PITCH_TEST_OPTIONS = {
 const HOP = 1024;
 const WINDOW = 2048;
 
-const fixturePath = fileURLToPath(
-  new URL("../test-fixtures/c-scale-cascade-lh-rh.wav", import.meta.url),
+const FIXTURE_RELPATH = "../test-fixtures/c-scale-cascade-lh-rh.wav";
+
+const DEFAULT_FIXTURE_PATH = fileURLToPath(
+  new URL(FIXTURE_RELPATH, import.meta.url),
 );
-const PITCH_FILE = process.env.PITCH_TEST_WAV;
-const haveFixture = existsSync(fixturePath);
-const haveWav = PITCH_FILE != null && PITCH_FILE.length > 0;
-const canRunRecording = haveFixture || haveWav;
-const recPath = PITCH_FILE ?? (haveFixture ? fixturePath : "");
+
+const PITCH_TEST_WAV = process.env.PITCH_TEST_WAV;
+
+function resolveCScaleRecordingPath(): string {
+  if (PITCH_TEST_WAV != null && PITCH_TEST_WAV.length > 0) {
+    if (!existsSync(PITCH_TEST_WAV)) {
+      throw new Error(
+        `PITCH_TEST_WAV is set to "${PITCH_TEST_WAV}" but that path does not exist`,
+      );
+    }
+    return PITCH_TEST_WAV;
+  }
+  if (existsSync(DEFAULT_FIXTURE_PATH)) {
+    return DEFAULT_FIXTURE_PATH;
+  }
+  const dir = fileURLToPath(new URL("../test-fixtures", import.meta.url));
+  throw new Error(
+    `C cascade pitch test: missing real recording. Export your bandoneon take (16-bit PCM) as: ${dir}/c-scale-cascade-lh-rh.wav, or set PITCH_TEST_WAV to an absolute path. Content: C2, C3, C4, C5, C6, C5, C4, C3, C2. Without a file, the suite cannot verify production-like audio.`,
+  );
+}
 
 /** Union of all MIDI notes on left + right bandoneon layouts (see `bandoneon-layout.ts`). */
 const BANDONEON_ALL_VALID_MIDI = new Set<number>([
@@ -44,7 +62,7 @@ const BANDONEON_ALL_VALID_MIDI = new Set<number>([
   93, 95,
 ]);
 
-test("C cascade — synthetic: stable processor passes expected MIDI sequence (offline sim)", () => {
+test("C cascade — synthetic regression: harmonic-rich windows produce expected collapsed MIDI (offline sim)", () => {
   // Short harmonic-rich windows per "note" so the pipeline emits each step once
   // after consecutive collapse (mirrors a clean synthetic benchmark).
   const nWindows = C_SCALE_CASCADE_MIDI.length;
@@ -87,16 +105,11 @@ test("C cascade — synthetic: stable processor passes expected MIDI sequence (o
   }
 });
 
-const recordingTest = canRunRecording ? test : test.skip;
-
-recordingTest(
-  "C cascade — WAV recording: offline pipeline matches c2..c6..c2 (collapse consecutive)",
+test(
+  "C cascade — real bandoneon recording: offline YIN+processor matches c2..c6..c2 (collapse consecutive)",
   { timeout: 120_000 },
   () => {
-    isTrue(
-      canRunRecording,
-      "Add test-fixtures/c-scale-cascade-lh-rh.wav or set PITCH_TEST_WAV",
-    );
+    const recPath = resolveCScaleRecordingPath();
     const { sampleRate, channel } = readWavFilePcm16MonoOrThrow(recPath);
 
     const { bufferSize, hopSize, yin, stable } =

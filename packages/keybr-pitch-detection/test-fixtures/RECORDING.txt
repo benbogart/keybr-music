@@ -1,0 +1,13 @@
+C cascade ground-truth file (required for the package test suite):
+
+  c-scale-cascade-lh-rh.wav
+
+- Format: 16-bit PCM, mono or stereo; any sample rate.
+- Content: the notes C2, C3, C4, C5, C6, C5, C4, C3, C2
+  (first three left hand, remainder right hand) as one continuous take.
+- Alternative: set the environment variable PITCH_TEST_WAV to the
+  absolute path of an equivalent .wav (CI or local), instead of
+  putting the file in this directory.
+
+The test in lib/sequence-c-scale.test.ts fails if no file is findable
+via either of those methods.
