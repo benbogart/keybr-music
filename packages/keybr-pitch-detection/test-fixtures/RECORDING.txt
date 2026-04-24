@@ -1,0 +1,11 @@
+Primary clip (repo):
+
+  tests/pitch/c-scale-cascade-lh-rh/c2-c6 octaves.wav
+
+Legacy filenames also work:
+
+  c-scale-cascade-lh-rh.wav  (same directory, or this test-fixtures folder)
+
+Or set PITCH_TEST_WAV to an absolute path.
+
+Content: C2, C3, C4, C5, C6, C5, C4, C3, C2 — 16-bit PCM, mono or stereo.

@@ -3,7 +3,11 @@ import { type PitchDetector, type PitchEvent } from "@keybr/pitch-detection";
 import { deepEqual } from "rich-assert";
 import { PitchInputHandler } from "./inputhandler.ts";
 
-test("handler emits expected input stream from detector pitch sequence", async () => {
+test(// In production `PitchPipeline` only fires a PitchEvent when it has a stable
+// new note. The handler must therefore forward every PitchEvent it sees,
+// including the very first one — otherwise the UI indicator lags by one
+// note (see PitchInputAdapter regression test).
+"handler forwards each stable PitchEvent from the detector, without lookahead", async () => {
   const detector = new FakePitchDetector();
   const events: Array<{
     readonly type: "input";
@@ -29,19 +33,7 @@ test("handler emits expected input stream from detector pitch sequence", async (
 
   await handler.start();
   detector.emit({
-    timeStamp: 100,
-    midiNote: 72,
-    frequency: 523.25,
-    confidence: 0.95,
-  });
-  detector.emit({
     timeStamp: 120,
-    midiNote: 60,
-    frequency: 261.63,
-    confidence: 0.95,
-  });
-  detector.emit({
-    timeStamp: 170,
     midiNote: 60,
     frequency: 261.63,
     confidence: 0.95,
@@ -53,19 +45,7 @@ test("handler emits expected input stream from detector pitch sequence", async (
     confidence: 0.95,
   });
   detector.emit({
-    timeStamp: 290,
-    midiNote: 64,
-    frequency: 329.63,
-    confidence: 0.95,
-  });
-  detector.emit({
     timeStamp: 320,
-    midiNote: 67,
-    frequency: 392,
-    confidence: 0.95,
-  });
-  detector.emit({
-    timeStamp: 360,
     midiNote: 67,
     frequency: 392,
     confidence: 0.95,

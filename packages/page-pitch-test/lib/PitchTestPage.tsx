@@ -3,7 +3,11 @@ import {
   bandoneonByLayout,
   type BandoneonLayout,
 } from "@keybr/instrument";
-import type { PitchDetector, PitchEvent } from "@keybr/pitch-detection";
+import type {
+  PitchDetector,
+  PitchDiagnosticSnapshot,
+  PitchEvent,
+} from "@keybr/pitch-detection";
 import { createPitchDetector } from "@keybr/pitch-detection";
 import { Article } from "@keybr/widget";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -68,6 +72,7 @@ export function PitchTestPage() {
   const lastTimeRef = useRef<number | null>(null);
   const lastMidiRef = useRef<number | null>(null);
   const levelFrameRef = useRef(0);
+  const lastDiagLogRef = useRef(0);
   const activeInstrument = useMemo(() => bandoneonByLayout(layout), [layout]);
   const validMidiNotes = useMemo(
     () => new Set(activeInstrument.keymap.keys()),
@@ -122,15 +127,47 @@ export function PitchTestPage() {
     noiseFloorRef.current = noiseFloor;
   }, [noiseFloor]);
 
+  const logPitchDiagnostic = useCallback((snap: PitchDiagnosticSnapshot) => {
+    const now = snap.timeStamp;
+    const shouldThrottle =
+      snap.emitted == null && now - lastDiagLogRef.current < 120;
+    if (shouldThrottle) {
+      return;
+    }
+    lastDiagLogRef.current = now;
+
+    const yinStr =
+      snap.yin == null
+        ? "—"
+        : `${snap.yin.frequency.toFixed(1)} Hz MIDI ${snap.yin.midiNote} conf ${snap.yin.confidence.toFixed(2)}`;
+    const blockStr = snap.blockedBy ?? "—";
+    const rejectStr = snap.processorRejected ?? "—";
+    const stabStr =
+      snap.stabilizing == null
+        ? "—"
+        : `MIDI ${snap.stabilizing.midiNote} ${snap.stabilizing.frames}/${snap.stabilizing.requiredFrames}`;
+    const outStr =
+      snap.emitted == null
+        ? "—"
+        : `${snap.emitted.frequency.toFixed(1)} Hz MIDI ${snap.emitted.midiNote} conf ${snap.emitted.confidence.toFixed(2)}`;
+
+    console.log(
+      `[pitch] rms=${snap.rms.toFixed(4)} yin=${yinStr} blocked=${blockStr} processor=${rejectStr} stabilize=${stabStr} emitted=${outStr}`,
+    );
+  }, []);
+
   const start = useCallback(async () => {
     setError(null);
     try {
+      lastDiagLogRef.current = 0;
       const detector = createPitchDetector({
         bufferSize: 2048,
         minConfidence: 0.7,
-        stableFrames: 2,
+        windowFrames: 6,
+        matchFrames: 4,
         validMidiNotes,
         noiseFloor: noiseFloorRef.current,
+        onPitchDiagnostic: logPitchDiagnostic,
       });
       detector.onPitch = handlePitch;
       detector.onLevel = handleLevel;
@@ -143,7 +180,7 @@ export function PitchTestPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
-  }, [handlePitch, handleLevel, validMidiNotes]);
+  }, [handlePitch, handleLevel, validMidiNotes, logPitchDiagnostic]);
 
   const stop = useCallback(() => {
     detectorRef.current?.stop();
@@ -164,6 +201,12 @@ export function PitchTestPage() {
       <p>
         Click <strong>Start</strong>, grant microphone access, and play your
         instrument. Detected pitches will appear below.
+      </p>
+      <p style={{ fontFamily: "monospace", fontSize: "13px", color: "#555" }}>
+        Open the browser devtools console for <code>[pitch]</code> lines: raw
+        YIN frequency and MIDI, RMS gate, layout / confidence rejections,
+        stability counter, and emitted note events (lines with a new emitted
+        note are not throttled; others are limited to about 8 per second).
       </p>
 
       <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>

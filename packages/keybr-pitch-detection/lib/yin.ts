@@ -13,6 +13,17 @@ const DEFAULT_MIN_FREQUENCY = 50;
 const DEFAULT_MAX_FREQUENCY = 2000;
 const DEFAULT_THRESHOLD = 0.12;
 
+/**
+ * Single-frame YIN pitch estimator.
+ *
+ * This class does one thing: given a buffer of audio samples and its sample rate,
+ * return a best-guess pitch (fundamental frequency, in Hz) and a 0..1 confidence.
+ *
+ * It is intentionally noisy at the frame level (attack transients, vibrato, and
+ * reedy overtones can all push individual frames an octave away from the truth).
+ * The frame-level output is meant to be stabilized across many frames by
+ * `StablePitchProcessor`; see `PitchPipeline` for the combined view.
+ */
 export class YinPitchAnalyzer {
   readonly #difference: Float32Array;
   readonly #cmnd: Float32Array;

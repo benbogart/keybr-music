@@ -1,29 +1,28 @@
 import { type PitchEvent } from "@keybr/pitch-detection";
 import { type IInputEvent } from "@keybr/textinput-events";
 
-const DEFAULT_OCTAVE_CORRECTION_WINDOW_MS = 30;
-const DEFAULT_SUSTAIN_GAP_MS = 80;
-const OCTAVE = 12;
-
-type PendingPitch = {
-  readonly timeStamp: number;
-  readonly midiNote: number;
-};
-
 export type PitchInputAdapterOptions = {
-  readonly octaveCorrectionWindowMs?: number;
-  readonly sustainGapMs?: number;
   readonly validMidiNotes?: Iterable<number>;
 };
 
+/**
+ * Bridges `PitchEvent`s from `PitchPipeline` into `IInputEvent`s consumed by
+ * the TextInput pipeline.
+ *
+ * Historically this class also debounced octave transients and sustained-note
+ * duplicates. That logic moved into `StablePitchProcessor`'s sliding-window
+ * majority vote, which is the single source of truth for "this is a stable
+ * new note" events. The adapter now:
+ *
+ * - drops notes outside `validMidiNotes` (defense in depth vs. processor)
+ * - converts each incoming `PitchEvent` into one `IInputEvent` immediately,
+ *   so UI indicators update on the note you just played, not on the next one.
+ * - tracks the previous emit timestamp for `timeToType`.
+ */
 export class PitchInputAdapter {
   readonly #onInput: (event: IInputEvent) => void;
-  readonly #octaveCorrectionWindowMs: number;
-  readonly #sustainGapMs: number;
   readonly #validMidiNotes: ReadonlySet<number> | null;
 
-  #pending: PendingPitch | null = null;
-  #lastSeen: PendingPitch | null = null;
   #lastInputTimeStamp: number | null = null;
 
   constructor(
@@ -31,9 +30,6 @@ export class PitchInputAdapter {
     options: PitchInputAdapterOptions = {},
   ) {
     this.#onInput = onInput;
-    this.#octaveCorrectionWindowMs =
-      options.octaveCorrectionWindowMs ?? DEFAULT_OCTAVE_CORRECTION_WINDOW_MS;
-    this.#sustainGapMs = options.sustainGapMs ?? DEFAULT_SUSTAIN_GAP_MS;
     this.#validMidiNotes =
       options.validMidiNotes != null ? new Set(options.validMidiNotes) : null;
   }
@@ -45,81 +41,25 @@ export class PitchInputAdapter {
     ) {
       return;
     }
-    this.#flushExpired(event.timeStamp);
-
-    const previous = this.#lastSeen;
-    this.#lastSeen = toPendingPitch(event);
-    if (
-      previous != null &&
-      previous.midiNote === event.midiNote &&
-      event.timeStamp - previous.timeStamp <= this.#sustainGapMs
-    ) {
-      return;
-    }
-
-    const pending = this.#pending;
-    if (pending == null) {
-      this.#pending = toPendingPitch(event);
-      return;
-    }
-
-    const delta = event.timeStamp - pending.timeStamp;
-    if (
-      delta <= this.#octaveCorrectionWindowMs &&
-      event.midiNote === pending.midiNote - OCTAVE
-    ) {
-      this.#pending = toPendingPitch(event);
-      return;
-    }
-
-    this.#emitPending();
-    this.#pending = toPendingPitch(event);
-  };
-
-  flush() {
-    this.#emitPending();
-  }
-
-  reset() {
-    this.#pending = null;
-    this.#lastSeen = null;
-    this.#lastInputTimeStamp = null;
-  }
-
-  #flushExpired(timeStamp: number) {
-    const pending = this.#pending;
-    if (
-      pending != null &&
-      timeStamp - pending.timeStamp > this.#octaveCorrectionWindowMs
-    ) {
-      this.#emitPending();
-    }
-  }
-
-  #emitPending() {
-    const pending = this.#pending;
-    if (pending == null) {
-      return;
-    }
-    const event: IInputEvent = {
+    const inputEvent: IInputEvent = {
       type: "input",
-      timeStamp: pending.timeStamp,
+      timeStamp: event.timeStamp,
       inputType: "appendChar",
-      codePoint: pending.midiNote,
+      codePoint: event.midiNote,
       timeToType:
         this.#lastInputTimeStamp == null
           ? 0
-          : pending.timeStamp - this.#lastInputTimeStamp,
+          : event.timeStamp - this.#lastInputTimeStamp,
     };
-    this.#onInput(event);
-    this.#lastInputTimeStamp = pending.timeStamp;
-    this.#pending = null;
-  }
-}
-
-function toPendingPitch(event: PitchEvent): PendingPitch {
-  return {
-    timeStamp: event.timeStamp,
-    midiNote: event.midiNote,
+    this.#onInput(inputEvent);
+    this.#lastInputTimeStamp = event.timeStamp;
   };
+
+  flush() {
+    // Stability is resolved inside the processor; nothing to flush here.
+  }
+
+  reset() {
+    this.#lastInputTimeStamp = null;
+  }
 }
