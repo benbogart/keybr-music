@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { deepEqual, isTrue } from "rich-assert";
@@ -10,11 +11,10 @@ import {
 import { readWavFilePcm16MonoOrThrow } from "./wav-mono.ts";
 
 /**
- * Ground truth for the C cascade: C2, C3, C4, C5, C6, C5, C4, C3, C2
- * (first three left hand, the rest on the right). The test replays
- * `tests/pitch/c-scale-cascade-lh-rh/c-scale-cascade-lh-rh.wav` and asserts
- * the **detected** sequence matches; without that file, the test **fails**
- * (see `resolveCScaleRecordingPath`).
+ * Ground truth: C2, C3, C4, C5, C6, C5, C4, C3, C2 (first three left hand,
+ * the rest on the right). The test replays the WAV under
+ * `tests/pitch/c-scale-cascade-lh-rh/` (see `REPO_PITCH_FILENAMES`) and asserts
+ * the **detected** sequence matches.
  */
 const C_SCALE_CASCADE_MIDI = [36, 48, 60, 72, 84, 72, 60, 48, 36] as const;
 
@@ -29,26 +29,33 @@ const PITCH_TEST_OPTIONS = {
 const HOP = 1024;
 const WINDOW = 2048;
 
-/** Primary location: repo `tests/pitch/…` (from `lib/` = three levels up to repo root). */
-const REPO_PITCH_RELPATH =
-  "../../../tests/pitch/c-scale-cascade-lh-rh/c-scale-cascade-lh-rh.wav";
-const REPO_PITCH_WAV = fileURLToPath(
-  new URL(REPO_PITCH_RELPATH, import.meta.url),
+/** Preferred first (user rename); legacy second. */
+const REPO_PITCH_FILENAMES = [
+  "c2-c6 octaves.wav",
+  "c-scale-cascade-lh-rh.wav",
+] as const;
+
+const REPO_PITCH_DIR = fileURLToPath(
+  new URL("../../../tests/pitch/c-scale-cascade-lh-rh", import.meta.url),
 );
-/** Legacy path next to the package. */
-const PACKAGE_PITCH_RELPATH = "../test-fixtures/c-scale-cascade-lh-rh.wav";
-const PACKAGE_PITCH_WAV = fileURLToPath(
-  new URL(PACKAGE_PITCH_RELPATH, import.meta.url),
+const PACKAGE_PITCH_DIR = fileURLToPath(
+  new URL("../test-fixtures", import.meta.url),
 );
 
 const PITCH_TEST_WAV = process.env.PITCH_TEST_WAV;
 
 function resolveCScaleRecordingPath(): string {
-  if (existsSync(REPO_PITCH_WAV)) {
-    return REPO_PITCH_WAV;
+  for (const name of REPO_PITCH_FILENAMES) {
+    const p = join(REPO_PITCH_DIR, name);
+    if (existsSync(p)) {
+      return p;
+    }
   }
-  if (existsSync(PACKAGE_PITCH_WAV)) {
-    return PACKAGE_PITCH_WAV;
+  for (const name of REPO_PITCH_FILENAMES) {
+    const p = join(PACKAGE_PITCH_DIR, name);
+    if (existsSync(p)) {
+      return p;
+    }
   }
   if (PITCH_TEST_WAV != null && PITCH_TEST_WAV.length > 0) {
     if (!existsSync(PITCH_TEST_WAV)) {
@@ -58,11 +65,8 @@ function resolveCScaleRecordingPath(): string {
     }
     return PITCH_TEST_WAV;
   }
-  const repoDir = fileURLToPath(
-    new URL("../../../tests/pitch/c-scale-cascade-lh-rh", import.meta.url),
-  );
   throw new Error(
-    `C cascade pitch test: missing real recording. Add the bandoneon 16-bit PCM as: ${repoDir}/c-scale-cascade-lh-rh.wav (or packages/keybr-pitch-detection/test-fixtures/c-scale-cascade-lh-rh.wav, or PITCH_TEST_WAV). Content: C2, C3, C4, C5, C6, C5, C4, C3, C2.`,
+    `C octaves pitch test: missing real recording. Add 16-bit PCM to ${REPO_PITCH_DIR}/ as "${REPO_PITCH_FILENAMES[0]}" (or legacy "${REPO_PITCH_FILENAMES[1]}"), or under packages/keybr-pitch-detection/test-fixtures/, or set PITCH_TEST_WAV. Content: C2, C3, C4, C5, C6, C5, C4, C3, C2.`,
   );
 }
 
@@ -118,7 +122,7 @@ test("C cascade — synthetic regression: harmonic-rich windows produce expected
 });
 
 test(
-  "C cascade — real bandoneon recording: offline YIN+processor matches c2..c6..c2 (collapse consecutive)",
+  "C octaves — real bandoneon recording: offline YIN+processor matches c2..c6..c2 (collapse consecutive)",
   { timeout: 120_000 },
   () => {
     const recPath = resolveCScaleRecordingPath();

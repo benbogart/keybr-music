@@ -1,10 +1,10 @@
-Primary location for the C cascade clip (repo root):
+Primary clip (repo):
 
-  tests/pitch/c-scale-cascade-lh-rh/c-scale-cascade-lh-rh.wav
+  tests/pitch/c-scale-cascade-lh-rh/c2-c6 octaves.wav
 
-Legacy copy (optional):
+Legacy filenames also work:
 
-  c-scale-cascade-lh-rh.wav  (this directory)
+  c-scale-cascade-lh-rh.wav  (same directory, or this test-fixtures folder)
 
 Or set PITCH_TEST_WAV to an absolute path.
 
