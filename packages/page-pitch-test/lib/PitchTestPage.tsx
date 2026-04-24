@@ -163,7 +163,8 @@ export function PitchTestPage() {
       const detector = createPitchDetector({
         bufferSize: 2048,
         minConfidence: 0.7,
-        stableFrames: 2,
+        windowFrames: 6,
+        matchFrames: 4,
         validMidiNotes,
         noiseFloor: noiseFloorRef.current,
         onPitchDiagnostic: logPitchDiagnostic,

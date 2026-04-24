@@ -41,6 +41,18 @@ export type PitchDetectorOptions = {
   readonly minFrequency?: number;
   readonly maxFrequency?: number;
   readonly minConfidence?: number;
+  /**
+   * Size of the sliding window, in analysis frames, used for stability
+   * majority vote. Default 6 (~140 ms at 44.1 kHz / hop 1024).
+   */
+  readonly windowFrames?: number;
+  /** Required matching votes in the window before emitting. Default 4. */
+  readonly matchFrames?: number;
+  /**
+   * @deprecated Use `windowFrames` + `matchFrames`. Kept for callers that still
+   * pass the old "N in a row" count; we interpret it as a shorthand and expand
+   * the window to smooth over attack transients.
+   */
   readonly stableFrames?: number;
   readonly validMidiNotes?: Iterable<number>;
   readonly yinThreshold?: number;

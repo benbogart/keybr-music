@@ -1,20 +1,26 @@
-import { frequencyToMidiNote } from "./midi.ts";
-import { StablePitchProcessor } from "./processor.ts";
+import { PitchPipeline } from "./pipeline.ts";
 import {
   type PitchDetector,
   type PitchDetectorOptions,
   type PitchDiagnosticSnapshot,
 } from "./types.ts";
-import { YinPitchAnalyzer } from "./yin.ts";
 
 const DEFAULT_BUFFER_SIZE = 2048;
+const DEFAULT_MIN_FREQUENCY = 50;
+const DEFAULT_MAX_FREQUENCY = 2000;
+const DEFAULT_MIN_CONFIDENCE = 0.7;
+const DEFAULT_WINDOW_FRAMES = 6;
+const DEFAULT_MATCH_FRAMES = 4;
+const DEFAULT_YIN_THRESHOLD = 0.12;
+const DEFAULT_NOISE_FLOOR = 0.01;
 
 type RequiredPitchDetectorOptions = {
   readonly bufferSize: number;
   readonly minFrequency: number;
   readonly maxFrequency: number;
   readonly minConfidence: number;
-  readonly stableFrames: number;
+  readonly windowFrames: number;
+  readonly matchFrames: number;
   readonly validMidiNotes?: Iterable<number>;
   readonly yinThreshold: number;
   readonly noiseFloor: number;
@@ -32,8 +38,7 @@ export class WebAudioPitchDetector implements PitchDetector {
   onLevel: PitchDetector["onLevel"] = () => {};
 
   readonly #options: RequiredPitchDetectorOptions;
-  readonly #processor: StablePitchProcessor;
-  #analyzer: YinPitchAnalyzer | null = null;
+  #pipeline: PitchPipeline | null = null;
   #audioContext: AudioContext | null = null;
   #stream: MediaStream | null = null;
   #source: MediaStreamAudioSourceNode | null = null;
@@ -42,24 +47,21 @@ export class WebAudioPitchDetector implements PitchDetector {
   #frameId = 0;
 
   constructor(options: PitchDetectorOptions = {}) {
+    const { windowFrames, matchFrames } = resolveStabilityOptions(options);
     this.#options = {
       bufferSize: normalizeBufferSize(
         options.bufferSize ?? DEFAULT_BUFFER_SIZE,
       ),
-      minFrequency: options.minFrequency ?? 50,
-      maxFrequency: options.maxFrequency ?? 2000,
-      minConfidence: options.minConfidence ?? 0.7,
-      stableFrames: Math.max(1, options.stableFrames ?? 2),
+      minFrequency: options.minFrequency ?? DEFAULT_MIN_FREQUENCY,
+      maxFrequency: options.maxFrequency ?? DEFAULT_MAX_FREQUENCY,
+      minConfidence: options.minConfidence ?? DEFAULT_MIN_CONFIDENCE,
+      windowFrames,
+      matchFrames,
       validMidiNotes: options.validMidiNotes,
-      yinThreshold: options.yinThreshold ?? 0.12,
-      noiseFloor: options.noiseFloor ?? 0.01,
+      yinThreshold: options.yinThreshold ?? DEFAULT_YIN_THRESHOLD,
+      noiseFloor: options.noiseFloor ?? DEFAULT_NOISE_FLOOR,
       onPitchDiagnostic: options.onPitchDiagnostic,
     };
-    this.#processor = new StablePitchProcessor({
-      minConfidence: this.#options.minConfidence,
-      stableFrames: this.#options.stableFrames,
-      validMidiNotes: this.#options.validMidiNotes,
-    });
   }
 
   async start() {
@@ -95,12 +97,21 @@ export class WebAudioPitchDetector implements PitchDetector {
       this.#source = source;
       this.#analyserNode = analyserNode;
       this.#buffer = new Float32Array(analyserNode.fftSize);
-      this.#analyzer = new YinPitchAnalyzer(analyserNode.fftSize, {
-        minFrequency: this.#options.minFrequency,
-        maxFrequency: this.#options.maxFrequency,
-        threshold: this.#options.yinThreshold,
+      this.#pipeline = new PitchPipeline({
+        bufferSize: analyserNode.fftSize,
+        noiseFloor: this.#options.noiseFloor,
+        yin: {
+          minFrequency: this.#options.minFrequency,
+          maxFrequency: this.#options.maxFrequency,
+          threshold: this.#options.yinThreshold,
+        },
+        stable: {
+          minConfidence: this.#options.minConfidence,
+          windowFrames: this.#options.windowFrames,
+          matchFrames: this.#options.matchFrames,
+          validMidiNotes: this.#options.validMidiNotes,
+        },
       });
-      this.#processor.reset();
       this.#frameId = requestAnimationFrame(this.#tick);
     } catch (error) {
       stream.getTracks().forEach((track) => track.stop());
@@ -123,79 +134,33 @@ export class WebAudioPitchDetector implements PitchDetector {
     this.#audioContext = null;
     this.#source = null;
     this.#analyserNode = null;
-    this.#analyzer = null;
+    this.#pipeline = null;
     this.#buffer = new Float32Array(0);
-    this.#processor.reset();
   }
 
   #tick = () => {
     const analyserNode = this.#analyserNode;
-    const analyzer = this.#analyzer;
+    const pipeline = this.#pipeline;
     const audioContext = this.#audioContext;
-    if (analyserNode == null || analyzer == null || audioContext == null) {
+    if (analyserNode == null || pipeline == null || audioContext == null) {
       return;
     }
 
     analyserNode.getFloatTimeDomainData(this.#buffer);
-    const level = rms(this.#buffer);
-    this.onLevel(level);
     const timeStamp = performance.now();
-    const belowNoise = level < this.#options.noiseFloor;
-    const detectedPitch = belowNoise
-      ? null
-      : analyzer.detect(this.#buffer, audioContext.sampleRate);
-    const frame =
-      detectedPitch == null
-        ? null
-        : {
-            timeStamp,
-            frequency: detectedPitch.frequency,
-            confidence: detectedPitch.confidence,
-          };
-    const { event, processorRejected, stabilizing } =
-      this.#processor.next(frame);
-
-    const diagnostic = this.#options.onPitchDiagnostic;
-    if (diagnostic != null) {
-      let blockedBy: PitchDiagnosticSnapshot["blockedBy"] = null;
-      if (belowNoise) {
-        blockedBy = "rms";
-      } else if (detectedPitch == null) {
-        blockedBy = "yin_null";
-      }
-      const yin =
-        detectedPitch == null
-          ? null
-          : {
-              frequency: detectedPitch.frequency,
-              confidence: detectedPitch.confidence,
-              midiNote: frequencyToMidiNote(detectedPitch.frequency),
-            };
-      diagnostic({
-        timeStamp,
-        rms: level,
-        yin,
-        blockedBy,
-        processorRejected,
-        stabilizing,
-        emitted: event,
-      });
-    }
-
+    const { rms, event, diagnostic } = pipeline.processFrame(
+      this.#buffer,
+      audioContext.sampleRate,
+      timeStamp,
+    );
+    this.onLevel(rms);
+    this.#options.onPitchDiagnostic?.(diagnostic);
     if (event != null) {
       this.onPitch(event);
     }
 
     this.#frameId = requestAnimationFrame(this.#tick);
   };
-}
-
-export function rms(buffer: Float32Array): number {
-  let sum = 0;
-  for (let i = 0; i < buffer.length; i++) {
-    sum += buffer[i] * buffer[i];
-  }
-  return Math.sqrt(sum / buffer.length);
 }
 
 function normalizeBufferSize(value: number): number {
@@ -207,4 +172,18 @@ function normalizeBufferSize(value: number): number {
     size <<= 1;
   }
   return size;
+}
+
+function resolveStabilityOptions(options: PitchDetectorOptions) {
+  const legacyStableFrames = options.stableFrames;
+  const windowFrames =
+    options.windowFrames ??
+    (legacyStableFrames != null
+      ? Math.max(DEFAULT_WINDOW_FRAMES, legacyStableFrames * 2)
+      : DEFAULT_WINDOW_FRAMES);
+  const matchFrames = Math.max(
+    1,
+    Math.min(windowFrames, options.matchFrames ?? DEFAULT_MATCH_FRAMES),
+  );
+  return { windowFrames, matchFrames };
 }
