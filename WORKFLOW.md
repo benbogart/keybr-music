@@ -130,6 +130,7 @@ Work only in the provided repository copy. Do not touch any other path.
 1.  Find or create a single persistent scratchpad comment for the issue:
     - Search existing comments for a marker header: `## Claude Workpad`.
     - Ignore resolved comments while searching; only active/unresolved comments are eligible to be reused as the live workpad.
+    - **Ignore `## Symphony Session Receipt` comments entirely** — Symphony posts those automatically after each dispatched run for cost/runtime telemetry. They are observability-only, not workflow state, and must never be edited or deleted by the agent.
     - If found, reuse that comment; do not create a new workpad comment.
     - If not found, create one workpad comment and use it for all updates.
     - Persist the workpad comment ID and only write progress updates to that ID.
