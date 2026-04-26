@@ -21,7 +21,7 @@ hooks:
     git clone --depth 1 https://github.com/benbogart/keybr-music.git .
     if [ -s "$NVM_DIR/nvm.sh" ]; then
       . "$NVM_DIR/nvm.sh"
-      nvm use 24 2>/dev/null || nvm install 24
+      nvm install   # picks the version from .nvmrc and uses it
     fi
     npm install
 agent:
@@ -82,6 +82,7 @@ Work only in the provided repository copy. Do not touch any other path.
 - Move status only when the matching quality bar is met.
 - Operate autonomously end-to-end unless blocked by missing requirements, secrets, or permissions.
 - Use the blocked-access escape hatch only for true external blockers (missing required tools/auth) after exhausting documented fallbacks.
+- Before running any `npm`, `node`, or `git` command (commits trigger lint-staged hooks that need the repo's Node version), source nvm and run `nvm use` to pick up the version pinned in `.nvmrc`. The host's default node may be older than what the repo requires and will silently fail on modern syntax / `node:readline/promises`.
 
 ## Related skills
 
@@ -129,6 +130,7 @@ Work only in the provided repository copy. Do not touch any other path.
 1.  Find or create a single persistent scratchpad comment for the issue:
     - Search existing comments for a marker header: `## Claude Workpad`.
     - Ignore resolved comments while searching; only active/unresolved comments are eligible to be reused as the live workpad.
+    - **Ignore `## Symphony Session Receipt` comments entirely** — Symphony posts those automatically after each dispatched run for cost/runtime telemetry. They are observability-only, not workflow state, and must never be edited or deleted by the agent.
     - If found, reuse that comment; do not create a new workpad comment.
     - If not found, create one workpad comment and use it for all updates.
     - Persist the workpad comment ID and only write progress updates to that ID.
@@ -241,7 +243,7 @@ Use this only when completion is blocked by missing required tools or missing au
 4. Remove the existing `## Claude Workpad` comment from the issue.
 5. Create a fresh branch from `origin/master`.
 6. Start over from the normal kickoff flow:
-   - If current issue state is `Todo`, move it to `In Progress`; otherwise keep the current state.
+   - **Do NOT transition the ticket state.** Keep it in `Rework` throughout the redo so reviewers can identify this run as a re-attempt on the dashboard. The state will move to `In Review` only at the end of Step 2 step 12, exactly the same as a normal first-attempt run. Specifically, **do not** apply Step 1 step 2 / Step 2 step 2's "if Todo, move to In Progress" rule here — those rules cover a fresh ticket, not a Rework redo.
    - Create a new bootstrap `## Claude Workpad` comment.
    - Build a fresh plan/checklist and execute end-to-end.
 
