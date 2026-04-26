@@ -14,7 +14,7 @@ import { readWavFilePcm16MonoOrThrow } from "./wav-mono.ts";
 /**
  * Ground truth: C2, C3, C4, C5, C6, C5, C4, C3, C2 (first three left hand,
  * the rest on the right). The test replays the WAV under
- * `tests/pitch/c-scale-cascade-lh-rh/` (see `REPO_PITCH_FILENAMES`) and asserts
+ * `tests/pitch/bandoneon-recordings/` (see `REPO_PITCH_FILENAMES`) and asserts
  * the **detected** sequence matches.
  */
 const C_OCTAVES_MIDI = [36, 48, 60, 72, 84, 72, 60, 48, 36] as const;
@@ -36,7 +36,7 @@ const REPO_PITCH_FILENAMES = [
 ] as const;
 
 const REPO_PITCH_DIR = fileURLToPath(
-  new URL("../../../tests/pitch/c-scale-cascade-lh-rh", import.meta.url),
+  new URL("../../../tests/pitch/bandoneon-recordings", import.meta.url),
 );
 const PACKAGE_PITCH_DIR = fileURLToPath(
   new URL("../test-fixtures", import.meta.url),

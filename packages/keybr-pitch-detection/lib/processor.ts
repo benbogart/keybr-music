@@ -58,9 +58,12 @@ type PitchFrame = {
  *
  * Strategy: sliding window over the last N "confident" frames. Emit a note
  * when some MIDI note occurs at least `matchFrames` times in the last
- * `windowFrames` frames, and the note we would emit differs from the note
- * we most recently emitted. This rejects isolated octave-up frames that
- * appear during note attacks regardless of which note is being played.
+ * `windowFrames` frames. Sustained notes are emitted only on the leading
+ * edge: while a note keeps winning the majority vote without ever losing
+ * `matchFrames` support in the window, no further events fire. Once the
+ * window loses that support (e.g. a release between repeated notes), the
+ * note is considered "released" and the next majority — even for the
+ * exact same MIDI — emits a new event.
  */
 export class StablePitchProcessor {
   readonly #minConfidence: number;
@@ -71,6 +74,14 @@ export class StablePitchProcessor {
   /** Ring buffer of the most recent MIDI votes. -1 means "no vote this frame". */
   #window: number[] = [];
   #lastEmittedMidi: number | null = null;
+  /**
+   * `true` when the previously emitted note has been "released" — i.e. the
+   * recent window no longer contains enough votes for `#lastEmittedMidi` to
+   * keep emitting it as sustained. Once released, the next time that same
+   * note re-attacks and accumulates a fresh majority it is emitted again,
+   * which is what makes repeated notes detectable.
+   */
+  #released: boolean = true;
 
   constructor(options: LegacyStablePitchProcessorOptions = {}) {
     this.#minConfidence = options.minConfidence ?? DEFAULT_MIN_CONFIDENCE;
@@ -91,6 +102,7 @@ export class StablePitchProcessor {
   reset() {
     this.#window.length = 0;
     this.#lastEmittedMidi = null;
+    this.#released = true;
   }
 
   next(frame: PitchFrame | null): StablePitchProcessorResult {
@@ -140,6 +152,17 @@ export class StablePitchProcessor {
       }
     }
 
+    // Release detection: if the previously emitted note no longer has
+    // matchFrames support in the window, treat the player as having let go
+    // of it. This is what lets the next majority for the same note emit a
+    // fresh event instead of being suppressed as "still the same note".
+    if (
+      this.#lastEmittedMidi != null &&
+      (counts.get(this.#lastEmittedMidi) ?? 0) < this.#matchFrames
+    ) {
+      this.#released = true;
+    }
+
     if (bestCount < this.#matchFrames) {
       return {
         event: null,
@@ -152,7 +175,7 @@ export class StablePitchProcessor {
       };
     }
 
-    if (bestMidi === this.#lastEmittedMidi) {
+    if (bestMidi === this.#lastEmittedMidi && !this.#released) {
       return {
         event: null,
         processorRejected: null,
@@ -161,6 +184,7 @@ export class StablePitchProcessor {
     }
 
     this.#lastEmittedMidi = bestMidi;
+    this.#released = false;
 
     return {
       event: {
