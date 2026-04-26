@@ -21,7 +21,7 @@ hooks:
     git clone --depth 1 https://github.com/benbogart/keybr-music.git .
     if [ -s "$NVM_DIR/nvm.sh" ]; then
       . "$NVM_DIR/nvm.sh"
-      nvm use 24 2>/dev/null || nvm install 24
+      nvm install   # picks the version from .nvmrc and uses it
     fi
     npm install
 agent:
@@ -82,6 +82,7 @@ Work only in the provided repository copy. Do not touch any other path.
 - Move status only when the matching quality bar is met.
 - Operate autonomously end-to-end unless blocked by missing requirements, secrets, or permissions.
 - Use the blocked-access escape hatch only for true external blockers (missing required tools/auth) after exhausting documented fallbacks.
+- Before running any `npm`, `node`, or `git` command (commits trigger lint-staged hooks that need the repo's Node version), source nvm and run `nvm use` to pick up the version pinned in `.nvmrc`. The host's default node may be older than what the repo requires and will silently fail on modern syntax / `node:readline/promises`.
 
 ## Related skills
 
