@@ -32,6 +32,14 @@ export type PitchDiagnosticSnapshot = {
 export type PitchDetector = {
   start(): Promise<void>;
   stop(): void;
+  /**
+   * Discard any in-flight stability state (window vote, last-emitted MIDI,
+   * envelope) without tearing down the audio context or the microphone
+   * stream. Used at consumer-side session boundaries (e.g. a music lesson
+   * transition) so that the first note of the new session is treated as a
+   * fresh attack even if it matches the last note of the previous session.
+   */
+  reset(): void;
   onPitch: (event: PitchEvent) => void;
   onLevel: (rms: number) => void;
 };

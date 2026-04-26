@@ -38,6 +38,7 @@ export const MusicController = memo(function MusicController({
       : bandoneonRightOpening();
   const {
     state,
+    pitchResetSignal,
     lastCorrectCodePoint,
     lessonSummary,
     musicTargetSpeed,
@@ -55,9 +56,21 @@ export const MusicController = memo(function MusicController({
       detectorOptions: { validMidiNotes },
     };
   }, [musicInstrument.keymap]);
+  // Read the latest reset signal from a ref so the events-component closure
+  // forwards a fresh `resetSignal` on every render without rebuilding the
+  // closure itself. Rebuilding would unmount/remount `<PitchEvents>` and tear
+  // down the audio context — exactly what we want to avoid here.
+  const pitchResetSignalRef = useRef(pitchResetSignal);
+  pitchResetSignalRef.current = pitchResetSignal;
   const pitchEventsComponent = useMemo<TextAreaEventsComponent>(() => {
     return function InstrumentPitchEvents(props) {
-      return <PitchEvents {...props} options={pitchInputHandlerOptions} />;
+      return (
+        <PitchEvents
+          {...props}
+          options={pitchInputHandlerOptions}
+          resetSignal={pitchResetSignalRef.current}
+        />
+      );
     };
   }, [pitchInputHandlerOptions]);
   useHotkeys({
@@ -95,6 +108,11 @@ function useLessonState(
   const resetTimeout = useTimeout();
   const confirmationTimeout = useTimeout();
   const [key, setKey] = useState(0); // Creates new LessonState instances.
+  // Bumped on every "the next note is the start of a new attempt" boundary
+  // (lesson transition, manual reset, skip). MusicController forwards this as
+  // `resetSignal` to PitchEvents so the pitch pipeline discards any in-flight
+  // suppression state — see BEN-53.
+  const [pitchResetSignal, setPitchResetSignal] = useState(0);
   const [, setLines] = useState<LineList>({ text: "", lines: [] }); // Forces UI update.
   const [lastCorrectCodePoint, setLastCorrectCodePoint] = useState<
     number | null
@@ -122,6 +140,7 @@ function useLessonState(
       nextLessonTimeout.schedule(() => {
         setLessonSummary(null);
         setKey((value) => value + 1);
+        setPitchResetSignal((value) => value + 1);
       }, LESSON_SUMMARY_MIN_DURATION);
     });
     state.lastLesson = lastLessonRef.current;
@@ -134,6 +153,7 @@ function useLessonState(
       nextLessonTimeout.cancel();
       setLessonSummary(null);
       setLastCorrectCodePoint(null);
+      setPitchResetSignal((value) => value + 1);
     };
     const handleSkipLesson = () => {
       state.skipLesson();
@@ -143,6 +163,7 @@ function useLessonState(
       nextLessonTimeout.cancel();
       setLessonSummary(null);
       setLastCorrectCodePoint(null);
+      setPitchResetSignal((value) => value + 1);
     };
     const playSounds = makeSoundPlayer(state.settings);
     const handleInput = (event: Parameters<LessonState["onInput"]>[0]) => {
@@ -176,6 +197,7 @@ function useLessonState(
   const musicTargetSpeed = new Target(handlers.state.settings).targetSpeed;
   return {
     ...handlers,
+    pitchResetSignal,
     lessonSummary,
     musicTargetSpeed,
     lastCorrectCodePoint,

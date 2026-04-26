@@ -222,6 +222,65 @@ test("envelope re-attack does NOT fire when the YIN frequency is drifting toward
   );
 });
 
+test("reset clears emit state so a sustained note can fire again across a session boundary", () => {
+  // Reproduces BEN-53: when a music lesson ends and the next one begins,
+  // `MusicController` does not tear down the live `WebAudioPitchDetector`
+  // (same instrument keymap → same `PitchInputHandler` → same processor).
+  // If the user is still holding the previous lesson's last note, or starts
+  // the next lesson on the same MIDI before the sliding window has emptied,
+  // `#lastEmittedMidi === bestMidi && !#released` suppresses the new note.
+  // `reset()` is what the controller will call on lesson transition to
+  // discard that state without restarting audio.
+  const processor = new StablePitchProcessor({
+    minConfidence: 0.6,
+    windowFrames: 6,
+    matchFrames: 4,
+  });
+
+  let firstEvent = null;
+  for (let i = 0; i < 6; i += 1) {
+    const r = processor.next(
+      { timeStamp: i * 10, frequency: 440, confidence: 0.95 },
+      0.1,
+    );
+    if (r.event != null) {
+      firstEvent = r.event;
+      break;
+    }
+  }
+  deepEqual(firstEvent?.midiNote, 69);
+
+  // Sustained 440 Hz keeps coming in (the previous lesson's last note still
+  // ringing through the lesson summary). With the same processor instance,
+  // every subsequent same-MIDI frame is suppressed — this is the bug.
+  for (let i = 0; i < 8; i += 1) {
+    isNull(
+      processor.next(
+        { timeStamp: 100 + i * 10, frequency: 440, confidence: 0.95 },
+        0.1,
+      ).event,
+    );
+  }
+
+  // Lesson transition: the controller calls `reset()`.
+  processor.reset();
+
+  // Now the same MIDI must emit again, even with no intervening silence —
+  // a fresh attack on the new lesson must register on its first frame group.
+  let postResetEvent = null;
+  for (let i = 0; i < 6; i += 1) {
+    const r = processor.next(
+      { timeStamp: 200 + i * 10, frequency: 440, confidence: 0.95 },
+      0.1,
+    );
+    if (r.event != null) {
+      postResetEvent = r.event;
+      break;
+    }
+  }
+  deepEqual(postResetEvent?.midiNote, 69);
+});
+
 test("legacy stableFrames option still compiles and emits a note", () => {
   const processor = new StablePitchProcessor({
     minConfidence: 0.6,

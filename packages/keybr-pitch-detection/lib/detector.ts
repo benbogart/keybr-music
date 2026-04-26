@@ -138,6 +138,10 @@ export class WebAudioPitchDetector implements PitchDetector {
     this.#buffer = new Float32Array(0);
   }
 
+  reset() {
+    this.#pipeline?.reset();
+  }
+
   #tick = () => {
     const analyserNode = this.#analyserNode;
     const pipeline = this.#pipeline;

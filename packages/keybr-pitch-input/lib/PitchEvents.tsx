@@ -23,9 +23,17 @@ export const PitchEvents = memo(function PitchEvents({
   onInput,
   focusRef,
   options,
+  resetSignal,
 }: Callbacks & {
   readonly focusRef?: RefObject<Focusable | null>;
   readonly options?: PitchInputHandlerOptions;
+  /**
+   * Opaque value the consumer changes whenever the pitch-input pipeline
+   * should discard its in-flight emit-tracking state without restarting
+   * audio. Each new value triggers `handler.reset()`. The initial mount
+   * does not reset (a fresh handler has no state to discard).
+   */
+  readonly resetSignal?: unknown;
 }): ReactNode {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const handler = usePitchInputHandler(options);
@@ -56,6 +64,14 @@ export const PitchEvents = memo(function PitchEvents({
       handler.stop();
     };
   }, [handler]);
+  const lastResetSignalRef = useRef(resetSignal);
+  useEffect(() => {
+    if (Object.is(resetSignal, lastResetSignalRef.current)) {
+      return;
+    }
+    lastResetSignalRef.current = resetSignal;
+    handler.reset();
+  }, [handler, resetSignal]);
   handler.setCallbacks({ onFocus, onBlur, onKeyDown, onKeyUp, onInput });
   return (
     <div style={divStyle}>
