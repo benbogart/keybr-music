@@ -94,6 +94,19 @@ export class PitchInputHandler implements Focusable {
     }
   }
 
+  /**
+   * Discard pitch-pipeline emit-tracking state (last note, vote window,
+   * envelope) and the adapter's `timeToType` baseline, without stopping the
+   * detector or releasing the microphone. Used by consumers to mark a session
+   * boundary (e.g. a music lesson transition) so the first note of the next
+   * session registers as a fresh attack instead of being suppressed as a
+   * continuation of whatever the processor last emitted.
+   */
+  reset() {
+    this.#adapter.reset();
+    this.#detector?.reset();
+  }
+
   focus() {
     void this.start();
   }
