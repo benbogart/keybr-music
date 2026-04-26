@@ -243,7 +243,7 @@ Use this only when completion is blocked by missing required tools or missing au
 4. Remove the existing `## Claude Workpad` comment from the issue.
 5. Create a fresh branch from `origin/master`.
 6. Start over from the normal kickoff flow:
-   - If current issue state is `Todo`, move it to `In Progress`; otherwise keep the current state.
+   - **Do NOT transition the ticket state.** Keep it in `Rework` throughout the redo so reviewers can identify this run as a re-attempt on the dashboard. The state will move to `In Review` only at the end of Step 2 step 12, exactly the same as a normal first-attempt run. Specifically, **do not** apply Step 1 step 2 / Step 2 step 2's "if Todo, move to In Progress" rule here — those rules cover a fresh ticket, not a Rework redo.
    - Create a new bootstrap `## Claude Workpad` comment.
    - Build a fresh plan/checklist and execute end-to-end.
 
