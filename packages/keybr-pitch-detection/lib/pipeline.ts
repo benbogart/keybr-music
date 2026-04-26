@@ -84,6 +84,7 @@ export class PitchPipeline {
             frequency: yin.frequency,
             confidence: yin.confidence,
           },
+      rmsLevel,
     );
 
     const diagnostic: PitchDiagnosticSnapshot = {

@@ -22,7 +22,7 @@ const BANDONEON_ALL_VALID_MIDI = new Set<number>([
 ]);
 
 const FIXTURE_DIR = fileURLToPath(
-  new URL("../../../tests/pitch/c-scale-cascade-lh-rh", import.meta.url),
+  new URL("../../../tests/pitch/bandoneon-recordings", import.meta.url),
 );
 
 const DETECTOR_OPTIONS = {

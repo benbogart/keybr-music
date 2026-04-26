@@ -1,6 +1,6 @@
 Primary clip (repo):
 
-  tests/pitch/c-scale-cascade-lh-rh/c2-c6 octaves.wav
+  tests/pitch/bandoneon-recordings/c2-c6 octaves.wav
 
 Legacy filenames also work:
 
